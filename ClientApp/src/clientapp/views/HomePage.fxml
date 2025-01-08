@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.HomePageContoller">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="165.0" prefWidth="750.0">
+               <children>
+                  <Label fx:id="userName" alignment="CENTER" layoutX="14.0" layoutY="28.0" prefHeight="55.0" prefWidth="151.0" text="User name" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="logout" alignment="TOP_RIGHT" layoutX="618.0" layoutY="48.0" text="Logout" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="logoutIcon" fitHeight="27.0" fitWidth="36.0" layoutX="688.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/logout.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <VBox alignment="TOP_CENTER" prefHeight="505.0" prefWidth="750.0">
+               <children>
+                  <Button fx:id="play_VS_ai" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playWithAi" prefHeight="50.0" prefWidth="179.0" style="-fx-background-color: #ffffff;" text="Play VS AI" textFill="#8ccdf7">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="40.0" top="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="playOnline" mnemonicParsing="false" onMouseClicked="#playOnline" prefHeight="55.0" prefWidth="176.0" style="-fx-background-color: #ffffff;" text="2 Players Online" textFill="#8ccdf7">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="playOffline" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playOffline" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="2 Players Offline " textFill="#8ccdf7">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="previousMatches" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#getPreviousMatches" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="previous matches" textFill="#8ccdf7">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
