@@ -47,10 +47,15 @@ public class HomePageContoller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void playWithAi(MouseEvent event) {
+        try {
+            new SceneController().navigateToXOBoard(event);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -64,10 +69,15 @@ public class HomePageContoller implements Initializable {
 
     @FXML
     private void playOffline(MouseEvent event) {
+        try {
+            new SceneController().navigateToXOBoard(event);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     private void getPreviousMatches(MouseEvent event) {
     }
-    
+
 }
