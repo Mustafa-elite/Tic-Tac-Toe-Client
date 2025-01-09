@@ -5,6 +5,7 @@
  */
 package clientapp.controllers;
 
+import classes.Player;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,22 +27,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author user
  */
-class Player{
-    private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public Player(String name) {
-        this.name = name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-}
 class CustomCellView extends ListCell<Player>{
     
 
@@ -78,7 +64,7 @@ public class OnlineClientsListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        
+       
         onlineList=FXCollections.observableArrayList();
         onlineViewList.setItems(onlineList);
         onlineViewList.setCellFactory(listView->new CustomCellView());
@@ -94,13 +80,13 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void HomeBtn(MouseEvent event) {
-        onlineList.add(new Player("Mustafa"));
+        /*onlineList.add(new Player("Mustafa"));
         alertLabel.setVisible(false);
         try {
             new SceneController().navigateToHome(event);
         } catch (IOException ex) {
             System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
-        }
+        }*/
     }
     
     
