@@ -5,43 +5,34 @@ public class AIGamePlay extends GamePlay {
     String print;
     Boolean checkWin;
 
-    // AI Turn
-    boolean isAITurn = false;
-
-    public AIGamePlay(Player p1, Player p2) {
-        super(p1, p2);
+    public AIGamePlay(Player player, Player aiPlayer) {
+        super(player, aiPlayer);
     }
 
     String playXO(int position) {
-        if (!turn) {
+        if (turn) {
             print = "x";
             makeMove(position, 0);
         } else {
-            if (isAITurn) {
-                // AI's move
-                int aiPosition = findBestMove();
-                makeMove(aiPosition, 1);
-                print = "o";
-            } else {
-                // Player 2's move (if not using AI)
-                print = "o";
-                makeMove(position, 1);
-            }
+            int aiPosition = findBestMove();
+            makeMove(aiPosition, 1);
+            print = "o";
         }
 
         checkWin = checkWinner();
         if (checkWin) {
             print = "w";
         }
+
         return print;
     }
 
     private void makeMove(int position, int player) {
-        if (position == 0 || position == 1 || position == 2) {
+        if (position >= 0 && position <= 2) {
             b1.boardxy[0][position] = player;
-        } else if (position == 3 || position == 4 || position == 5) {
+        } else if (position >= 3 && position <= 5) {
             b1.boardxy[1][position] = player;
-        } else if (position == 6 || position == 7 || position == 8) {
+        } else if (position >= 6 && position <= 8) {
             b1.boardxy[2][position] = player;
         }
     }
@@ -52,13 +43,14 @@ public class AIGamePlay extends GamePlay {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (b1.boardxy[i][j] == -1) { // Assuming -1 represents an empty cell
-                    b1.boardxy[i][j] = 1; // AI makes a tentative move
+                if (b1.boardxy[i][j] == -1) {
+                    b1.boardxy[i][j] = 1;
                     int score = minimax(false);
-                    b1.boardxy[i][j] = -1; // Undo the move
+                    b1.boardxy[i][j] = -1;
+
                     if (score > bestScore) {
                         bestScore = score;
-                        bestMove = i * 3 + j; // Convert 2D index to 1D position
+                        bestMove = i * 3 + j;
                     }
                 }
             }
@@ -68,28 +60,31 @@ public class AIGamePlay extends GamePlay {
 
     private int minimax(boolean isMaximizing) {
         if (checkWinner()) {
-            
-            return isMaximizing ? -1 : 1; // AI wins = 1, Player wins = -1
+            return isMaximizing ? -1 : 1;
         }
 
         if (isBoardFull()) {
-            return 0; // Tie
+            return 0;
         }
+
         int bestScore = isMaximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (b1.boardxy[i][j] == -1) { // Empty cell
-                    b1.boardxy[i][j] = isMaximizing ? 1 : 0; // Tentative move
+                if (b1.boardxy[i][j] == -1) {
+                    b1.boardxy[i][j] = isMaximizing ? 1 : 0;
                     int score = minimax(!isMaximizing);
-                    b1.boardxy[i][j] = -1; // Undo the move
+                    b1.boardxy[i][j] = -1; 
+
                     if (isMaximizing) {
                         bestScore = Math.max(score, bestScore);
+                    } else {
                         bestScore = Math.min(score, bestScore);
                     }
                 }
             }
         }
+
         return bestScore;
     }
 
