@@ -80,13 +80,13 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void HomeBtn(MouseEvent event) {
-        /*onlineList.add(new Player("Mustafa"));
+        onlineList.add(new Player("Mustafa",null,null,null,0));
         alertLabel.setVisible(false);
         try {
             new SceneController().navigateToHome(event);
         } catch (IOException ex) {
             System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
-        }*/
+        }
     }
     
     

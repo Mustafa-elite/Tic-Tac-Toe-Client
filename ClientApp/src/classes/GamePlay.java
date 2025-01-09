@@ -19,4 +19,32 @@ public abstract class GamePlay {
         int[][] boardxy=new int[3][3];
     }
     
+    boolean checkWinner()
+    {
+        int playerToCheck=turn ? 1:0;
+        for(int i=0;i<3;i++)
+        {
+            
+            if(b1.boardxy[i][0]==playerToCheck && b1.boardxy[i][1]==playerToCheck && b1.boardxy[i][2]==playerToCheck)
+            {
+                return true;
+            }
+            if(b1.boardxy[0][i]==playerToCheck && b1.boardxy[1][i]==playerToCheck && b1.boardxy[2][i]==playerToCheck)
+            {
+                return true;
+            }
+        }
+        if(b1.boardxy[0][2]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][0]==playerToCheck)
+        {
+            return true;
+        }
+        if(b1.boardxy[0][0]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][2]==playerToCheck)
+        {
+            return true;
+        }
+        
+        //did not find a win situation;
+        return false;
+    }
+    
 }
