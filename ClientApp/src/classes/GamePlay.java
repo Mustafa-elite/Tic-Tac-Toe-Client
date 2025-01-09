@@ -4,19 +4,27 @@
  * and open the template in the editor.
  */
 package classes;
-
+import java.util.Random;
 /**
  *
  * @author user
  */
 public abstract class GamePlay {
-    Board b1;
+    Board b1=new Board();
     Player player1;
     Player player2;
     boolean turn;
     class Board
     {
         int[][] boardxy=new int[3][3];
+    }
+    
+    GamePlay(Player p1,Player p2)
+    {
+        player1=p1;
+        player2=p2;
+        Random random = new Random();
+        turn = random.nextBoolean();
     }
     
     boolean checkWinner()

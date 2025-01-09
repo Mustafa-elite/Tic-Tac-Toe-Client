@@ -5,6 +5,10 @@ public class LocalGamePlay extends GamePlay {
     String print ;
     Boolean checkWin  ; 
 
+    LocalGamePlay(String player1Name,String player2Name)
+    {
+        super(new Player(player1Name),new Player(player2Name));
+    }
     String playXO(int position) {
         //player 1 turn 
         if (!turn) {
