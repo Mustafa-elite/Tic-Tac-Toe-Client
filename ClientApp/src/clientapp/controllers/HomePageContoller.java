@@ -5,8 +5,11 @@
  */
 package clientapp.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -52,6 +55,11 @@ public class HomePageContoller implements Initializable {
 
     @FXML
     private void playOnline(MouseEvent event) {
+        try {
+            new SceneController().navigateToOnlinePlayers(event);
+        } catch (IOException ex) {
+            System.out.println("navgate to playonline Btn exception located in HomeController");;
+        }
     }
 
     @FXML

@@ -19,7 +19,7 @@ public class ClientApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/onlineClientsList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/HomePage.fxml"));
         
         Scene scene = new Scene(root);
         

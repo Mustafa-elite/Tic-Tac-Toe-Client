@@ -19,7 +19,7 @@
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="361.0" layoutY="612.0" prefHeight="35.0" prefWidth="215.0" style="-fx-font-weight: 1;" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="361.0" layoutY="612.0" prefHeight="35.0" prefWidth="215.0" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
@@ -35,7 +35,7 @@
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="homePage" fitHeight="51.0" fitWidth="54.0" layoutX="6.0" layoutY="7.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="homePage" fitHeight="51.0" fitWidth="54.0" layoutX="6.0" layoutY="7.0" onMouseClicked="#HomeBtn" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/HomeLogo.png" />
                </image>

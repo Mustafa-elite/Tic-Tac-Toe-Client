@@ -5,10 +5,14 @@
  */
 package clientapp.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -89,9 +93,14 @@ public class OnlineClientsListController implements Initializable {
     }    
 
     @FXML
-    private void navigateToHome(MouseEvent event) {
+    private void HomeBtn(MouseEvent event) {
         onlineList.add(new Player("Mustafa"));
         alertLabel.setVisible(false);
+        try {
+            new SceneController().navigateToHome(event);
+        } catch (IOException ex) {
+            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
+        }
     }
     
     
