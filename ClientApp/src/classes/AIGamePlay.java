@@ -8,8 +8,9 @@ public class AIGamePlay extends GamePlay {
     public AIGamePlay(Player player, Player aiPlayer) {
         super(player, aiPlayer);
     }
-
-    String playXO(int position) {
+    
+    @Override
+    public String playXO(int position) {
         if (turn) {
             print = "x";
             makeMove(position, 0);

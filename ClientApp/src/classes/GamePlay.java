@@ -16,7 +16,10 @@ public abstract class GamePlay {
     boolean turn;
     class Board
     {
-        int[][] boardxy=new int[3][3];
+        int[][] boardxy = {{-1, -1, -1},
+                           {-1, -1, -1},
+                           {-1, -1, -1}
+                          };
     }
     
     GamePlay(Player p1,Player p2)
@@ -26,31 +29,32 @@ public abstract class GamePlay {
         Random random = new Random();
         turn = random.nextBoolean();
     }
-    
+    public abstract String playXO(int position);
+
     boolean checkWinner()
     {
         int playerToCheck=turn ? 1:0;
-        for(int i=0;i<3;i++)
-        {
-            
-            if(b1.boardxy[i][0]==playerToCheck && b1.boardxy[i][1]==playerToCheck && b1.boardxy[i][2]==playerToCheck)
-            {
-                return true;
-            }
-            if(b1.boardxy[0][i]==playerToCheck && b1.boardxy[1][i]==playerToCheck && b1.boardxy[2][i]==playerToCheck)
-            {
-                return true;
-            }
-        }
-        if(b1.boardxy[0][2]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][0]==playerToCheck)
-        {
-            return true;
-        }
-        if(b1.boardxy[0][0]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][2]==playerToCheck)
-        {
-            return true;
-        }
         
+        for(int i=0;i<3;i++){
+            
+            if(b1.boardxy[i][0]==playerToCheck && b1.boardxy[i][1]==playerToCheck && b1.boardxy[i][2]==playerToCheck){
+              
+                return true;
+            }
+            if(b1.boardxy[0][i]==playerToCheck && b1.boardxy[1][i]==playerToCheck && b1.boardxy[2][i]==playerToCheck){
+               
+                return true;
+            }
+            
+        }
+        if(b1.boardxy[0][2]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][0]==playerToCheck){
+            
+            return true;
+        }
+        if(b1.boardxy[0][0]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][2]==playerToCheck){
+            
+            return true;
+        }
         //did not find a win situation;
         return false;
     }

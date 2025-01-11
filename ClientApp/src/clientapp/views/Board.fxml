@@ -61,47 +61,47 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="Button5" alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.rowIndex="1">
+                  <Button fx:id="Button4" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.rowIndex="2">
+                  <Button fx:id="Button7" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Button fx:id="Button6" alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="Button8" alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button fx:id="Button9" alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE">
+                  <Button fx:id="Button1" alignment="CENTER" contentDisplay="CENTER" layoutX="232.0" layoutY="165.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button fx:id="Button3" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" text="X" textFill="WHITE" GridPane.columnIndex="1">
+                  <Button fx:id="Button2" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonClick" prefHeight="144.0" prefWidth="217.0" style="-fx-background-color: #8CCDF7#8CCDF7;" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="69.0" />
                      </font>
