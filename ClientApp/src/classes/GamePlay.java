@@ -14,6 +14,15 @@ public abstract class GamePlay {
     Player player1;
     Player player2;
     boolean turn;
+    public static final int WIN_ROW_1=1;
+    public static final int WIN_ROW_2=2;
+    public static final int WIN_ROW_3=3;
+    public static final int WIN_COL_1=4;
+    public static final int WIN_COL_2=5;
+    public static final int WIN_COL_3=6;
+    public static final int WIN_DIAGONAL_1=6;
+    public static final int WIN_DIAGONAL_2=7;
+    
     class Board
     {
         int[][] boardxy = {{-1, -1, -1},
@@ -29,34 +38,41 @@ public abstract class GamePlay {
         Random random = new Random();
         turn = random.nextBoolean();
     }
-    public abstract String playXO(int position);
+    
+    public abstract GameStatus playXO(int position);
 
-    boolean checkWinner()
+    int checkWinner()
     {
         int playerToCheck=turn ? 1:0;
-        
+        int winCase = 0;
         for(int i=0;i<3;i++){
             
             if(b1.boardxy[i][0]==playerToCheck && b1.boardxy[i][1]==playerToCheck && b1.boardxy[i][2]==playerToCheck){
               
-                return true;
+                //row num
+                winCase = i+1;
+                break;
+                
             }
             if(b1.boardxy[0][i]==playerToCheck && b1.boardxy[1][i]==playerToCheck && b1.boardxy[2][i]==playerToCheck){
                
-                return true;
+                //col num
+                winCase = i+4;
+                break;
             }
             
         }
         if(b1.boardxy[0][2]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][0]==playerToCheck){
             
-            return true;
+            //diagonal 1
+            winCase = 7;
         }
         if(b1.boardxy[0][0]==playerToCheck && b1.boardxy[1][1]==playerToCheck && b1.boardxy[2][2]==playerToCheck){
-            
-            return true;
+            //diagonal 2
+            winCase = 8;
         }
         //did not find a win situation;
-        return false;
+        return 0;
     }
     
 }

@@ -60,13 +60,13 @@ public class BoardController implements Initializable {
         else if(clickedButton==Button7) buttonNo=6;
         else if(clickedButton==Button8) buttonNo=7;
         else if(clickedButton==Button9) buttonNo=8;
-        
+        /*
         String buttonText= XO.playXO(buttonNo);
         
         if(buttonText!="w"){
         clickedButton.setText(buttonText); 
-        clickedButton.setDisable(true); 
-        }
+        clickedButton.setDisable(true);
+        }*/
     }
     
     @Override
