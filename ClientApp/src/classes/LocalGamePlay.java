@@ -46,7 +46,7 @@ public class LocalGamePlay extends GamePlay {
             }
             else
             {
-                gs.setWinnerName(player1.name);
+                gs.setWinnerName(player2.name);
             }
             gs.setWinCase(winCase);  
         }

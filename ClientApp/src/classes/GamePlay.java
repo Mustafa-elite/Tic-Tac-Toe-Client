@@ -20,8 +20,8 @@ public abstract class GamePlay {
     public static final int WIN_COL_1=4;
     public static final int WIN_COL_2=5;
     public static final int WIN_COL_3=6;
-    public static final int WIN_DIAGONAL_1=6;
-    public static final int WIN_DIAGONAL_2=7;
+    public static final int WIN_DIAGONAL_1=7;
+    public static final int WIN_DIAGONAL_2=8;
     
     class Board
     {
@@ -72,7 +72,7 @@ public abstract class GamePlay {
             winCase = 8;
         }
         //did not find a win situation;
-        return 0;
+        return winCase;
     }
     
 }
