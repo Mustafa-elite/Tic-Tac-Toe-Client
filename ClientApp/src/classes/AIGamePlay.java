@@ -8,7 +8,9 @@ public class AIGamePlay extends GamePlay {
     public AIGamePlay(Player player, Player aiPlayer) {
         super(player, aiPlayer);
     }
-    
+    @Override
+    public GameStatus playXO(int position){return new GameStatus(null, null, WIN_COL_1);}
+    /*
     @Override
     public String playXO(int position) {
         if (turn) {
@@ -99,4 +101,5 @@ public class AIGamePlay extends GamePlay {
         }
         return true;
     }
+    */
 }
