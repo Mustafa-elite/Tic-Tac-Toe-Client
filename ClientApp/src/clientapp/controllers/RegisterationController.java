@@ -5,8 +5,11 @@
  */
 package clientapp.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 /**
@@ -21,7 +25,7 @@ import javafx.scene.text.Text;
  *
  * @author uesr
  */
-public class RegistrationController implements Initializable {
+public class RegisterationController implements Initializable {
 
     @FXML
     private TextField user_name_tf_registration;
@@ -59,6 +63,20 @@ public class RegistrationController implements Initializable {
             user_name_label_registration.setVisible(true);
         } else {
             user_name_label_registration.setVisible(false);
+        }
+        try {
+            new SceneController().navigateToSignup(event);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void loginAction(MouseEvent event) {
+        try {
+            new SceneController().navigateToLogin(event);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
