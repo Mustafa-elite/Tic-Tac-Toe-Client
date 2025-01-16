@@ -80,7 +80,7 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void HomeBtn(MouseEvent event) {
-        onlineList.add(new Player("Mustafa",null,null,null,0));
+        onlineList.add(new Player("Mustafa"));
         alertLabel.setVisible(false);
         try {
             new SceneController().navigateToHome(event);

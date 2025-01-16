@@ -18,6 +18,16 @@ public class Player {
     Socket mySocket;
     int socketNumber;
 
+    //local Player
+    public Player(String name) {
+        this.name = name;
+        this.password = null;
+        this.email = null;
+        this.mySocket = null;
+        this.socketNumber = 0;
+    }
+    
+    
     public Player(String name, String password, String email, Socket mySocket, int socketNumber) {
         this.name = name;
         this.password = password;
