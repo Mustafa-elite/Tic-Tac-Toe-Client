@@ -13,11 +13,21 @@ public class GameStatus {
     private String playedChar;
     private String WinnerName;
     private int WinCase;
+    private int position;
 
-    public GameStatus(String playedChar, String WinnerName, int WinCase) {
+    public GameStatus(int position,String playedChar, String WinnerName, int WinCase) {
+        this.position=position;
         this.playedChar = playedChar;
         this.WinnerName = WinnerName;
         this.WinCase = WinCase;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getPlayedChar() {
