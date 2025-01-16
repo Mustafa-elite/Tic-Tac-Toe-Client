@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xologinpage.FXMLDocumentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.LoginController">
    <top>
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
@@ -32,7 +32,7 @@
             <HBox alignment="CENTER" layoutX="200.0" layoutY="229.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Dont have an account ?" />
-                  <Text fx:id="creat_account_t_login" strokeType="OUTSIDE" strokeWidth="0.0" text="Creat one">
+                  <Text fx:id="creat_account_t_login" onMouseClicked="#createAccountAction" strokeType="OUTSIDE" strokeWidth="0.0" text="Creat one">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
