@@ -8,11 +8,12 @@ public class LocalGamePlay extends GamePlay {
     public LocalGamePlay(String player1Name,String player2Name)
     {
         super(new Player(player1Name),new Player(player2Name));
+        //mode="local";
     }
     @Override
     public GameStatus playXO(int position) {
         //player 1 turn 
-        GameStatus gs=new GameStatus(null,null,0);
+        GameStatus gs=new GameStatus(-1,null,null,0);
         
         if (!turn) {
             gs.setPlayedChar("X");
@@ -40,7 +41,7 @@ public class LocalGamePlay extends GamePlay {
         }
         winCase = checkWinner(); 
         if(winCase!=0){
-            if(!turn)
+            if(turn)
             {
                 gs.setWinnerName(player1.name); 
             }

@@ -13,6 +13,7 @@ public abstract class GamePlay {
     Board b1=new Board();
     Player player1;
     Player player2;
+    public static String mode;
     boolean turn;
     public static final int WIN_ROW_1=1;
     public static final int WIN_ROW_2=2;
@@ -36,7 +37,7 @@ public abstract class GamePlay {
         player1=p1;
         player2=p2;
         Random random = new Random();
-        turn = random.nextBoolean();
+        turn = true;
     }
     
     public abstract GameStatus playXO(int position);
