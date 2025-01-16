@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,6 +26,18 @@
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
+            <Pane fx:id="gameRequestPane" layoutX="623.0" layoutY="62.0" prefHeight="400.0" prefWidth="328.0" style="-fx-background-color: #7a93ff;">
+               <children>
+                  <Label fx:id="playerRequesting" alignment="CENTER" contentDisplay="RIGHT" layoutX="2.0" layoutY="36.0" prefHeight="103.0" prefWidth="308.0" text="Online Users" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="24.0" layoutY="322.0" mnemonicParsing="false" onAction="#acceptBtnAction" prefHeight="31.0" prefWidth="112.0" text="Accept" />
+                  <Button layoutX="198.0" layoutY="322.0" mnemonicParsing="false" onAction="#refuseBtnAction" prefHeight="31.0" prefWidth="112.0" text="Refuse" />
+                  <ProgressBar fx:id="progressBar" layoutY="375.0" prefHeight="27.0" prefWidth="330.0" progress="0.0" />
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </center>

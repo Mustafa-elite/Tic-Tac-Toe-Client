@@ -6,11 +6,15 @@
         <group/>
 =======
         <group>
-            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/RegistrationController.java</file>
             <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/views/Registeration.fxml</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/LoginController.java</file>
             <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/views/onlineClientsList.fxml</file>
-            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/RegisterationController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/views/Board.fxml</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/ServerLayer.java</file>
             <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/HomePageContoller.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/BoardController.java</file>
             <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/SceneController.java</file>
         </group>
 >>>>>>> 539b6259a2f96ece7c5707558b35c8caaadffd7d
