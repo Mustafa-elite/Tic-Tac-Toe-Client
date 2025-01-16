@@ -68,131 +68,168 @@ public class BoardController implements Initializable {
     @FXML
     private void handleButtonClick(ActionEvent event) {
 
-        if(GamePlay.mode=="AI"){
-        int buttonNo = -1;
-        boolean turn = true;
-        Button clickedButton = (Button) event.getSource();
-        Button clickedButton2 = (Button) event.getSource();
-        if (clickedButton == Button1) {
-            buttonNo = 0;
-        } else if (clickedButton == Button2) {
-            buttonNo = 1;
-        } else if (clickedButton == Button3) {
-            buttonNo = 2;
-        } else if (clickedButton == Button4) {
-            buttonNo = 3;
-        } else if (clickedButton == Button5) {
-            buttonNo = 4;
-        } else if (clickedButton == Button6) {
-            buttonNo = 5;
-        } else if (clickedButton == Button7) {
-            buttonNo = 6;
-        } else if (clickedButton == Button8) {
-            buttonNo = 7;
-        } else if (clickedButton == Button9) {
-            buttonNo = 8;
-        }
+        if (GamePlay.mode == "AI") {
+            int buttonNo = -1;
+            boolean turn = true;
+            Button clickedButton = (Button) event.getSource();
+            Button clickedButton2 = (Button) event.getSource();
+            if (clickedButton == Button1) {
+                buttonNo = 0;
+            } else if (clickedButton == Button2) {
+                buttonNo = 1;
+            } else if (clickedButton == Button3) {
+                buttonNo = 2;
+            } else if (clickedButton == Button4) {
+                buttonNo = 3;
+            } else if (clickedButton == Button5) {
+                buttonNo = 4;
+            } else if (clickedButton == Button6) {
+                buttonNo = 5;
+            } else if (clickedButton == Button7) {
+                buttonNo = 6;
+            } else if (clickedButton == Button8) {
+                buttonNo = 7;
+            } else if (clickedButton == Button9) {
+                buttonNo = 8;
+            }
 
-        turn = false;
-        GameStatus status = XO.playXO(buttonNo);
+            turn = false;
+            GameStatus status = XO.playXO(buttonNo);
 
-        if (turn == false) {
-            if (AIGamePlay.aiposition == 0) {
-                //AIGamePlay.aiposition;
-                //clickedButton2 = Button1;
-                Button1.setText("O");
-                Button1.setDisable(true);
+            if (turn == false) {
+                if (AIGamePlay.aiposition == 0) {
+                    //AIGamePlay.aiposition;
+                    //clickedButton2 = Button1;
+                    Button1.setText("O");
+                    Button1.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 1) {
-                // clickedButton2 = Button2;
-                Button2.setText("O");
-                Button2.setDisable(true);
+                } else if (AIGamePlay.aiposition == 1) {
+                    // clickedButton2 = Button2;
+                    Button2.setText("O");
+                    Button2.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 2) {
-                // clickedButton2 = Button3;
-                Button3.setText("O");
-                Button3.setDisable(true);
+                } else if (AIGamePlay.aiposition == 2) {
+                    // clickedButton2 = Button3;
+                    Button3.setText("O");
+                    Button3.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 3) {
-                //clickedButton2 = Button4;
-                Button4.setText("O");
-                Button4.setDisable(true);
+                } else if (AIGamePlay.aiposition == 3) {
+                    //clickedButton2 = Button4;
+                    Button4.setText("O");
+                    Button4.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 4) {
-                //clickedButton2 = Button5;
-                Button5.setText("O");
-                Button5.setDisable(true);
+                } else if (AIGamePlay.aiposition == 4) {
+                    //clickedButton2 = Button5;
+                    Button5.setText("O");
+                    Button5.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 5) {
-                //clickedButton2 = Button6;
-                Button6.setText("O");
-                Button6.setDisable(true);
+                } else if (AIGamePlay.aiposition == 5) {
+                    //clickedButton2 = Button6;
+                    Button6.setText("O");
+                    Button6.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 6) {
-                //clickedButton2 = Button7;
-                Button7.setText("O");
-                Button7.setDisable(true);
+                } else if (AIGamePlay.aiposition == 6) {
+                    //clickedButton2 = Button7;
+                    Button7.setText("O");
+                    Button7.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 7) {
-                //clickedButton2 = Button8;
-                Button8.setText("O");
-                Button8.setDisable(true);
+                } else if (AIGamePlay.aiposition == 7) {
+                    //clickedButton2 = Button8;
+                    Button8.setText("O");
+                    Button8.setDisable(true);
 
-            } else if (AIGamePlay.aiposition == 8) {
-                //clickedButton2 = Button9;
-                Button9.setText("O");
-                Button9.setDisable(true);
+                } else if (AIGamePlay.aiposition == 8) {
+                    //clickedButton2 = Button9;
+                    Button9.setText("O");
+                    Button9.setDisable(true);
+
+                }
+                if (AIGamePlay.winnerAI != null) {
+                    ResultLabel.setText("AI");
+                    switch (AIGamePlay.winCase2) {
+                        case GamePlay.WIN_ROW_1: {
+                            Row1.setVisible(true);
+                            break;
+                        }
+                        case GamePlay.WIN_ROW_2: {
+                            Row2.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_ROW_3: {
+                            Row3.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_COL_1: {
+                            Col1.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_COL_2: {
+                            Col2.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_COL_3: {
+                            Col3.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_DIAGONAL_1: {
+                            Diagonal1.setVisible(true);
+
+                            break;
+                        }
+                        case GamePlay.WIN_DIAGONAL_2: {
+                            Diagonal2.setVisible(true);
+
+                            break;
+                        }
+
+                    }
+
+                    ResultPane.setVisible(true);
+                }
 
             }
-            if (AIGamePlay.winnerAI != null) {
-                ResultLabel.setText("AI");
-                System.out.println("kkkkkkk"+AIGamePlay.winCase2);
-                switch (AIGamePlay.winCase2) {
+            clickedButton.setText(status.getPlayedChar());
+            clickedButton.setDisable(true);
+//        clickedButton2.setText(status.getPlayedChar());
+//        clickedButton2.setDisable(true);
+            if (status.getWinnerName() != null) {
+                ResultLabel.setText(status.getWinnerName());
+                switch (status.getWinCase()) {
                     case GamePlay.WIN_ROW_1: {
-                        System.out.println("sssssss");
                         Row1.setVisible(true);
                         break;
-                    }   
+                    }
                     case GamePlay.WIN_ROW_2: {
                         Row2.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_ROW_3: {
                         Row3.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_COL_1: {
                         Col1.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_COL_2: {
                         Col2.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_COL_3: {
                         Col3.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_DIAGONAL_1: {
                         Diagonal1.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
                     case GamePlay.WIN_DIAGONAL_2: {
                         Diagonal2.setVisible(true);
-                                                System.out.println("sssssss");
-
                         break;
                     }
 
@@ -200,127 +237,86 @@ public class BoardController implements Initializable {
 
                 ResultPane.setVisible(true);
             }
+        } else if (GamePlay.mode == "Local") {
+            int buttonNo = 0;
 
-        }
-        clickedButton.setText(status.getPlayedChar());
-        clickedButton.setDisable(true);
-//        clickedButton2.setText(status.getPlayedChar());
-//        clickedButton2.setDisable(true);
-        if (status.getWinnerName() != null) {
-            ResultLabel.setText(status.getWinnerName());
-            switch (status.getWinCase()) {
-                case GamePlay.WIN_ROW_1: {
-                    Row1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_ROW_2: {
-                    Row2.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_ROW_3: {
-                    Row3.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_1: {
-                    Col1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_2: {
-                    Col2.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_3: {
-                    Col3.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_DIAGONAL_1: {
-                    Diagonal1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_DIAGONAL_2: {
-                    Diagonal2.setVisible(true);
-                    break;
-                }
+            Button clickedButton = (Button) event.getSource();
 
+            if (clickedButton == Button1) {
+                buttonNo = 0;
+            } else if (clickedButton == Button2) {
+                buttonNo = 1;
+            } else if (clickedButton == Button3) {
+                buttonNo = 2;
+            } else if (clickedButton == Button4) {
+                buttonNo = 3;
+            } else if (clickedButton == Button5) {
+                buttonNo = 4;
+            } else if (clickedButton == Button6) {
+                buttonNo = 5;
+            } else if (clickedButton == Button7) {
+                buttonNo = 6;
+            } else if (clickedButton == Button8) {
+                buttonNo = 7;
+            } else if (clickedButton == Button9) {
+                buttonNo = 8;
             }
 
-            ResultPane.setVisible(true);
-        }
-        }
-        else if (GamePlay.mode=="Local")
-        {
-             int buttonNo=0;
-        
-        Button clickedButton = (Button) event.getSource();
-        
-        if(clickedButton==Button1) buttonNo=0;
-        else if(clickedButton==Button2) buttonNo=1;
-        else if(clickedButton==Button3) buttonNo=2;
-        else if(clickedButton==Button4) buttonNo=3;
-        else if(clickedButton==Button5) buttonNo=4;
-        else if(clickedButton==Button6) buttonNo=5;
-        else if(clickedButton==Button7) buttonNo=6;
-        else if(clickedButton==Button8) buttonNo=7;
-        else if(clickedButton==Button9) buttonNo=8;
-        
-        GameStatus status= XO.playXO(buttonNo);
-        clickedButton.setText(status.getPlayedChar());
-         clickedButton.setDisable(true); 
-        if(status.getWinnerName()!=null) {
-            ResultLabel.setText(status.getWinnerName());
-            switch (status.getWinCase()){
-                case GamePlay.WIN_ROW_1 :{
-                    Row1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_ROW_2 : {
-                    Row2.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_ROW_3 : {
-                    Row3.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_1 : {
-                    Col1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_2 : {
-                    Col2.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_COL_3 : {
-                    Col3.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_DIAGONAL_1 : {
-                    Diagonal1.setVisible(true);
-                    break;
-                }
-                case GamePlay.WIN_DIAGONAL_2 : {
-                    Diagonal2.setVisible(true);
-                    break;
+            GameStatus status = XO.playXO(buttonNo);
+            clickedButton.setText(status.getPlayedChar());
+            clickedButton.setDisable(true);
+            if (status.getWinnerName() != null) {
+                ResultLabel.setText(status.getWinnerName());
+                switch (status.getWinCase()) {
+                    case GamePlay.WIN_ROW_1: {
+                        Row1.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_ROW_2: {
+                        Row2.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_ROW_3: {
+                        Row3.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_COL_1: {
+                        Col1.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_COL_2: {
+                        Col2.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_COL_3: {
+                        Col3.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_DIAGONAL_1: {
+                        Diagonal1.setVisible(true);
+                        break;
+                    }
+                    case GamePlay.WIN_DIAGONAL_2: {
+                        Diagonal2.setVisible(true);
+                        break;
+                    }
+
                 }
 
+                ResultPane.setVisible(true);
             }
-            
-            ResultPane.setVisible(true);    
-        }
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Create Object Based on Static Variable in GamePlay
-        if(GamePlay.mode=="AI")
-        {
-        XO = new AIGamePlay("Rana", "AI");
-        }
-        else if(GamePlay.mode=="Local")
-        {
+        if (GamePlay.mode == "AI") {
+            XO = new AIGamePlay("Rana", "AI");
+        } else if (GamePlay.mode == "Local") {
             XO = new LocalGamePlay("Player1", "Player2");
         }
-        
+
     }
 
 }
