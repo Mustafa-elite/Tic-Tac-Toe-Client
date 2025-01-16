@@ -48,14 +48,24 @@ public class SceneController {
         stage.setScene(scene);
         stage.show();
     }
-        /*public void navigateToXOBoard(Event event) throws IOException
+    public void navigateToLogin(Event event) throws IOException
     {
-        root = FXMLLoader.load(getClass().getResource("/clientapp/views/Board.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/clientapp/views/Login.fxml"));
         stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }*/
+    }
+    
+    public void navigateToSignup(Event event) throws IOException
+    {
+        root = FXMLLoader.load(getClass().getResource("/clientapp/views/Registeration.fxml"));
+        stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     
     
 }
