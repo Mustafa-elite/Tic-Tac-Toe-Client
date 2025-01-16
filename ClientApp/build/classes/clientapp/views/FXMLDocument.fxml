@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xologinpage.FXMLDocumentController">
+   <top>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
+         </image>
+      </ImageView>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="user_name_tf_login" layoutX="226.0" layoutY="87.0" promptText="User name" />
+            <PasswordField fx:id="password_tf_login" layoutX="226.0" layoutY="138.0" promptText="Password" />
+            <Label fx:id="user_name_label" layoutX="226.0" layoutY="112.0" />
+            <Label fx:id="password_label" layoutX="226.0" layoutY="163.0" />
+            <Button fx:id="button_login" layoutX="274.0" layoutY="204.0" mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Login" textFill="#8ccdf7" />
+            <HBox alignment="CENTER" layoutX="200.0" layoutY="229.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Dont have an account ?" />
+                  <Text fx:id="creat_account_t_login" strokeType="OUTSIDE" strokeWidth="0.0" text="Creat one">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <Text fill="WHITE" layoutX="240.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="5.0" text="LOGIN" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
