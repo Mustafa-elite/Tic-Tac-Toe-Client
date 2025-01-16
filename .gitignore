@@ -1,1 +1,7 @@
 /ClientApp/dist/
+*.class
+*.html
+*.jar
+*.xml
+*.properties
+*.jnlp
