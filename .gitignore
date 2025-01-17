@@ -1,13 +1,12 @@
 /ClientApp/dist/
+/ClientApp/build/
 *.class
 *.html
 *.jar
 *.xml
 *.properties
-<<<<<<< HEAD
-*.jnlp
-=======
 *.jnlp
 ClientApp/build/built-jar.properties
-ClientApp/build/built-jar.properties
->>>>>>> 0402cf5342a6789ecc4b22e31adc6f4329e1719e
+
+/dist/
+/build/

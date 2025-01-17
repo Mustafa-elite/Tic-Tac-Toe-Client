@@ -5,6 +5,7 @@
  */
 package clientapp;
 
+import classes.ServerLayer;
 import java.net.Socket;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,8 @@ public class ClientApp extends Application {
         
         stage.setScene(scene);
         stage.show();
+        ServerLayer.messageTest();
+        
         
     }
 
