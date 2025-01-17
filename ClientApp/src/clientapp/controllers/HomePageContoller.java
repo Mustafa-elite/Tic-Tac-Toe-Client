@@ -5,6 +5,8 @@
  */
 package clientapp.controllers;
 
+import classes.GamePlay;
+import classes.LocalGamePlay;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,16 +49,23 @@ public class HomePageContoller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void playWithAi(MouseEvent event) {
+        try {
+            GamePlay.mode="AI";
+            new SceneController().navigateToXOBoard(event);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     private void playOnline(MouseEvent event) {
         try {
-            new SceneController().navigateToOnlinePlayers(event);
+            //new SceneController().navigateToLogin(event);
+           new SceneController().navigateToOnlinePlayers(event);
         } catch (IOException ex) {
             System.out.println("navgate to playonline Btn exception located in HomeController");;
         }
@@ -64,10 +73,16 @@ public class HomePageContoller implements Initializable {
 
     @FXML
     private void playOffline(MouseEvent event) {
+        try {
+            GamePlay.mode="Local";
+            new SceneController().navigateToXOBoard(event);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     private void getPreviousMatches(MouseEvent event) {
     }
-    
+
 }

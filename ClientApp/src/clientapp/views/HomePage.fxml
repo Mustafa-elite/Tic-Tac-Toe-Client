@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,24 +14,9 @@
          <children>
             <AnchorPane prefHeight="165.0" prefWidth="750.0">
                <children>
-                  <Label fx:id="userName" alignment="CENTER" layoutX="14.0" layoutY="28.0" prefHeight="55.0" prefWidth="151.0" text="User name" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
                   <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="logout" alignment="TOP_RIGHT" layoutX="618.0" layoutY="48.0" text="Logout" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <ImageView fx:id="logoutIcon" fitHeight="27.0" fitWidth="36.0" layoutX="688.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/logout.png" />
                      </image>
                   </ImageView>
                </children>
