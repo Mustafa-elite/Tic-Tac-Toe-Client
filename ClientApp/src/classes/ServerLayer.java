@@ -5,13 +5,20 @@
  */
 package classes;
 
+import clientapp.controllers.OnlineClientsListController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javax.json.*;
 //import com.google.gson.JsonObject;
 
@@ -24,9 +31,9 @@ public class ServerLayer {
     static PrintWriter outputStream;
     static BufferedReader inputStream;
     static String receivedmsg;
-    
+    static OnlineClientsListController onlineController;
     static {
-        
+
         try {
             socketConnection = new Socket("127.0.0.1", 5005);
             outputStream=new PrintWriter(socketConnection.getOutputStream(),true);
@@ -59,22 +66,61 @@ public class ServerLayer {
     
     public static void messageDeligator(String msg)
     {
+        JsonReader jsonReader = Json.createReader(new StringReader(msg));
+        JsonObject jsonObject = jsonReader.readObject();
+
         
+        //System.out.println(jsonObject.getString("Header"));
+        switch(jsonObject.getString("Header"))
+        {
+            case "gameRequest":
+                System.out.println("client2 received request");
+                receiveGameRequest(jsonObject);
+                
+            
+        }
     }
+    
+    
+    
+    
+    
+    
+    
     public static void messageTest()
     {
         JsonObjectBuilder value = Json.createObjectBuilder();
-        //value.add("test", BigDecimal.ONE)
         JsonObject jsonmsg= value
                 .add("Header", "authenticate")
-                .add("email", "test@gmail.com")
+                .add("myname", "ahmed")
+                //.add("myname", "Mohammed")
+                
                 .build();
-        System.out.println(jsonmsg.toString()); 
-        
-       
+        System.out.println(jsonmsg.toString());
+        outputStream.println(jsonmsg.toString());     
+    }
+   
+    public static void setonlineController(OnlineClientsListController controller) {
+        onlineController = controller;
+    }
+    
+    
+    public static void sendPlayRequest(String playername)
+    {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg= value
+                .add("Header", "gameRequest")
+                .add("username", playername)
+                
+                .build();
         outputStream.println(jsonmsg.toString());
         
-                
-        
     }
+    public static void receiveGameRequest(JsonObject jsonMsg)
+    {
+        System.out.println(jsonMsg.getString("username"));
+        
+        onlineController.displayGameRequest(jsonMsg.getString("username"));
+    }
+    
 }

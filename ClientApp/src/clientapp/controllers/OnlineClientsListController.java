@@ -6,6 +6,7 @@
 package clientapp.controllers;
 
 import classes.Player;
+import classes.ServerLayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -67,6 +69,8 @@ public class OnlineClientsListController implements Initializable {
     private Label playerRequesting;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private Button sendRequest;
 
     
     /**
@@ -75,7 +79,9 @@ public class OnlineClientsListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        displayGameRequest("Mustafa");
+        //displayGameRequest("Mustafa");
+        ServerLayer.setonlineController(this);
+        gameRequestPane.setVisible(false);
         onlineList=FXCollections.observableArrayList();
         onlineViewList.setItems(onlineList);
         onlineViewList.setCellFactory(listView->new CustomCellView());
@@ -118,11 +124,12 @@ public class OnlineClientsListController implements Initializable {
     }
     
     
-    public void displayGameRequest(String playerName)
+    public  void displayGameRequest(String playerName)
     {
         
         playerRequesting.setText(playerName+" Challenges You");
         progressBar.setProgress(1.0);
+        gameRequestPane.setVisible(true);
         int time2display = 5;
         KeyFrame updatingFrame= new KeyFrame(Duration.millis(100), event -> {
                 double progress=progressBar.getProgress();
@@ -137,6 +144,11 @@ public class OnlineClientsListController implements Initializable {
         timeline.play();
     
     
+    }
+
+    @FXML
+    private void sendingRequestBtn(ActionEvent event) {
+        ServerLayer.sendPlayRequest("ahmed");
     }
 
     

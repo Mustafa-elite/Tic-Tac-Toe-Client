@@ -38,6 +38,7 @@
                   <ProgressBar fx:id="progressBar" layoutY="375.0" prefHeight="27.0" prefWidth="330.0" progress="0.0" />
                </children>
             </Pane>
+            <Button fx:id="sendRequest" layoutX="630.0" layoutY="28.0" mnemonicParsing="false" onAction="#sendingRequestBtn" prefHeight="31.0" prefWidth="254.0" text="sending request test" />
          </children>
       </AnchorPane>
    </center>
