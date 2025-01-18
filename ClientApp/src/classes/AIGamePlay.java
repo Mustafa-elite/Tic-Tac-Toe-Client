@@ -4,9 +4,6 @@ public class AIGamePlay extends GamePlay {
 
     String print;
     public static int winCase;
-        public static int winCase2;
-    public static int aiposition=-1;
-    public static String winnerAI;
     
     public AIGamePlay(String playerName, String ai) {
         super(new Player(playerName), new Player(ai));
@@ -18,52 +15,38 @@ public class AIGamePlay extends GamePlay {
         GameStatus gs = new GameStatus(-1, null, null, 0);
 
         if (turn) {
-            gs.setPlayedChar("X");
-            //gs.setPosition(position);
+            gs.setPlayedChar("O");
             updateBoard(position, 1);
             printBoard();
-            //playXO(position);
-            turn=false;
-            winCase = checkWinner();
-             if (winCase != 0) {
-            gs.setWinnerName(player1.name);
-            System.out.println(gs.getWinnerName());
-            gs.setWinCase(winCase);
-        }
-
-            playXO(position);
-            
-             
+            if(GamePlay.record==true)
+            {
+                recordPlay(position);
+            }
         } else {
             System.out.println("Hi");
-            gs.setPlayedChar("O");
+            gs.setPlayedChar("X");
             Move bestMove = findBestMove();
-            aiposition=bestMove.row * 3 + bestMove.col;
             gs.setPosition(bestMove.row * 3 + bestMove.col);
             System.out.println("my"+gs.getPosition());
             updateBoard(bestMove.row * 3 + bestMove.col, 0);
             printBoard();
-            
-            winCase2 = checkWinner();
-            
-            if (winCase2 != 0) {
-            winnerAI="AI";
-            gs.setWinnerName(player2.name);
-            System.out.println(gs.getWinnerName());
-            gs.setWinCase(winCase2);
+            if(GamePlay.record==true)
+            {
+                recordPlay(gs.getPosition());
+            }
         }
-            turn=true;
-        }
-
         winCase = checkWinner();
-        
-        if (winCase != 0) {
+        if (winCase > 0) {
             gs.setWinnerName(turn ? player1.name : player2.name);
             System.out.println(gs.getWinnerName());
             gs.setWinCase(winCase);
         }
-
-        //turn = !turn;
+        else if(winCase==-1)
+        {
+            //draw case
+            gs.setDraw(true);
+            
+        }
         return gs;
     }
 
@@ -203,9 +186,9 @@ public class AIGamePlay extends GamePlay {
                 if (b1.boardxy[i][j] == -1) {
                     cell = '.';
                 } else if (b1.boardxy[i][j] == 0) {
-                    cell = 'O';
-                } else {
                     cell = 'X';
+                } else {
+                    cell = 'O';
                 }
                 System.out.print(cell + " ");
             }
