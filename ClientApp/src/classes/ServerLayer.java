@@ -6,19 +6,18 @@
 package classes;
 
 import clientapp.controllers.OnlineClientsListController;
+import clientapp.controllers.SceneController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.math.BigDecimal;
+
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+
 import javax.json.*;
 //import com.google.gson.JsonObject;
 
@@ -76,6 +75,10 @@ public class ServerLayer {
             case "gameRequest":
                 System.out.println("client2 received request");
                 receiveGameRequest(jsonObject);
+                break;
+            case "gameAcceptanceResponce":
+                System.out.println("client1 received Acceptance");
+                receiveGameAcceptance(jsonObject);
                 
             
         }
@@ -122,5 +125,25 @@ public class ServerLayer {
         
         onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
+
+    public static void sendGameAcceptance(String invitingPlayer) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg= value
+                .add("Header", "acceptGameRequest")
+                .add("opponentUsername", invitingPlayer)
+                
+                .build();
+        outputStream.println(jsonmsg.toString());
+        
+    }
     
+    public static void receiveGameAcceptance(JsonObject jsonMsg)
+    {
+        //set variables needed by board here
+        try {
+            SceneController.navigateToXOBoard(null);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

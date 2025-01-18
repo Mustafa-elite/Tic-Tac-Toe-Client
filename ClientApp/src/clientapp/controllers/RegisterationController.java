@@ -65,7 +65,7 @@ public class RegisterationController implements Initializable {
             user_name_label_registration.setVisible(false);
         }
         try {
-            new SceneController().navigateToSignup(event);
+            SceneController.navigateToSignup(event);
         } catch (IOException ex) {
             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,7 +74,7 @@ public class RegisterationController implements Initializable {
     @FXML
     private void loginAction(MouseEvent event) {
         try {
-            new SceneController().navigateToLogin(event);
+            SceneController.navigateToLogin(event);
         } catch (IOException ex) {
             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -316,6 +316,11 @@ public class BoardController implements Initializable {
         } else if (GamePlay.mode == "Local") {
             XO = new LocalGamePlay("Player1", "Player2");
         }
+        else if(GamePlay.mode == "Online")
+        {
+            //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
+            //XO= new OnlineGamePlay();
+        }
 
     }
 
