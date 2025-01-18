@@ -78,6 +78,7 @@ public class RegisterationController implements Initializable {
             return;
         }
 
+
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             System.out.println("Invalid email format.");
             email_label_registration.setText("Invalid email format.");
@@ -130,13 +131,14 @@ public class RegisterationController implements Initializable {
             System.out.println("Updated label: " + statusMessage);;
         } else {
             System.err.println("registrationStatusLabel is null. Unable to update status.");
+
         }
     }
 
     @FXML
     private void loginAction(MouseEvent event) {
         try {
-            new SceneController().navigateToLogin(event);
+            SceneController.navigateToLogin(event);
         } catch (IOException ex) {
             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
         }

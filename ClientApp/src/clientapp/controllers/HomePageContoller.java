@@ -55,7 +55,7 @@ public class HomePageContoller implements Initializable {
     private void playWithAi(MouseEvent event) {
         try {
             GamePlay.mode="AI";
-            new SceneController().navigateToXOBoard(event);
+            SceneController.navigateToXOBoard(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,8 +64,9 @@ public class HomePageContoller implements Initializable {
     @FXML
     private void playOnline(MouseEvent event) {
         try {
+            GamePlay.mode="Online"; 
             //new SceneController().navigateToLogin(event);
-           new SceneController().navigateToOnlinePlayers(event);
+           SceneController.navigateToOnlinePlayers(event);
         } catch (IOException ex) {
             System.out.println("navgate to playonline Btn exception located in HomeController");;
         }
@@ -75,7 +76,7 @@ public class HomePageContoller implements Initializable {
     private void playOffline(MouseEvent event) {
         try {
             GamePlay.mode="Local";
-            new SceneController().navigateToXOBoard(event);
+            SceneController.navigateToXOBoard(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
         }
