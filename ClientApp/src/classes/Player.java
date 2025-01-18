@@ -16,7 +16,6 @@ public class Player {
     String password;
     String email;
     Socket mySocket;
-    int socketNumber;
 
     //local Player
     public Player(String name) {
@@ -24,7 +23,6 @@ public class Player {
         this.password = null;
         this.email = null;
         this.mySocket = null;
-        this.socketNumber = 0;
     }
     
     
@@ -33,7 +31,6 @@ public class Player {
         this.password = password;
         this.email = email;
         this.mySocket = mySocket;
-        this.socketNumber = socketNumber;
     }
 
     public String getName() {
@@ -52,9 +49,6 @@ public class Player {
         return mySocket;
     }
 
-    public int getSocketNumber() {
-        return socketNumber;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -72,7 +66,4 @@ public class Player {
         this.mySocket = mySocket;
     }
 
-    public void setSocketNumber(int socketNumber) {
-        this.socketNumber = socketNumber;
-    }
 }

@@ -34,7 +34,8 @@ public class SceneController {
     
     public void navigateToOnlinePlayers(Event event) throws IOException
     {
-        root = FXMLLoader.load(getClass().getResource("/clientapp/views/onlineClientsList.fxml"));
+       // root = FXMLLoader.load(getClass().getResource("/clientapp/views/onlineClientsList.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/clientapp/views/Registeration.fxml"));
         stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
