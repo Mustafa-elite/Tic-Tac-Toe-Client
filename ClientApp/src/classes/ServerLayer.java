@@ -6,20 +6,22 @@
 package classes;
 
 import clientapp.controllers.OnlineClientsListController;
+
+import clientapp.controllers.SceneController;
 import clientapp.controllers.RegisterationController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.math.BigDecimal;
+
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+
 import javax.json.*;
 //import com.google.gson.JsonObject;
 
@@ -106,31 +108,23 @@ public class ServerLayer {
     }
     //authenticate
 
-//    public static void messageDeligator(String msg) {
-//        JsonReader jsonReader = Json.createReader(new StringReader(msg));
-//        JsonObject jsonObject = jsonReader.readObject();
-//
-//        //System.out.println(jsonObject.getString("Header"));
-//        switch (jsonObject.getString("Header")) {
-//            case "gameRequest":
-//                System.out.println("client2 received request");
-//                receiveGameRequest(jsonObject);
-//            case "registerResponse":
-//                boolean success = jsonObject.getBoolean("success");
-//                if (success) {
-//                    System.out.println("Registration successful!");
-//                } else {
-//                    System.out.println("Registration failed. Try a different username.");
-//                }
-//                break;
-//
-//        }
-//    }
+
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
         JsonObject jsonObject = jsonReader.readObject();
 
-        switch (jsonObject.getString("Header")) {
+
+        
+        //System.out.println(jsonObject.getString("Header"));
+        switch(jsonObject.getString("Header"))
+        {
+            case "gameRequest":
+                System.out.println("client2 received request");
+                receiveGameRequest(jsonObject);
+                break;
+            case "gameAcceptanceResponce":
+                System.out.println("client1 received Acceptance");
+                receiveGameAcceptance(jsonObject);
             case "registerResponse":
                 boolean success = jsonObject.getBoolean("success");
                 String message = jsonObject.getString("message");
@@ -152,6 +146,7 @@ public class ServerLayer {
                 });
 
                 break;
+            
         }
     }
 
@@ -185,6 +180,28 @@ public class ServerLayer {
         System.out.println(jsonMsg.getString("username"));
 
         onlineController.displayGameRequest(jsonMsg.getString("username"));
+    }
+
+
+    public static void sendGameAcceptance(String invitingPlayer) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg= value
+                .add("Header", "acceptGameRequest")
+                .add("opponentUsername", invitingPlayer)
+                
+                .build();
+        outputStream.println(jsonmsg.toString());
+        
+    }
+    
+    public static void receiveGameAcceptance(JsonObject jsonMsg)
+    {
+        //set variables needed by board here
+        try {
+            SceneController.navigateToXOBoard(null);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

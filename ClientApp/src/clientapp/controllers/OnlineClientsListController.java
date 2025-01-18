@@ -71,6 +71,7 @@ public class OnlineClientsListController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Button sendRequest;
+    private String invitingPlayer;
 
     
     /**
@@ -100,7 +101,7 @@ public class OnlineClientsListController implements Initializable {
         onlineList.add(new Player("Mustafa"));
         alertLabel.setVisible(false);
         try {
-            new SceneController().navigateToHome(event);
+            SceneController.navigateToHome(event);
         } catch (IOException ex) {
             System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
         }
@@ -110,10 +111,11 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void acceptBtnAction(ActionEvent event) {
+        ServerLayer.sendGameAcceptance(invitingPlayer);
         try {
-            new SceneController().navigateToXOBoard(event);
+            SceneController.navigateToXOBoard(event);
         } catch (IOException ex) {
-            Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("error navigating to XO Gui Screen after clicking accept btn");
         }
         
     }
@@ -126,7 +128,7 @@ public class OnlineClientsListController implements Initializable {
     
     public  void displayGameRequest(String playerName)
     {
-        
+        invitingPlayer=playerName;
         playerRequesting.setText(playerName+" Challenges You");
         progressBar.setProgress(1.0);
         gameRequestPane.setVisible(true);
@@ -146,6 +148,8 @@ public class OnlineClientsListController implements Initializable {
     
     }
 
+    
+    //////////////////////////implemented for testing sending request to ahmed////////////////////////////////////////
     @FXML
     private void sendingRequestBtn(ActionEvent event) {
         ServerLayer.sendPlayRequest("ahmed");

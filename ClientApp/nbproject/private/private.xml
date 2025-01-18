@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/BoardController.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/SceneController.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/classes/ServerLayer.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/classes/AIGamePlay.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/classes/GamePlay.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/classes/GameStatus.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/classes/LocalGamePlay.java</file>
-            <file>file:/C:/Users/a/Documents/GitHub/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/HomePageContoller.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/ClientApp.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/GamePlay.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/LoginController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/RegisterationController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/ServerLayer.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/GameStatus.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/HomePageContoller.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/BoardController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/SceneController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/Player.java</file>
         </group>
     </open-files>
 </project-private>
