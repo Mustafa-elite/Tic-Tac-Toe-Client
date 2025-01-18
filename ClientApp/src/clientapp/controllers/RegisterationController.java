@@ -128,7 +128,12 @@ public class RegisterationController implements Initializable {
             alert.setContentText(statusMessage);
 
             alert.showAndWait();
-            System.out.println("Updated label: " + statusMessage);;
+            System.out.println("Updated label: " + statusMessage);
+            try {
+                SceneController.navigateToOnlinePlayers(null);
+            } catch (IOException ex) {
+                System.out.println("error navigating to online players in register controller");
+            }
         } else {
             System.err.println("registrationStatusLabel is null. Unable to update status.");
 

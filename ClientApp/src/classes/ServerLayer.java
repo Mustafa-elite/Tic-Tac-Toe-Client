@@ -19,6 +19,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.Pane;
 
 import javax.json.*;
 //import com.google.gson.JsonObject;
