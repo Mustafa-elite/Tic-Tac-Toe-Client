@@ -40,6 +40,11 @@ public class ServerLayer {
     static String receivedmsg;
     static OnlineClientsListController onlineController;
 
+    //login string response 
+    private static String response = "" ; 
+    public static boolean flagCheckResponse = false ; 
+
+
     public static Socket getSocketConnection() {
         return socketConnection;
     }
@@ -82,13 +87,17 @@ public class ServerLayer {
     public static ObservableList<Player> getOnlinePlayersList() {
         return onlinePlayersList;
     }
-   
+
     static {
 
         try {
             socketConnection = new Socket("127.0.0.1", 5005);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+
+            System.out.println("Server Connected successfully ");
+
+
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
@@ -112,6 +121,24 @@ public class ServerLayer {
         }).start();
 
     }
+
+
+    //authenticate
+    public static void messageDeligator(String msg) {
+        JsonReader jsonReader = Json.createReader(new StringReader(msg));
+        JsonObject jsonObject = jsonReader.readObject();
+
+        //System.out.println(jsonObject.getString("Header"));
+        switch (jsonObject.getString("Header")) {
+            case "gameRequest":
+                System.out.println("client2 received request");
+                receiveGameRequest(jsonObject);
+            case "loginResponse":
+                System.out.println("login response in client " + msg);
+                 response = msg ; 
+                loginResponse();
+                break ; 
+
 
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
@@ -153,6 +180,7 @@ public class ServerLayer {
 
                 break;
             
+
         }
     }
 
@@ -177,6 +205,7 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "gameRequest")
                 .add("username", playername)
+
                 .build();
         outputStream.println(jsonmsg.toString());
 
@@ -195,11 +224,50 @@ public class ServerLayer {
                 .add("Header", "acceptGameRequest")
                 .add("opponentUsername", invitingPlayer)
                 
+
                 .build();
         outputStream.println(jsonmsg.toString());
-        
+
     }
-    
+
+
+    public static void receiveGameRequest(JsonObject jsonMsg) {
+        System.out.println(jsonMsg.getString("username"));
+
+        onlineController.displayGameRequest(jsonMsg.getString("username"));
+    }
+
+    public static void loginRequest(String userName, String password) {
+        JsonObjectBuilder loginJonObject = Json.createObjectBuilder();
+        JsonObject obj = loginJonObject
+                .add("Header", "login")
+                .add("user-name", userName)
+                .add("password", password)
+                .build();
+        String loginObject = obj.toString();
+        if (outputStream != null) {
+            outputStream.println(loginObject);
+            System.out.println("login request : " + loginObject);
+        } else {
+            System.out.println("Output stream is not initialized. Check server connection.");
+        }
+
+    }
+
+    public static boolean loginResponse() {
+        boolean checkResponse ;
+        JsonReader jsonReader = Json.createReader(new StringReader(response));
+        JsonObject jsonObject = jsonReader.readObject();
+        checkResponse = jsonObject.getBoolean("success");
+        if (checkResponse) {
+            System.out.println("user found (client)");
+            flagCheckResponse = true ; 
+            return true ; 
+        }
+        System.out.println("user not found (client)");
+          flagCheckResponse = true ; 
+        return false ;
+
     public static void receiveGameAcceptance(JsonObject jsonMsg)
     {
         //set variables needed by board here
@@ -228,6 +296,7 @@ public class ServerLayer {
             String username = playerObject.getString("username");
             onlinePlayersList.add(new Player(username));
         }
+
     }
 }
 
