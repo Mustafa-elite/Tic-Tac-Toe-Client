@@ -14,6 +14,7 @@ public class GameStatus {
     private String WinnerName;
     private int WinCase;
     private int position;
+    private boolean draw;
 
     public GameStatus(int position,String playedChar, String WinnerName, int WinCase) {
         this.position=position;
@@ -22,6 +23,16 @@ public class GameStatus {
         this.WinCase = WinCase;
     }
 
+    public boolean isDraw() {
+        return draw;
+    }
+
+    public void setDraw(boolean draw) {
+        this.draw = draw;
+    }
+
+    
+  
     public int getPosition() {
         return position;
     }

@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package classes;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author user
@@ -14,7 +21,12 @@ public abstract class GamePlay {
     Player player1;
     Player player2;
     public static String mode;
-    boolean turn;
+    public static boolean record;
+    protected boolean turn;
+    
+    
+
+   
     public static final int WIN_ROW_1=1;
     public static final int WIN_ROW_2=2;
     public static final int WIN_ROW_3=3;
@@ -23,7 +35,7 @@ public abstract class GamePlay {
     public static final int WIN_COL_3=6;
     public static final int WIN_DIAGONAL_1=7;
     public static final int WIN_DIAGONAL_2=8;
-    
+    protected MatchRecorder recorder;
     class Board
     {
         int[][] boardxy = {{-1, -1, -1},
@@ -37,12 +49,35 @@ public abstract class GamePlay {
         player1=p1;
         player2=p2;
         Random random = new Random();
-        turn = true;
+        turn = random.nextBoolean();
+        if(record)
+        {
+            recorder=new MatchRecorder(player1.name, player2.name, turn);
+        }
+        System.out.println(turn);
     }
     
+    
+    public boolean isTurn() {
+        return turn;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
+    }
     public abstract GameStatus playXO(int position);
 
-    int checkWinner()
+    
+    
+    /*
+    *********************************************************************
+    This method returns:
+                        1:IN WIN CASE           : the wincase row or col or diag-->1-9
+                        2:IN DRAW CASE          : -1
+                        3:IN CASE STILL PLAYING : 0
+    *********************************************************************
+    */
+    protected int checkWinner()
     {
         int playerToCheck=turn ? 1:0;
         int winCase = 0;
@@ -73,7 +108,35 @@ public abstract class GamePlay {
             winCase = 8;
         }
         //did not find a win situation;
+        if(winCase >0 &&record)
+        {
+            recorder.closeRecordFile();
+        }
+        if(isBoardFull() && winCase ==0)
+        {
+            winCase=-1;
+            
+            if(record)
+            {
+                recorder.closeRecordFile();
+            }
+        }
         return winCase;
+    }
+    private boolean isBoardFull()
+    {
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                if(b1.boardxy[i][j]==-1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+        
     }
     
 }

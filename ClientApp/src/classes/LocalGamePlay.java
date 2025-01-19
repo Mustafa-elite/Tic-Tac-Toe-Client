@@ -13,8 +13,12 @@ public class LocalGamePlay extends GamePlay {
     @Override
     public GameStatus playXO(int position) {
         //player 1 turn 
+        if(GamePlay.record==true)
+        {
+            recorder.recordPlay(position);
+        }
         GameStatus gs=new GameStatus(-1,null,null,0);
-        
+        gs.setPosition(position);
         if (!turn) {
             gs.setPlayedChar("X");
             if (position == 0 || position == 1 || position == 2) {
@@ -40,7 +44,7 @@ public class LocalGamePlay extends GamePlay {
             }
         }
         winCase = checkWinner(); 
-        if(winCase!=0){
+        if(winCase>0){
             if(turn)
             {
                 gs.setWinnerName(player1.name); 
@@ -51,7 +55,12 @@ public class LocalGamePlay extends GamePlay {
             }
             gs.setWinCase(winCase);  
         }
-        turn=!turn;
+        else if(winCase==-1)
+        {
+            //draw case
+            gs.setDraw(true);
+            
+        }
         return gs;
     }
 

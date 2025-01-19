@@ -59,7 +59,7 @@ public class LoginController implements Initializable {
     @FXML
     private void createAccountAction(MouseEvent event) {
         try {
-            new SceneController().navigateToSignup(event);
+            SceneController.navigateToSignup(event);
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

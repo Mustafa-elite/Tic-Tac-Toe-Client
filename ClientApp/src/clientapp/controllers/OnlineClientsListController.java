@@ -10,8 +10,6 @@ import classes.ServerLayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -35,24 +33,6 @@ import javafx.util.Duration;
  * @author user
  */
 
-class CustomCellView extends ListCell<Player>{
-    
-
-    protected void updateItem(Player p, boolean empty) {
-        super.updateItem(p, empty); 
-
-        if (empty || p == null) {
-            setText(null);
-            setGraphic(null);
-        }
-        else
-        {
-            setText("hello "+p.getName());
-        }
-    }
-    
-}
-
 public class OnlineClientsListController implements Initializable {
 
     @FXML
@@ -71,6 +51,10 @@ public class OnlineClientsListController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Button sendRequest;
+    private String invitingPlayer;
+    @FXML
+    private Button refresh;
+
 
     
     /**
@@ -84,15 +68,15 @@ public class OnlineClientsListController implements Initializable {
         gameRequestPane.setVisible(false);
         onlineList=FXCollections.observableArrayList();
         onlineViewList.setItems(onlineList);
-        onlineViewList.setCellFactory(listView->new CustomCellView());
+        ServerLayer.requestOnlinePlayers();
         if(onlineList.isEmpty())
         {
             alertLabel.setVisible(true);
             
            
         }
-        
-        // TODO
+            
+       
     }    
 
     @FXML
@@ -100,7 +84,7 @@ public class OnlineClientsListController implements Initializable {
         onlineList.add(new Player("Mustafa"));
         alertLabel.setVisible(false);
         try {
-            new SceneController().navigateToHome(event);
+            SceneController.navigateToHome(event);
         } catch (IOException ex) {
             System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
         }
@@ -110,10 +94,11 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void acceptBtnAction(ActionEvent event) {
+        ServerLayer.sendGameAcceptance(invitingPlayer);
         try {
-            new SceneController().navigateToXOBoard(event);
+            SceneController.navigateToXOBoard(event);
         } catch (IOException ex) {
-            Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("error navigating to XO Gui Screen after clicking accept btn");
         }
         
     }
@@ -123,10 +108,14 @@ public class OnlineClientsListController implements Initializable {
         gameRequestPane.setVisible(false);
     }
     
+    private void refreshOnlinePlayers(ActionEvent event) {
+        ServerLayer.requestOnlinePlayers(); 
+    }
+    
     
     public  void displayGameRequest(String playerName)
     {
-        
+        invitingPlayer=playerName;
         playerRequesting.setText(playerName+" Challenges You");
         progressBar.setProgress(1.0);
         gameRequestPane.setVisible(true);
@@ -146,10 +135,30 @@ public class OnlineClientsListController implements Initializable {
     
     }
 
+    
+    //////////////////////////implemented for testing sending request to ahmed////////////////////////////////////////
     @FXML
     private void sendingRequestBtn(ActionEvent event) {
         ServerLayer.sendPlayRequest("ahmed");
     }
+
+    @FXML
+    private void refreshList(ActionEvent event) {
+        ServerLayer.requestOnlinePlayers();
+        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
+       onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
+           @Override
+           protected void updateItem(Player player, boolean empty) {
+               super.updateItem(player, empty);
+               if (empty || player == null) {
+                   setText(null);
+               } else {
+                   setText(player.getName());
+               }
+           }
+       });
+    }
+    
 
     
 }
