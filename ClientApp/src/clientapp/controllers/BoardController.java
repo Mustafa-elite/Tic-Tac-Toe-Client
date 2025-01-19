@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import classes.GamePlay;
 import classes.GameStatus;
 import classes.LocalGamePlay;
+import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -66,13 +67,57 @@ public class BoardController implements Initializable {
     private Label ResultLabel;
     @FXML
     private Pane ResultPane;
-    private Button[] btnArr;  
+    private Button[] btnArr; 
+    
+    public static ArrayList<String> gameReplay;
+    //public  static boolean isreplay;
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+        btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
+        if (GamePlay.mode == "AI") {
+            XO = new AIGamePlay("Rana", "AI");
+            if(!XO.isTurn())
+            {
+                handleButtonClick(null);
+            }
+        } else if (GamePlay.mode == "Local") {
+            if(gameReplay!=null)
+            {
+                XO = new LocalGamePlay(gameReplay.remove(0), gameReplay.remove(0));
+                XO.setTurn(gameReplay.remove(0)=="1" ? true:false);
+                handleButtonClick(null);
+                disableAllBtns();
+                
+            }
+            else
+            {
+                XO = new LocalGamePlay("Player1", "Player2");
+            }    
+            
+        }
+        else if(GamePlay.mode == "Online")
+        {
+            //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
+            //XO= new OnlineGamePlay();
+        }
+
+    }
     @FXML
     private void handleButtonClick(ActionEvent event) {
-        int buttonNo = -1;
-        
         if (GamePlay.mode == "AI") {
-           
+            AiGameEvent(event);
+            
+        } else if (GamePlay.mode == "Local") {
+            localGameEvent(event);
+        }
+    }
+
+    private void AiGameEvent(ActionEvent event)
+    {
+        int buttonNo = -1;
             Button clickedButton=null;
             if(XO.isTurn())
             {
@@ -114,7 +159,7 @@ public class BoardController implements Initializable {
             {
                 XO.setTurn(false);
                 ////there should be delay here
-                 PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+                PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                 pause.setOnFinished(e -> handleButtonClick(null));
                 pause.play();
                 
@@ -124,10 +169,16 @@ public class BoardController implements Initializable {
                 XO.setTurn(true);
             }
             
-        } else if (GamePlay.mode == "Local") {
-            
+    }
+    
+    private void localGameEvent(ActionEvent event)
+    {
+        int buttonNo = -1;
+        Button clickedButton=null;
 
-            Button clickedButton = (Button) event.getSource();
+        if(event!=null)
+        {
+            clickedButton = (Button) event.getSource();
 
             for(int i=0;i<9;i++)
             {
@@ -137,52 +188,60 @@ public class BoardController implements Initializable {
                     break;
                 }
             }
-            GameStatus status = XO.playXO(buttonNo);
+        }
+        else
+        {
+            buttonNo=Integer.parseInt(gameReplay.remove(0));
+            if(gameReplay.isEmpty())
+            {
+                gameReplay=null;
+            }
+        }
+
+        GameStatus status = XO.playXO(buttonNo);
+
+        if(event!=null)
+        {
             clickedButton.setText(status.getPlayedChar());
             clickedButton.setDisable(true);
-            if (status.getWinnerName() != null) {
-                ResultLabel.setText(status.getWinnerName());
-                drawWinnerLine(status.getWinCase());
-                ResultPane.setVisible(true);
-            }
-            else if(status.isDraw())
-            {
-                ResultLabel.setText("Draw");
-                ResultPane.setVisible(true);
-            }
-            if(XO.isTurn())
-            {
-                XO.setTurn(false);
-            }
-            else
-            {
-                XO.setTurn(true);
-            }
-            
         }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //Create Object Based on Static Variable in GamePlay
-        btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
-        if (GamePlay.mode == "AI") {
-            XO = new AIGamePlay("Rana", "AI");
-            if(!XO.isTurn())
-            {
-                handleButtonClick(null);
-            }
-        } else if (GamePlay.mode == "Local") {
-            XO = new LocalGamePlay("Player1", "Player2");
-        }
-        else if(GamePlay.mode == "Online")
+        else
         {
-            //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
-            //XO= new OnlineGamePlay();
+            btnArr[status.getPosition()].setText(status.getPlayedChar());
+            btnArr[status.getPosition()].setDisable(true);
         }
 
-    }
+        if (status.getWinnerName() != null) {
+            ResultLabel.setText(status.getWinnerName());
+            drawWinnerLine(status.getWinCase());
+            ResultPane.setVisible(true);
+            return;
+        }
+        else if(status.isDraw())
+        {
+            ResultLabel.setText("Draw");
+            ResultPane.setVisible(true);
+            return;
+        }
+        if(XO.isTurn())
+        {
+            XO.setTurn(false);
 
+        }
+        else
+        {
+            XO.setTurn(true);
+        }
+        if(event==null)
+        {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(e -> handleButtonClick(null));
+            pause.play();
+        }
+    }
+    
+    
+    
     private void drawWinnerLine(int winCase) {
         
         switch (winCase) {
@@ -228,5 +287,11 @@ public class BoardController implements Initializable {
 
         }
     }
-
+    private void disableAllBtns()
+    {        
+        for(int i=0;i<9;i++)
+        {
+            btnArr[i].setDisable(true);
+        }
+    }
 }

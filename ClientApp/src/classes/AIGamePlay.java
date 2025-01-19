@@ -20,7 +20,7 @@ public class AIGamePlay extends GamePlay {
             printBoard();
             if(GamePlay.record==true)
             {
-                recordPlay(position);
+                recorder.recordPlay(position);
             }
         } else {
             System.out.println("Hi");
@@ -32,7 +32,7 @@ public class AIGamePlay extends GamePlay {
             printBoard();
             if(GamePlay.record==true)
             {
-                recordPlay(gs.getPosition());
+                recorder.recordPlay(gs.getPosition());
             }
         }
         winCase = checkWinner();
