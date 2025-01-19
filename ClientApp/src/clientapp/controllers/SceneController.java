@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  *
  * @author user
  */
-public abstract class SceneController {
+public  class SceneController {
     private static Stage stage;
     private static Scene scene;
     private static Parent root;
