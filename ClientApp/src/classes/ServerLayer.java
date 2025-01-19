@@ -41,9 +41,8 @@ public class ServerLayer {
     static OnlineClientsListController onlineController;
 
     //login string response 
-    private static String response = "" ; 
-    public static boolean flagCheckResponse = false ; 
-
+    private static String response = "";
+    public static boolean flagCheckResponse = false;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -84,6 +83,7 @@ public class ServerLayer {
     public static void setOnlineController(OnlineClientsListController onlineController) {
         ServerLayer.onlineController = onlineController;
     }
+
     public static ObservableList<Player> getOnlinePlayersList() {
         return onlinePlayersList;
     }
@@ -96,8 +96,6 @@ public class ServerLayer {
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
 
             System.out.println("Server Connected successfully ");
-
-
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
@@ -122,36 +120,19 @@ public class ServerLayer {
 
     }
 
-
     //authenticate
+    //System.out.println(jsonObject.getString("Header"));
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
         JsonObject jsonObject = jsonReader.readObject();
-
-        //System.out.println(jsonObject.getString("Header"));
         switch (jsonObject.getString("Header")) {
-            case "gameRequest":
-                System.out.println("client2 received request");
-                receiveGameRequest(jsonObject);
-            case "loginResponse":
-                System.out.println("login response in client " + msg);
-                 response = msg ; 
-                loginResponse();
-                break ; 
-
-
-    public static void messageDeligator(String msg) {
-        JsonReader jsonReader = Json.createReader(new StringReader(msg));
-        JsonObject jsonObject = jsonReader.readObject();
-        switch(jsonObject.getString("Header"))
-        {
             case "gameRequest":
                 System.out.println("client2 received request");
                 receiveGameRequest(jsonObject);
                 break;
             case "onlinePlayersList":
                 System.out.println("test0");
-                updateOnlinePlayersList(jsonObject); 
+                updateOnlinePlayersList(jsonObject);
                 System.out.println(jsonObject.toString());
                 break;
             case "gameAcceptanceResponce":
@@ -179,7 +160,11 @@ public class ServerLayer {
                 });
 
                 break;
-            
+            case "loginResponse":
+                System.out.println("login response in client " + msg);
+                response = msg;
+                loginResponse();
+                break;
 
         }
     }
@@ -205,7 +190,6 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "gameRequest")
                 .add("username", playername)
-
                 .build();
         outputStream.println(jsonmsg.toString());
 
@@ -216,25 +200,15 @@ public class ServerLayer {
 
         onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
-
 
     public static void sendGameAcceptance(String invitingPlayer) {
         JsonObjectBuilder value = Json.createObjectBuilder();
-        JsonObject jsonmsg= value
+        JsonObject jsonmsg = value
                 .add("Header", "acceptGameRequest")
                 .add("opponentUsername", invitingPlayer)
-                
-
                 .build();
         outputStream.println(jsonmsg.toString());
 
-    }
-
-
-    public static void receiveGameRequest(JsonObject jsonMsg) {
-        System.out.println(jsonMsg.getString("username"));
-
-        onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
 
     public static void loginRequest(String userName, String password) {
@@ -255,21 +229,24 @@ public class ServerLayer {
     }
 
     public static boolean loginResponse() {
-        boolean checkResponse ;
+        boolean checkResponse;
         JsonReader jsonReader = Json.createReader(new StringReader(response));
         JsonObject jsonObject = jsonReader.readObject();
         checkResponse = jsonObject.getBoolean("success");
         if (checkResponse) {
             System.out.println("user found (client)");
-            flagCheckResponse = true ; 
-            return true ; 
+            flagCheckResponse = true;
+            return true;
         }
         System.out.println("user not found (client)");
-          flagCheckResponse = true ; 
-        return false ;
+        flagCheckResponse = true;
+        return false;
+    }
+    
 
-    public static void receiveGameAcceptance(JsonObject jsonMsg)
-    {
+    
+
+    public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
             SceneController.navigateToXOBoard(null);
@@ -277,20 +254,20 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void requestOnlinePlayers() {
         JsonObjectBuilder value = Json.createObjectBuilder();
         JsonObject jsonmsg = value
-                .add("Header", "getOnlinePlayers") 
+                .add("Header", "getOnlinePlayers")
                 .build();
-         System.out.println("test1");
+        System.out.println("test1");
         outputStream.println(jsonmsg.toString());
         System.out.println("test2");
     }
-  
+
     public static void updateOnlinePlayersList(JsonObject jsonMsg) {
         onlinePlayersList.clear();
-        JsonArray playersArray = jsonMsg.getJsonArray("players"); 
+        JsonArray playersArray = jsonMsg.getJsonArray("players");
         for (JsonValue playerValue : playersArray) {
             JsonObject playerObject = (JsonObject) playerValue;
             String username = playerObject.getString("username");
@@ -299,4 +276,3 @@ public class ServerLayer {
 
     }
 }
-

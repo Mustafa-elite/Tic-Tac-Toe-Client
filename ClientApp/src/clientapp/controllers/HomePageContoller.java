@@ -64,10 +64,10 @@ public class HomePageContoller implements Initializable {
             GamePlay.mode="Online"; 
             //new SceneController().navigateToLogin(event);
 
-           new SceneController().navigateToLogin(event);
+            SceneController.navigateToLogin(event);
 
            //SceneController.navigateToOnlinePlayers(event);
-           SceneController.navigateToSignup(event);
+           //SceneController.navigateToSignup(event);
 
         } catch (IOException ex) {
             System.out.println("navgate to playonline Btn exception located in HomeController");;

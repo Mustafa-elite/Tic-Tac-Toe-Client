@@ -62,6 +62,7 @@ public class LoginController implements Initializable {
             SceneController.navigateToSignup(event);
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }
 
