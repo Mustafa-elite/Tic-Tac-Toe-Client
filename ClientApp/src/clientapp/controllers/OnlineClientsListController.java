@@ -10,8 +10,6 @@ import classes.ServerLayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -35,24 +33,6 @@ import javafx.util.Duration;
  * @author user
  */
 
-class CustomCellView extends ListCell<Player>{
-    
-
-    protected void updateItem(Player p, boolean empty) {
-        super.updateItem(p, empty); 
-
-        if (empty || p == null) {
-            setText(null);
-            setGraphic(null);
-        }
-        else
-        {
-            setText("hello "+p.getName());
-        }
-    }
-    
-}
-
 public class OnlineClientsListController implements Initializable {
 
     @FXML
@@ -72,6 +52,9 @@ public class OnlineClientsListController implements Initializable {
     @FXML
     private Button sendRequest;
     private String invitingPlayer;
+    @FXML
+    private Button refresh;
+
 
     
     /**
@@ -85,15 +68,15 @@ public class OnlineClientsListController implements Initializable {
         gameRequestPane.setVisible(false);
         onlineList=FXCollections.observableArrayList();
         onlineViewList.setItems(onlineList);
-        onlineViewList.setCellFactory(listView->new CustomCellView());
+        ServerLayer.requestOnlinePlayers();
         if(onlineList.isEmpty())
         {
             alertLabel.setVisible(true);
             
            
         }
-        
-        // TODO
+            
+       
     }    
 
     @FXML
@@ -125,6 +108,10 @@ public class OnlineClientsListController implements Initializable {
         gameRequestPane.setVisible(false);
     }
     
+    private void refreshOnlinePlayers(ActionEvent event) {
+        ServerLayer.requestOnlinePlayers(); 
+    }
+    
     
     public  void displayGameRequest(String playerName)
     {
@@ -154,6 +141,24 @@ public class OnlineClientsListController implements Initializable {
     private void sendingRequestBtn(ActionEvent event) {
         ServerLayer.sendPlayRequest("ahmed");
     }
+
+    @FXML
+    private void refreshList(ActionEvent event) {
+        ServerLayer.requestOnlinePlayers();
+        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
+       onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
+           @Override
+           protected void updateItem(Player player, boolean empty) {
+               super.updateItem(player, empty);
+               if (empty || player == null) {
+                   setText(null);
+               } else {
+                   setText(player.getName());
+               }
+           }
+       });
+    }
+    
 
     
 }

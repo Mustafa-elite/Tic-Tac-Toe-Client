@@ -19,6 +19,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -33,6 +35,10 @@ public class ServerLayer {
 
     static Socket socketConnection;
     static PrintWriter outputStream;
+    static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
+    static BufferedReader inputStream;
+    static String receivedmsg;
+    static OnlineClientsListController onlineController;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -73,10 +79,10 @@ public class ServerLayer {
     public static void setOnlineController(OnlineClientsListController onlineController) {
         ServerLayer.onlineController = onlineController;
     }
-    static BufferedReader inputStream;
-    static String receivedmsg;
-    static OnlineClientsListController onlineController;
-
+    public static ObservableList<Player> getOnlinePlayersList() {
+        return onlinePlayersList;
+    }
+   
     static {
 
         try {
@@ -106,25 +112,25 @@ public class ServerLayer {
         }).start();
 
     }
-    //authenticate
-
 
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
         JsonObject jsonObject = jsonReader.readObject();
-
-
-        
-        //System.out.println(jsonObject.getString("Header"));
         switch(jsonObject.getString("Header"))
         {
             case "gameRequest":
                 System.out.println("client2 received request");
                 receiveGameRequest(jsonObject);
                 break;
+            case "onlinePlayersList":
+                System.out.println("test0");
+                updateOnlinePlayersList(jsonObject); 
+                System.out.println(jsonObject.toString());
+                break;
             case "gameAcceptanceResponce":
                 System.out.println("client1 received Acceptance");
                 receiveGameAcceptance(jsonObject);
+                break;
             case "registerResponse":
                 boolean success = jsonObject.getBoolean("success");
                 String message = jsonObject.getString("message");
@@ -203,5 +209,25 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public static void requestOnlinePlayers() {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "getOnlinePlayers") 
+                .build();
+         System.out.println("test1");
+        outputStream.println(jsonmsg.toString());
+        System.out.println("test2");
+    }
+  
+    public static void updateOnlinePlayersList(JsonObject jsonMsg) {
+        onlinePlayersList.clear();
+        JsonArray playersArray = jsonMsg.getJsonArray("players"); 
+        for (JsonValue playerValue : playersArray) {
+            JsonObject playerObject = (JsonObject) playerValue;
+            String username = playerObject.getString("username");
+            onlinePlayersList.add(new Player(username));
+        }
+    }
 }
+
