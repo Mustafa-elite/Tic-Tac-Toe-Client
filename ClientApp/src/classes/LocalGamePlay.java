@@ -15,10 +15,10 @@ public class LocalGamePlay extends GamePlay {
         //player 1 turn 
         if(GamePlay.record==true)
         {
-            recordPlay(position);
+            recorder.recordPlay(position);
         }
         GameStatus gs=new GameStatus(-1,null,null,0);
-        
+        gs.setPosition(position);
         if (!turn) {
             gs.setPlayedChar("X");
             if (position == 0 || position == 1 || position == 2) {

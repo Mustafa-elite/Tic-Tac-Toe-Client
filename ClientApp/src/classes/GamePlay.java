@@ -23,7 +23,7 @@ public abstract class GamePlay {
     public static String mode;
     public static boolean record;
     protected boolean turn;
-    FileWriter recordWriter;
+    
     
 
    
@@ -35,7 +35,7 @@ public abstract class GamePlay {
     public static final int WIN_COL_3=6;
     public static final int WIN_DIAGONAL_1=7;
     public static final int WIN_DIAGONAL_2=8;
-    
+    protected MatchRecorder recorder;
     class Board
     {
         int[][] boardxy = {{-1, -1, -1},
@@ -52,7 +52,7 @@ public abstract class GamePlay {
         turn = random.nextBoolean();
         if(record)
         {
-            createRecordFile();
+            recorder=new MatchRecorder(player1.name, player2.name, turn);
         }
         System.out.println(turn);
     }
@@ -110,14 +110,15 @@ public abstract class GamePlay {
         //did not find a win situation;
         if(winCase >0 &&record)
         {
-            closeRecordFile();
+            recorder.closeRecordFile();
         }
         if(isBoardFull() && winCase ==0)
         {
             winCase=-1;
+            
             if(record)
             {
-                closeRecordFile();
+                recorder.closeRecordFile();
             }
         }
         return winCase;
@@ -137,45 +138,5 @@ public abstract class GamePlay {
         return true;
         
     }
-    private void createRecordFile()
-    {
-        String Time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH_mm"));
-        String filePath = "../../Recordings/"+player1.name +" VS " + player2.name+"_"+Time+ ".txt";
-            File file = new File(filePath);
-            System.out.println("Absolute Path: " + file.getAbsolutePath());
-        try {
-            file.createNewFile();
-            recordWriter = new FileWriter(file);
-            recordWriter.write(player1.name+"\n"+player2.name+ "\n"+(turn? "1":"0")+"\n");
-        } catch (IOException ex) {
-            System.out.println("error in File creation"+ ex.getMessage());
-        }
-    }
-    protected void recordPlay(int position)
-    {
-        try {
-            recordWriter.write(String.valueOf(position));
-        } catch (IOException ex) {
-            System.out.println("error writing in a file");
-        }
-        /*finally {
-            if (writer != null) {
-                try {
-                    writer.close(); // Explicitly close the writer
-                } catch (IOException e) {
-                    System.err.println("Failed to close writer: " + e.getMessage());
-                }
-            }
-        }
-        */
-    }
-    public void closeRecordFile()
-    {
-        try {
-            recordWriter.close(); 
-        } catch (IOException e) {
-            System.out.println("Failed to close Recordwriter "); 
-        }
-        
-    }
+    
 }

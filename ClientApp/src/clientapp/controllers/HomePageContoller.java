@@ -86,6 +86,12 @@ public class HomePageContoller implements Initializable {
 
     @FXML
     private void getPreviousMatches(MouseEvent event) {
+        try {
+            SceneController.navigateToGameRecords(event);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
 }
