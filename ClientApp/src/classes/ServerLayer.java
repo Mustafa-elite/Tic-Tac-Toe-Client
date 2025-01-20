@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 
 import javax.json.*;
@@ -86,38 +87,45 @@ public class ServerLayer {
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
-            ex.printStackTrace();
+            connectionAlert();
         }
 
         new Thread(() -> {
             try {
+                if (inputStream == null) {
+                    System.out.println("Input stream is not initialized. Exiting thread.");
+                    return;
+                }
                 while (true) {
                     receivedmsg = inputStream.readLine();
-                    Platform.runLater(() -> {
-                        messageDeligator(receivedmsg);
-                    });
-
+                    if (receivedmsg == null) {
+                        System.out.println("Connection to server lost. Attempting to reconnect...");
+                    } else {
+                        Platform.runLater(() -> messageDeligator(receivedmsg));
+                    }
                 }
-
             } catch (IOException ex) {
-                System.out.println("creation of socket thread ");
+                System.out.println("Error in socket thread: " + ex.getMessage());
                 ex.printStackTrace();
             }
         }).start();
 
     }
-    //authenticate
 
+    //authenticate
+    public static void connectionAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Register");
+        alert.setHeaderText(null);
+        alert.setContentText("Server is closed");
+
+        alert.showAndWait();
+    }
 
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
         JsonObject jsonObject = jsonReader.readObject();
-
-
-        
-        //System.out.println(jsonObject.getString("Header"));
-        switch(jsonObject.getString("Header"))
-        {
+        switch (jsonObject.getString("Header")) {
             case "gameRequest":
                 System.out.println("client2 received request");
                 receiveGameRequest(jsonObject);
@@ -146,7 +154,7 @@ public class ServerLayer {
                 });
 
                 break;
-            
+
         }
     }
 
@@ -182,26 +190,55 @@ public class ServerLayer {
         onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
 
-
     public static void sendGameAcceptance(String invitingPlayer) {
         JsonObjectBuilder value = Json.createObjectBuilder();
-        JsonObject jsonmsg= value
+        JsonObject jsonmsg = value
                 .add("Header", "acceptGameRequest")
                 .add("opponentUsername", invitingPlayer)
-                
                 .build();
         outputStream.println(jsonmsg.toString());
-        
+
     }
-    
-    public static void receiveGameAcceptance(JsonObject jsonMsg)
-    {
+
+    public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
             SceneController.navigateToXOBoard(null);
         } catch (IOException ex) {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static boolean reconnectToServer(String userName,String email,String password) {
+        try {
+            socketConnection = new Socket("127.0.0.1", 5005);
+            outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
+            inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+            System.out.println("Reconnected to the server.");
+
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Failed to reconnect to the server.");
+            return false;
+        }
+    }
+
+    public static void reRegisterClient(String userName,String email,String password) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject registrationMessage = value
+                .add("Header", "register")
+                .add("username", userName)
+                .add("password", password)
+                .add("email", email)
+                .build();
+        System.out.println("u "+userName+"p "+password);
+        outputStream.println(registrationMessage.toString());
+        try {
+            SceneController.navigateToOnlinePlayers(null);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Re-registration message sent.");
     }
 
 }
