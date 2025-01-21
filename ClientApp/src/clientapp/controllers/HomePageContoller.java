@@ -37,8 +37,6 @@ public class HomePageContoller implements Initializable {
     private Button playOffline;
     @FXML
     private Button previousMatches;
-    @FXML
-    private CheckBox recordBtn;
 
     /**
      * Initializes the controller class.
@@ -52,7 +50,7 @@ public class HomePageContoller implements Initializable {
     private void playWithAi(MouseEvent event) {
         try {
             GamePlay.mode="AI";
-            SceneController.navigateToXOBoard(event);
+            SceneController.navigateGameInitializer(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,12 +75,9 @@ public class HomePageContoller implements Initializable {
     @FXML
     private void playOffline(MouseEvent event) {
         try {
-            if(recordBtn.isSelected())
-            {
-                GamePlay.record=true;
-            }
+
             GamePlay.mode="Local";
-            SceneController.navigateToXOBoard(event);
+            SceneController.navigateGameInitializer(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
         }

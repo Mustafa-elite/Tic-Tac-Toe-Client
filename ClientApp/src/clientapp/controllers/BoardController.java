@@ -70,32 +70,60 @@ public class BoardController implements Initializable {
     private Button[] btnArr; 
     
     public static ArrayList<String> gameReplay;
+    public static String player1Name;
+    public static String player2Name;
     //public  static boolean isreplay;
-    
+    @FXML
+    private Label player1Label;
+    @FXML
+    private Label player1Score;
+    @FXML
+    private Label player2Label;
+    @FXML
+    private Label player2Score;
+    @FXML
+    private Pane player2Pane;
+    private String playerPaneColor="-fx-background-color: #7eff7e;";
+    @FXML
+    private Pane player1Pane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+
         btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
         if (GamePlay.mode == "AI") {
-            XO = new AIGamePlay("Rana", "AI");
+            XO = new AIGamePlay(player1Name,player2Name);
             if(!XO.isTurn())
             {
+                
                 handleButtonClick(null);
+            }
+            else
+            {
+                player2Pane.setStyle("-fx-background-color: #7eff7e;");
             }
         } else if (GamePlay.mode == "Local") {
             if(gameReplay!=null)
             {
-                XO = new LocalGamePlay(gameReplay.remove(0), gameReplay.remove(0));
-                XO.setTurn(gameReplay.remove(0)=="1" ? true:false);
+                //it is not a real match,it is a replay
+                player1Name=gameReplay.remove(0);
+                player2Name=gameReplay.remove(0);
+                //XO.setTurn(gameReplay.remove(0)=="1" ? true:false);
+                
+                XO = new LocalGamePlay(player1Name, player2Name);
+                XO.setTurn("1".equals(gameReplay.remove(0)));
                 handleButtonClick(null);
                 disableAllBtns();
                 
             }
             else
             {
-                XO = new LocalGamePlay("Player1", "Player2");
-            }    
+                XO = new LocalGamePlay(player1Name, player2Name);
+                
+            }
+            
+
             
         }
         else if(GamePlay.mode == "Online")
@@ -103,6 +131,17 @@ public class BoardController implements Initializable {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
             //XO= new OnlineGamePlay();
         }
+        if(XO.isTurn())
+        {
+            player1Pane.setStyle(playerPaneColor);
+        }
+        else
+        {
+            player2Pane.setStyle(playerPaneColor);
+        }
+        player1Label.setText(player1Name);
+        player2Label.setText(player2Name);
+        
 
     }
     @FXML
@@ -158,6 +197,8 @@ public class BoardController implements Initializable {
             if(XO.isTurn())
             {
                 XO.setTurn(false);
+                player2Pane.setStyle(playerPaneColor);
+                player1Pane.setStyle("");
                 ////there should be delay here
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                 pause.setOnFinished(e -> handleButtonClick(null));
@@ -166,6 +207,8 @@ public class BoardController implements Initializable {
             }
             else
             {
+                player1Pane.setStyle(playerPaneColor);
+                player2Pane.setStyle("");
                 XO.setTurn(true);
             }
             
@@ -225,11 +268,15 @@ public class BoardController implements Initializable {
         }
         if(XO.isTurn())
         {
+            player2Pane.setStyle(playerPaneColor);
+            player1Pane.setStyle("");
             XO.setTurn(false);
 
         }
         else
         {
+            player1Pane.setStyle(playerPaneColor);
+            player2Pane.setStyle("");
             XO.setTurn(true);
         }
         if(event==null)

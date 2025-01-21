@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1000.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.BoardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="900.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.BoardController">
    <top>
       <Pane prefHeight="170.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
@@ -31,18 +31,46 @@
       </Pane>
    </top>
    <bottom>
-      <Pane prefHeight="77.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="94.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="36.0" layoutY="14.0" text="Host Player 100" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="34.0" />
-               </font>
-            </Label>
-            <Label layoutX="669.0" layoutY="14.0" text="Invited Player 100" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="34.0" />
-               </font>
-            </Label>
+            <Pane fx:id="player1Pane" layoutX="-9.0" layoutY="-1.0" prefHeight="96.0" prefWidth="424.0">
+               <children>
+                  <Label fx:id="player1Label" layoutX="17.0" layoutY="-2.0" prefHeight="52.0" prefWidth="314.0" text="Host Player 100" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="34.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="48.0" prefHeight="42.0" prefWidth="111.0" text="Score:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player1Score" layoutX="137.0" layoutY="48.0" prefHeight="42.0" prefWidth="111.0" text="----" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="player2Pane" layoutX="444.0" layoutY="-2.0" prefHeight="95.0" prefWidth="458.0">
+               <children>
+                  <Label fx:id="player2Label" alignment="CENTER" text="Invited Player 100" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="34.0" />
+                     </font>
+                  </Label>
+                  <Label layoutY="44.0" prefHeight="42.0" prefWidth="111.0" text="Score:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player2Score" layoutX="120.0" layoutY="44.0" prefHeight="42.0" prefWidth="111.0" text="----" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </Pane>
    </bottom>
