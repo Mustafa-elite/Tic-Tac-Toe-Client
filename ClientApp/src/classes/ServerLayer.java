@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 
 import javax.json.*;
@@ -99,26 +100,41 @@ public class ServerLayer {
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
-            ex.printStackTrace();
+            connectionAlert();
         }
 
         new Thread(() -> {
             try {
+                if (inputStream == null) {
+                    System.out.println("Input stream is not initialized. Exiting thread.");
+                    return;
+                }
                 while (true) {
                     receivedmsg = inputStream.readLine();
-                    Platform.runLater(() -> {
-                        messageDeligator(receivedmsg);
-                    });
-
+                    if (receivedmsg == null) {
+                        System.out.println("Connection to server lost. Attempting to reconnect...");
+                    } else {
+                        Platform.runLater(() -> messageDeligator(receivedmsg));
+                    }
                 }
-
             } catch (IOException ex) {
-                System.out.println("creation of socket thread ");
+                System.out.println("Error in socket thread: " + ex.getMessage());
                 ex.printStackTrace();
             }
         }).start();
 
     }
+
+    //authenticate
+    public static void connectionAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Register");
+        alert.setHeaderText(null);
+        alert.setContentText("Server is closed");
+
+        alert.showAndWait();
+    }
+
 
     //authenticate
     //System.out.println(jsonObject.getString("Header"));
@@ -160,6 +176,7 @@ public class ServerLayer {
                 });
 
                 break;
+
             case "loginResponse":
                 System.out.println("login response in client " + msg);
                 response = msg;
@@ -211,6 +228,7 @@ public class ServerLayer {
 
     }
 
+
     public static void loginRequest(String userName, String password) {
         JsonObjectBuilder loginJonObject = Json.createObjectBuilder();
         JsonObject obj = loginJonObject
@@ -245,7 +263,6 @@ public class ServerLayer {
     
 
     
-
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
@@ -254,6 +271,40 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
+    public static boolean reconnectToServer(String userName,String email,String password) {
+        try {
+            socketConnection = new Socket("127.0.0.1", 5005);
+            outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
+            inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+            System.out.println("Reconnected to the server.");
+
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Failed to reconnect to the server.");
+            return false;
+        }
+    }
+
+    public static void reRegisterClient(String userName,String email,String password) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject registrationMessage = value
+                .add("Header", "register")
+                .add("username", userName)
+                .add("password", password)
+                .add("email", email)
+                .build();
+        System.out.println("u "+userName+"p "+password);
+        outputStream.println(registrationMessage.toString());
+        try {
+            SceneController.navigateToOnlinePlayers(null);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Re-registration message sent.");
+    }
+
 
     public static void requestOnlinePlayers() {
         JsonObjectBuilder value = Json.createObjectBuilder();
@@ -275,4 +326,5 @@ public class ServerLayer {
         }
 
     }
+
 }
