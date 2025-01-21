@@ -19,6 +19,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
@@ -34,6 +36,14 @@ public class ServerLayer {
 
     static Socket socketConnection;
     static PrintWriter outputStream;
+    static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
+    static BufferedReader inputStream;
+    static String receivedmsg;
+    static OnlineClientsListController onlineController;
+
+    //login string response 
+    private static String response = "";
+    public static boolean flagCheckResponse = false;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -74,9 +84,10 @@ public class ServerLayer {
     public static void setOnlineController(OnlineClientsListController onlineController) {
         ServerLayer.onlineController = onlineController;
     }
-    static BufferedReader inputStream;
-    static String receivedmsg;
-    static OnlineClientsListController onlineController;
+
+    public static ObservableList<Player> getOnlinePlayersList() {
+        return onlinePlayersList;
+    }
 
     static {
 
@@ -84,6 +95,8 @@ public class ServerLayer {
             socketConnection = new Socket("127.0.0.1", 5005);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+
+            System.out.println("Server Connected successfully ");
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
@@ -122,6 +135,9 @@ public class ServerLayer {
         alert.showAndWait();
     }
 
+
+    //authenticate
+    //System.out.println(jsonObject.getString("Header"));
     public static void messageDeligator(String msg) {
         JsonReader jsonReader = Json.createReader(new StringReader(msg));
         JsonObject jsonObject = jsonReader.readObject();
@@ -130,9 +146,15 @@ public class ServerLayer {
                 System.out.println("client2 received request");
                 receiveGameRequest(jsonObject);
                 break;
+            case "onlinePlayersList":
+                System.out.println("test0");
+                updateOnlinePlayersList(jsonObject);
+                System.out.println(jsonObject.toString());
+                break;
             case "gameAcceptanceResponce":
                 System.out.println("client1 received Acceptance");
                 receiveGameAcceptance(jsonObject);
+                break;
             case "registerResponse":
                 boolean success = jsonObject.getBoolean("success");
                 String message = jsonObject.getString("message");
@@ -153,6 +175,12 @@ public class ServerLayer {
                     }
                 });
 
+                break;
+
+            case "loginResponse":
+                System.out.println("login response in client " + msg);
+                response = msg;
+                loginResponse();
                 break;
 
         }
@@ -200,6 +228,41 @@ public class ServerLayer {
 
     }
 
+
+    public static void loginRequest(String userName, String password) {
+        JsonObjectBuilder loginJonObject = Json.createObjectBuilder();
+        JsonObject obj = loginJonObject
+                .add("Header", "login")
+                .add("user-name", userName)
+                .add("password", password)
+                .build();
+        String loginObject = obj.toString();
+        if (outputStream != null) {
+            outputStream.println(loginObject);
+            System.out.println("login request : " + loginObject);
+        } else {
+            System.out.println("Output stream is not initialized. Check server connection.");
+        }
+
+    }
+
+    public static boolean loginResponse() {
+        boolean checkResponse;
+        JsonReader jsonReader = Json.createReader(new StringReader(response));
+        JsonObject jsonObject = jsonReader.readObject();
+        checkResponse = jsonObject.getBoolean("success");
+        if (checkResponse) {
+            System.out.println("user found (client)");
+            flagCheckResponse = true;
+            return true;
+        }
+        System.out.println("user not found (client)");
+        flagCheckResponse = true;
+        return false;
+    }
+    
+
+    
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
@@ -208,6 +271,7 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     public static boolean reconnectToServer(String userName,String email,String password) {
         try {
@@ -239,6 +303,28 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Re-registration message sent.");
+    }
+
+
+    public static void requestOnlinePlayers() {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "getOnlinePlayers")
+                .build();
+        System.out.println("test1");
+        outputStream.println(jsonmsg.toString());
+        System.out.println("test2");
+    }
+
+    public static void updateOnlinePlayersList(JsonObject jsonMsg) {
+        onlinePlayersList.clear();
+        JsonArray playersArray = jsonMsg.getJsonArray("players");
+        for (JsonValue playerValue : playersArray) {
+            JsonObject playerObject = (JsonObject) playerValue;
+            String username = playerObject.getString("username");
+            onlinePlayersList.add(new Player(username));
+        }
+
     }
 
 }

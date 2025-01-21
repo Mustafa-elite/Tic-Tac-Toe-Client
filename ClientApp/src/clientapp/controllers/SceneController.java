@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  *
  * @author user
  */
-public abstract class SceneController {
+public  class SceneController {
     private static Stage stage;
     private static Scene scene;
     private static Parent root;
@@ -67,6 +67,14 @@ public abstract class SceneController {
     public static void navigateToSignup(Event event) throws IOException
     {
         root = FXMLLoader.load(SceneController.class.getResource("/clientapp/views/Registeration.fxml"));
+        stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public static void navigateToGameRecords(Event event) throws IOException
+    {
+        root = FXMLLoader.load(SceneController.class.getResource("/clientapp/views/PreviousMatches.fxml"));
         stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
