@@ -24,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -153,10 +154,29 @@ public class OnlineClientsListController implements Initializable {
                if (empty || player == null) {
                    setText(null);
                } else {
-                   setText(player.getName());
-               }
-           }
-       });
+                   
+                    Button challengeButton = new Button();
+                    if (player.isAvailable()) {
+                        challengeButton.setText("Challenge");
+                        challengeButton.setDisable(false);
+                    } else {
+                        challengeButton.setText("Not Available");
+                        challengeButton.setDisable(true);
+                    }
+
+                  
+                    challengeButton.setOnAction(e -> {
+                        System.out.println("Challenging " + player.getName());
+                        ServerLayer.sendPlayRequest(player.getName());
+                    });
+
+                    
+                    HBox hbox = new HBox(10); 
+                    hbox.getChildren().addAll(new Label(player.getName()), challengeButton);
+                    setGraphic(hbox);
+                }
+            }
+        });
     }
     
 
