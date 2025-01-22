@@ -131,6 +131,7 @@ public class BoardController implements Initializable {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
             //XO= new OnlineGamePlay();
         }
+        /*
         if(XO.isTurn())
         {
             player1Pane.setStyle(playerPaneColor);
@@ -141,6 +142,7 @@ public class BoardController implements Initializable {
         }
         player1Label.setText(player1Name);
         player2Label.setText(player2Name);
+*/
         
 
     }
