@@ -43,7 +43,8 @@ public class ServerLayer {
     static OnlineClientsListController onlineController;
     static LoginController loginController;
 
-    static Player myPlayer=null;
+    static private Player myPlayer=null;
+
 
     //login string response 
     private static String response = "";
@@ -96,6 +97,15 @@ public class ServerLayer {
     public static void setLoginController(LoginController loginController) {
         ServerLayer.loginController = loginController;
     }
+    
+    public static Player getMyPlayer() {
+        return myPlayer;
+    }
+
+    public static void setMyPlayer(Player myPlayer) {
+        ServerLayer.myPlayer = myPlayer;
+    }
+    
     static {
 
         try {

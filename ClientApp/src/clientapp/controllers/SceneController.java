@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -83,6 +84,14 @@ public abstract class SceneController {
     public static void navigateGameInitializer(Event event) throws IOException
     {
         root = FXMLLoader.load(SceneController.class.getResource("/clientapp/views/GameInitializer.fxml"));
+        stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    static void navigateToProfile(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(SceneController.class.getResource("/clientapp/views/Profile.fxml"));
         stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

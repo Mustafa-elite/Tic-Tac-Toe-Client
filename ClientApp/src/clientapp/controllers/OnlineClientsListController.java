@@ -10,6 +10,8 @@ import classes.ServerLayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -188,6 +190,11 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void userInfoAction(MouseEvent event) {
+        try {
+            SceneController.navigateToProfile(event);
+        } catch (IOException ex) {
+            Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 
