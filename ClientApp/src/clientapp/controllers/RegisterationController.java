@@ -124,17 +124,9 @@ public class RegisterationController implements Initializable {
             confirm_password_label_registration.setVisible(true);
             return;
         }
-
-        JsonObjectBuilder value = Json.createObjectBuilder();
-        JsonObject jsonmsg = value
-                .add("Header", "register")
-                .add("username", username)
-                .add("password", password)
-                .add("email", email)
-                .build();
-
-        ServerLayer.getOutputStream().println(jsonmsg.toString());
-        System.out.println("Registration message sent: " + jsonmsg);
+        ServerLayer.registerRequest(username,password,email);
+        
+        
     }
 
     public void updateRegistrationStatusLabel(String statusMessage) {

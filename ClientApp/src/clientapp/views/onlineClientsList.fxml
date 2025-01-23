@@ -51,9 +51,14 @@
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="homePage" fitHeight="51.0" fitWidth="54.0" layoutX="6.0" layoutY="7.0" onMouseClicked="#HomeBtn" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="logoutBtn" fitHeight="46.0" fitWidth="72.0" layoutX="896.0" layoutY="20.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/HomeLogo.png" />
+                  <Image url="@../assets/logout.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="userInfo" fitHeight="46.0" fitWidth="72.0" layoutX="14.0" layoutY="20.0" onMouseClicked="#userInfoAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/user.png" />
                </image>
             </ImageView>
          </children>
