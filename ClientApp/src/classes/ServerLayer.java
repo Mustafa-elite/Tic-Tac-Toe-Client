@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import clientapp.controllers.BoardController;
 
 import javax.json.*;
 //import com.google.gson.JsonObject;
@@ -39,10 +40,18 @@ public class ServerLayer {
     static BufferedReader inputStream;
     static String receivedmsg;
     static OnlineClientsListController onlineController;
+    static BoardController boredConrtoller;
 
     //login string response 
     private static String response = "";
     public static boolean flagCheckResponse = false;
+
+    // string to contain the request sender 
+    public static String player2 = " ";
+
+    //flag to check the turn response 
+    public static int secondPlayerPosition = -1;
+    public static boolean invitingFlag;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -86,6 +95,10 @@ public class ServerLayer {
 
     public static ObservableList<Player> getOnlinePlayersList() {
         return onlinePlayersList;
+    }
+
+    public static void setBoredConrtoller(BoardController boredConrtoller) {
+        ServerLayer.boredConrtoller = boredConrtoller;
     }
 
     static {
@@ -165,7 +178,9 @@ public class ServerLayer {
                 response = msg;
                 loginResponse();
                 break;
-
+            case "XOPlay":
+                reveicedPlay(jsonObject);
+                break;
         }
     }
 
@@ -186,12 +201,16 @@ public class ServerLayer {
     }
 
     public static void sendPlayRequest(String playername) {
+
         JsonObjectBuilder value = Json.createObjectBuilder();
         JsonObject jsonmsg = value
                 .add("Header", "gameRequest")
                 .add("username", playername)
                 .build();
         outputStream.println(jsonmsg.toString());
+        // take the requestSender contain the player name 
+        invitingFlag = true;
+        player2 = playername;
 
     }
 
@@ -208,7 +227,7 @@ public class ServerLayer {
                 .add("opponentUsername", invitingPlayer)
                 .build();
         outputStream.println(jsonmsg.toString());
-
+        invitingFlag = false;
     }
 
     public static void loginRequest(String userName, String password) {
@@ -242,9 +261,6 @@ public class ServerLayer {
         flagCheckResponse = true;
         return false;
     }
-    
-
-    
 
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
@@ -260,9 +276,9 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "getOnlinePlayers")
                 .build();
-        System.out.println("test1");
+        //System.out.println("test1");
         outputStream.println(jsonmsg.toString());
-        System.out.println("test2");
+        //System.out.println("test2");
     }
 
     public static void updateOnlinePlayersList(JsonObject jsonMsg) {
@@ -274,5 +290,27 @@ public class ServerLayer {
             onlinePlayersList.add(new Player(username));
         }
 
+    }
+
+    public static void sendCurrentPlay(String player , int position) {
+        JsonObject object = Json.createObjectBuilder()
+                .add("Header", "sendXOPlay")
+                .add("player", player)
+                .add("position", position)
+                .build();
+        String XOmessage = object.toString();
+        outputStream.println(XOmessage);
+        if (outputStream != null) {
+            System.out.println("in the cuttent play method ");
+        } else {
+            System.out.println("outputStream is null");
+        }
+
+    }
+
+    public static void reveicedPlay(JsonObject receivedJsonObject) {
+        
+        secondPlayerPosition =  receivedJsonObject.getInt("position");
+        boredConrtoller.callButtonHandller();
     }
 }

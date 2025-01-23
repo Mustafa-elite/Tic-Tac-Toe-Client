@@ -61,6 +61,7 @@ public class HomePageContoller implements Initializable {
     @FXML
     private void playOnline(MouseEvent event) {
         try {
+            System.out.println("play online clicked");
             GamePlay.mode="Online"; 
             //new SceneController().navigateToLogin(event);
 
