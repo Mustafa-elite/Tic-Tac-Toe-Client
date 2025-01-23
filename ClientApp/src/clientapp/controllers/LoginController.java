@@ -45,6 +45,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //user name label 
+        ServerLayer.setLoginController(this);
         user_name_label.setTextFill(Color.color(1, 0, 0));
         user_name_label.setText("Please set your user name");
         user_name_label.setVisible(false);
@@ -89,14 +90,15 @@ public class LoginController implements Initializable {
         if (user_name_tf_login.getText() != null && !user_name_tf_login.getText().trim().isEmpty() && password_tf_login.getText() != null && !password_tf_login.getText().trim().isEmpty()) {
             ServerLayer.loginRequest(userName, password);
             System.out.println("request sended ");
-            if (ServerLayer.flagCheckResponse) {
+            /*if (ServerLayer.flagCheckResponse) {
                 checkLoginResponse(event);
             }
-            ServerLayer.flagCheckResponse = false;
+            ServerLayer.flagCheckResponse = false;*/
         }
     }
-
+/*
     private void checkLoginResponse(ActionEvent event) {
+        
         if (ServerLayer.loginResponse()) {
             System.out.println("user found (in controller)");
             SceneController sceneController = new SceneController();
@@ -110,5 +112,11 @@ public class LoginController implements Initializable {
             user_name_label.setVisible(true);
         }
 
+    }
+*/
+    public void userNotAvailableAction()
+    {
+        user_name_label.setText("user not found");
+        user_name_label.setVisible(true);
     }
 }

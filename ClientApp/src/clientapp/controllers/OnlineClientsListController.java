@@ -10,6 +10,8 @@ import classes.ServerLayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -35,8 +38,6 @@ import javafx.util.Duration;
 
 public class OnlineClientsListController implements Initializable {
 
-    @FXML
-    private ImageView homePage;
     @FXML
     private ListView<Player> onlineViewList;
     @FXML
@@ -54,6 +55,10 @@ public class OnlineClientsListController implements Initializable {
     private String invitingPlayer;
     @FXML
     private Button refresh;
+    @FXML
+    private ImageView logoutBtn;
+    @FXML
+    private ImageView userInfo;
 
 
     
@@ -79,15 +84,10 @@ public class OnlineClientsListController implements Initializable {
        
     }    
 
-    @FXML
     private void HomeBtn(MouseEvent event) {
-        onlineList.add(new Player("Mustafa"));
-        alertLabel.setVisible(false);
-        try {
-            SceneController.navigateToHome(event);
-        } catch (IOException ex) {
-            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
-        }
+        //onlineList.add(new Player("Mustafa"));
+        
+        
     }
     
     
@@ -145,6 +145,7 @@ public class OnlineClientsListController implements Initializable {
     @FXML
     private void refreshList(ActionEvent event) {
         ServerLayer.requestOnlinePlayers();
+        String currentUsername = ServerLayer.getMyPlayer().getName();
         onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
        onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
            @Override
@@ -153,10 +154,48 @@ public class OnlineClientsListController implements Initializable {
                if (empty || player == null) {
                    setText(null);
                } else {
-                   setText(player.getName());
-               }
-           }
-       });
+                   
+                    Button challengeButton = new Button();
+                    if (player.isAvailable()) {
+                        challengeButton.setText("Challenge");
+                        challengeButton.setDisable(false);
+                    } else {
+                        challengeButton.setText("Not Available");
+                        challengeButton.setDisable(true);
+                    }
+
+                  
+                    challengeButton.setOnAction(e -> {
+                        System.out.println("Challenging " + player.getName());
+                        ServerLayer.sendPlayRequest(player.getName());
+                    });
+
+                    
+                    HBox hbox = new HBox(10); 
+                    hbox.getChildren().addAll(new Label(player.getName()), challengeButton);
+                    setGraphic(hbox);
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void logoutAction(MouseEvent event) {
+        ServerLayer.sendLogoutRequest();
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
+        }
+    }
+
+    @FXML
+    private void userInfoAction(MouseEvent event) {
+        try {
+            SceneController.navigateToProfile(event);
+        } catch (IOException ex) {
+            Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 

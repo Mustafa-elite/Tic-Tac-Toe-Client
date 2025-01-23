@@ -66,6 +66,26 @@ public class RegisterationController implements Initializable {
 
     @FXML
     private void registerButtonAction(ActionEvent event) {
+        if (ServerLayer.getOutputStream() == null) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Register");
+            alert.setHeaderText(null);
+            alert.setContentText("Server Connection Error");
+            try {
+                if (ServerLayer.reconnectToServer(user_name_tf_registration.getText().trim(), email_tf_registration.getText().trim(), password_tf_registration.getText().trim())) {
+                    ServerLayer.reRegisterClient(user_name_tf_registration.getText().trim(), email_tf_registration.getText().trim(), password_tf_registration.getText().trim());
+                } else {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Register");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Can't reconnect");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showErrorAlert("An error occurred", "Could not complete registration.");
+            }
+            return;
+        }
         String username = user_name_tf_registration.getText().trim();
         String password = password_tf_registration.getText().trim();
         String confirmPassword = confirm_password_tf_registration.getText().trim();
@@ -77,7 +97,6 @@ public class RegisterationController implements Initializable {
             user_name_label_registration.setVisible(true);
             return;
         }
-
 
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             System.out.println("Invalid email format.");
@@ -105,17 +124,9 @@ public class RegisterationController implements Initializable {
             confirm_password_label_registration.setVisible(true);
             return;
         }
-
-        JsonObjectBuilder value = Json.createObjectBuilder();
-        JsonObject jsonmsg = value
-                .add("Header", "register")
-                .add("username", username)
-                .add("password", password)
-                .add("email", email)
-                .build();
-
-        ServerLayer.getOutputStream().println(jsonmsg.toString());
-        System.out.println("Registration message sent: " + jsonmsg);
+        ServerLayer.registerRequest(username,password,email);
+        
+        
     }
 
     public void updateRegistrationStatusLabel(String statusMessage) {
@@ -149,4 +160,20 @@ public class RegisterationController implements Initializable {
         }
     }
 
+//    private void sendRegistrationRequest() {
+//        JsonObjectBuilder value = Json.createObjectBuilder();
+//        JsonObject registrationMessage = value
+//                .add("Header", "register")
+//                .add("username", "YourUsername") // Replace with actual username
+//                .build();
+//        ServerLayer.getOutputStream().println(registrationMessage.toString());
+//        System.out.println("Registration message sent.");
+//    }
+    private void showErrorAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

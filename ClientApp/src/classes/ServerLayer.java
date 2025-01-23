@@ -5,6 +5,7 @@
  */
 package classes;
 
+import clientapp.controllers.LoginController;
 import clientapp.controllers.OnlineClientsListController;
 
 import clientapp.controllers.SceneController;
@@ -22,6 +23,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import clientapp.controllers.BoardController;
 
@@ -33,18 +35,25 @@ import javax.json.*;
  * @author user
  */
 public class ServerLayer {
-
+    
     static Socket socketConnection;
     static PrintWriter outputStream;
     static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
     static BufferedReader inputStream;
     static String receivedmsg;
     static OnlineClientsListController onlineController;
+
     static BoardController boredConrtoller;
+
+    static LoginController loginController;
+    private static String serverIP = "127.0.0.1"; 
+    private static int serverPort = 5005; 
+    static private Player myPlayer=null;
+
+
 
     //login string response 
     private static String response = "";
-    public static boolean flagCheckResponse = false;
 
     // string to contain the request sender 
     public static String player2 = " ";
@@ -97,14 +106,37 @@ public class ServerLayer {
         return onlinePlayersList;
     }
 
+
     public static void setBoredConrtoller(BoardController boredConrtoller) {
         ServerLayer.boredConrtoller = boredConrtoller;
     }
 
+
+    
+    public static void setLoginController(LoginController loginController) {
+        ServerLayer.loginController = loginController;
+    }
+    
+    public static Player getMyPlayer() {
+        return myPlayer;
+    }
+
+    public static void setMyPlayer(Player myPlayer) {
+        ServerLayer.myPlayer = myPlayer;
+    }
+   
+    public static void setServerIP(String ip) {
+        serverIP = ip;
+    }
+    public static void setServerPort(int port) {
+        serverPort = port;
+    }
+    
+
     static {
 
         try {
-            socketConnection = new Socket("127.0.0.1", 5005);
+            socketConnection = new Socket(serverIP,serverPort);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
 
@@ -112,26 +144,41 @@ public class ServerLayer {
 
         } catch (IOException ex) {
             System.out.println("Server Connection ");
-            ex.printStackTrace();
+            connectionAlert();
         }
 
         new Thread(() -> {
             try {
+                if (inputStream == null) {
+                    System.out.println("Input stream is not initialized. Exiting thread.");
+                    return;
+                }
                 while (true) {
                     receivedmsg = inputStream.readLine();
-                    Platform.runLater(() -> {
-                        messageDeligator(receivedmsg);
-                    });
-
+                    if (receivedmsg == null) {
+                        System.out.println("Connection to server lost. Attempting to reconnect...");
+                    } else {
+                        Platform.runLater(() -> messageDeligator(receivedmsg));
+                    }
                 }
-
             } catch (IOException ex) {
-                System.out.println("creation of socket thread ");
+                System.out.println("Error in socket thread: " + ex.getMessage());
                 ex.printStackTrace();
             }
         }).start();
 
     }
+
+    //authenticate
+    public static void connectionAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Register");
+        alert.setHeaderText(null);
+        alert.setContentText("Server is closed");
+
+        alert.showAndWait();
+    }
+
 
     //authenticate
     //System.out.println(jsonObject.getString("Header"));
@@ -153,26 +200,9 @@ public class ServerLayer {
                 receiveGameAcceptance(jsonObject);
                 break;
             case "registerResponse":
-                boolean success = jsonObject.getBoolean("success");
-                String message = jsonObject.getString("message");
-                System.out.println("message:" + message);
-
-                Platform.runLater(() -> {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(ServerLayer.class.getResource("/clientapp/views/Registeration.fxml"));
-                        Pane root = loader.load();
-                        RegisterationController controller = loader.getController();
-                        if (controller != null) {
-                            System.out.println("controller not null");
-                            controller.updateRegistrationStatusLabel(message);
-
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-
+                registerResponse(jsonObject);
                 break;
+
             case "loginResponse":
                 System.out.println("login response in client " + msg);
                 response = msg;
@@ -230,6 +260,7 @@ public class ServerLayer {
         invitingFlag = false;
     }
 
+
     public static void loginRequest(String userName, String password) {
         JsonObjectBuilder loginJonObject = Json.createObjectBuilder();
         JsonObject obj = loginJonObject
@@ -239,6 +270,7 @@ public class ServerLayer {
                 .build();
         String loginObject = obj.toString();
         if (outputStream != null) {
+            myPlayer=new Player(userName);
             outputStream.println(loginObject);
             System.out.println("login request : " + loginObject);
         } else {
@@ -254,11 +286,20 @@ public class ServerLayer {
         checkResponse = jsonObject.getBoolean("success");
         if (checkResponse) {
             System.out.println("user found (client)");
-            flagCheckResponse = true;
+            try {
+                myPlayer.setEmail(jsonObject.getString("email"));
+                myPlayer.setScore(jsonObject.getInt("score"));
+               SceneController.navigateToOnlinePlayers(null);
+            } catch (IOException ex) {
+                System.out.println("error navigating to online players after log in");
+            }
             return true;
         }
+        else
+        {
+            loginController.userNotAvailableAction();
+        }
         System.out.println("user not found (client)");
-        flagCheckResponse = true;
         return false;
     }
 
@@ -270,6 +311,41 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
+    public static boolean reconnectToServer(String userName,String email,String password) {
+        try {
+            socketConnection = new Socket("127.0.0.1", 5005);
+            outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
+            inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+            System.out.println("Reconnected to the server.");
+
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Failed to reconnect to the server.");
+            return false;
+        }
+    }
+
+    public static void reRegisterClient(String userName,String email,String password) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject registrationMessage = value
+                .add("Header", "register")
+                .add("username", userName)
+                .add("password", password)
+                .add("email", email)
+                .build();
+        System.out.println("u "+userName+"p "+password);
+        myPlayer=new Player(userName, email, socketConnection, 100);
+        outputStream.println(registrationMessage.toString());
+        try {
+            SceneController.navigateToOnlinePlayers(null);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Re-registration message sent.");
+    }
+
 
     public static void requestOnlinePlayers() {
         JsonObjectBuilder value = Json.createObjectBuilder();
@@ -287,10 +363,15 @@ public class ServerLayer {
         for (JsonValue playerValue : playersArray) {
             JsonObject playerObject = (JsonObject) playerValue;
             String username = playerObject.getString("username");
-            onlinePlayersList.add(new Player(username));
+            boolean isAvailable = playerObject.getBoolean("available"); // Get the AVAILABLE flag
+            // Create a Player object and set the available flag
+            Player player = new Player(username);
+            player.setAvailable(isAvailable);
+             onlinePlayersList.add(player);
         }
 
     }
+
 
     public static void sendCurrentPlay(String player , int position) {
         JsonObject object = Json.createObjectBuilder()
@@ -313,4 +394,53 @@ public class ServerLayer {
         secondPlayerPosition =  receivedJsonObject.getInt("position");
         boredConrtoller.callButtonHandller();
     }
+
+    public static void sendLogoutRequest() {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "Logout")
+                .add("username",myPlayer.getName())
+                .build();
+        outputStream.println(jsonmsg.toString());
+        
+    }
+
+    public static void registerRequest(String username, String password, String email) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "register")
+                .add("username", username)
+                .add("password", password)
+                .add("email", email)
+                .build();
+
+        myPlayer=new Player(username, email, socketConnection, 100);
+        ServerLayer.getOutputStream().println(jsonmsg.toString());
+        System.out.println("Registration message sent: " + jsonmsg);
+    }
+
+    private static void registerResponse(JsonObject jsonObject) {
+
+        boolean success = jsonObject.getBoolean("success");
+        String message = jsonObject.getString("message");
+        System.out.println("message:" + message);
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(ServerLayer.class.getResource("/clientapp/views/Registeration.fxml"));
+                Pane root = loader.load();
+                RegisterationController controller = loader.getController();
+                if (controller != null) {
+                    System.out.println("controller not null");
+                    controller.updateRegistrationStatusLabel(message);
+
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+    }
+
+
 }

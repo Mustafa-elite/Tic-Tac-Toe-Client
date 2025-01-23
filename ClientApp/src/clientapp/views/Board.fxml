@@ -9,15 +9,16 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1000.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.BoardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="900.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.BoardController">
    <top>
       <Pane prefHeight="170.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
             <Button alignment="CENTER" layoutX="-36.0" layoutY="-14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="50.0" style="-fx-background-color: #8CCDF7;" />
-            <ImageView fitHeight="173.0" fitWidth="527.0" layoutX="224.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="173.0" fitWidth="527.0" layoutX="184.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
@@ -31,37 +32,65 @@
       </Pane>
    </top>
    <bottom>
-      <Pane prefHeight="77.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="94.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="36.0" layoutY="14.0" text="Host Player 100" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="34.0" />
-               </font>
-            </Label>
-            <Label layoutX="669.0" layoutY="14.0" text="Invited Player 100" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="34.0" />
-               </font>
-            </Label>
+            <Pane fx:id="player1Pane" layoutX="-9.0" layoutY="-1.0" prefHeight="96.0" prefWidth="424.0">
+               <children>
+                  <Label fx:id="player1Label" layoutX="17.0" layoutY="-2.0" prefHeight="52.0" prefWidth="314.0" text="Host Player 100" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="34.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="48.0" prefHeight="42.0" prefWidth="111.0" text="Score:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player1Score" layoutX="137.0" layoutY="48.0" prefHeight="42.0" prefWidth="111.0" text="----" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="player2Pane" layoutX="444.0" layoutY="-2.0" prefHeight="95.0" prefWidth="458.0">
+               <children>
+                  <Label fx:id="player2Label" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="155.0" nodeOrientation="LEFT_TO_RIGHT" text="Invited Player 100" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="34.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="169.0" layoutY="49.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="42.0" prefWidth="111.0" text="Score:" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player2Score" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="289.0" layoutY="49.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="42.0" prefWidth="111.0" text="----" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </Pane>
    </bottom>
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Line fx:id="Row1" endX="835.0" endY="156.0" startX="169.2928924560547" startY="156.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Row2" endX="834.5" endY="305.0" startX="169.2928924560547" startY="305.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Col1" endX="45.0" endY="497.0" layoutX="238.0" layoutY="35.0" startX="45.0" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Col3" endX="737.5" endY="532.0" layoutX="-13.0" startX="737.5000610351562" startY="82.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Diagonal2" endX="833.0" endY="532.0" startX="168.2928924560547" startY="79.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Diagonal1" endX="659.0" endY="52.0" layoutX="174.0" layoutY="28.0" startX="-6.0" startY="504.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Row3" endX="722.0" endY="27.0" layoutX="115.0" layoutY="429.0" startX="53.0" startY="27.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Col2" endX="513.5" endY="532.0" layoutX="-10.0" startX="512.1464233398438" startY="80.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <GridPane gridLinesVisible="true" layoutX="168.0" layoutY="80.0" prefHeight="452.0" prefWidth="665.0">
+            <Line fx:id="Row1" endX="835.0" endY="156.0" layoutX="-51.0" layoutY="2.0" startX="169.2928924560547" startY="156.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Row2" endX="834.5" endY="305.0" layoutX="-51.0" layoutY="2.0" startX="169.2928924560547" startY="305.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Col1" endX="45.0" endY="497.0" layoutX="187.0" layoutY="37.0" startX="45.0" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Col3" endX="737.5" endY="532.0" layoutX="-64.0" layoutY="2.0" startX="737.5000610351562" startY="82.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Diagonal2" endX="833.0" endY="532.0" layoutX="-51.0" layoutY="2.0" startX="168.2928924560547" startY="79.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Diagonal1" endX="659.0" endY="52.0" layoutX="123.0" layoutY="30.0" startX="-6.0" startY="504.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Row3" endX="722.0" endY="27.0" layoutX="64.0" layoutY="431.0" startX="53.0" startY="27.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Col2" endX="513.5" endY="532.0" layoutX="-61.0" layoutY="2.0" startX="512.1464233398438" startY="80.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <GridPane gridLinesVisible="true" layoutX="117.0" layoutY="82.0" prefHeight="452.0" prefWidth="665.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -116,24 +145,26 @@
                   </Button>
                </children>
             </GridPane>
-            <Line endX="-257.5" endY="497.0" layoutX="870.0" layoutY="35.0" startX="-257.5" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="14.5" endY="497.0" layoutX="376.0" layoutY="35.0" startX="14.5" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="833.0" endY="231.0" startX="168.2928924560547" startY="231.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="834.5" endY="80.0" startX="834.5000610351562" startY="530.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="833.0" endY="532.0" layoutY="1.0" startX="169.2928924560547" startY="532.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="168.5" endY="533.0" startX="168.49998474121094" startY="80.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="833.0" endY="383.0" startX="168.2928924560547" startY="383.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Line endX="833.0" endY="532.0" layoutX="1.0" layoutY="-452.0" startX="169.2928924560547" startY="532.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Pane fx:id="ResultPane" layoutX="200.0" layoutY="161.0" prefHeight="242.0" prefWidth="599.0" style="-fx-background-color: #ffffff;" visible="false">
+            <Line endX="-257.5" endY="497.0" layoutX="819.0" layoutY="37.0" startX="-257.5" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="14.5" endY="497.0" layoutX="325.0" layoutY="37.0" startX="14.5" startY="45.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="833.0" endY="231.0" layoutX="-51.0" layoutY="2.0" startX="168.2928924560547" startY="231.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="834.5" endY="80.0" layoutX="-51.0" layoutY="2.0" startX="834.5000610351562" startY="530.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="833.0" endY="532.0" layoutX="-51.0" layoutY="3.0" startX="169.2928924560547" startY="532.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="168.5" endY="533.0" layoutX="-51.0" layoutY="2.0" startX="168.49998474121094" startY="80.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="833.0" endY="383.0" layoutX="-51.0" layoutY="2.0" startX="168.2928924560547" startY="383.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Line endX="833.0" endY="532.0" layoutX="-50.0" layoutY="-450.0" startX="169.2928924560547" startY="532.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
+            <Pane fx:id="ResultPane" layoutX="1.0" layoutY="2.0" prefHeight="587.0" prefWidth="900.0" visible="false">
                <children>
-                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="103.0" layoutY="63.0" prefHeight="117.0" prefWidth="392.0" textAlignment="CENTER">
+                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="-1.0" prefHeight="27.0" prefWidth="900.0" textAlignment="CENTER">
                      <font>
                         <Font size="70.0" />
                      </font>
                   </Label>
+                  <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="600.0" layoutX="150.0" layoutY="100.0" />
                </children>
             </Pane>
          </children>
       </Pane>
    </center>
 </BorderPane>
+
