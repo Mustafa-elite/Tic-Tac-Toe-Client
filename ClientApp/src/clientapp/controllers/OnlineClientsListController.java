@@ -145,6 +145,7 @@ public class OnlineClientsListController implements Initializable {
     @FXML
     private void refreshList(ActionEvent event) {
         ServerLayer.requestOnlinePlayers();
+        String currentUsername = ServerLayer.getMyPlayer().getName();
         onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
        onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
            @Override

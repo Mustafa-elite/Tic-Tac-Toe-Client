@@ -42,7 +42,8 @@ public class ServerLayer {
     static String receivedmsg;
     static OnlineClientsListController onlineController;
     static LoginController loginController;
-
+    private static String serverIP = "127.0.0.1"; 
+    private static int serverPort = 5005; 
     static private Player myPlayer=null;
 
 
@@ -105,11 +106,18 @@ public class ServerLayer {
     public static void setMyPlayer(Player myPlayer) {
         ServerLayer.myPlayer = myPlayer;
     }
+   
+    public static void setServerIP(String ip) {
+        serverIP = ip;
+    }
+    public static void setServerPort(int port) {
+        serverPort = port;
+    }
     
     static {
 
         try {
-            socketConnection = new Socket("127.0.0.1", 5005);
+            socketConnection = new Socket(serverIP,serverPort);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
 
