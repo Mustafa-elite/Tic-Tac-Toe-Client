@@ -17,7 +17,7 @@ public class Player {
     String email;
     Socket mySocket;
     int score;
-
+    boolean available;
 
     //local Player
     public Player(String name) {
@@ -26,6 +26,7 @@ public class Player {
         this.email = null;
         this.mySocket = null;
         this.score=0;
+        this.available = false;
     }
     
     
@@ -34,6 +35,7 @@ public class Player {
         this.email = email;
         this.mySocket = mySocket;
         this.score=score;
+        this.available = false;
     }
 
     public String getName() {
@@ -76,5 +78,13 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
 
 }

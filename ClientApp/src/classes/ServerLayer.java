@@ -322,7 +322,11 @@ public class ServerLayer {
         for (JsonValue playerValue : playersArray) {
             JsonObject playerObject = (JsonObject) playerValue;
             String username = playerObject.getString("username");
-            onlinePlayersList.add(new Player(username));
+            boolean isAvailable = playerObject.getBoolean("available"); // Get the AVAILABLE flag
+            // Create a Player object and set the available flag
+            Player player = new Player(username);
+            player.setAvailable(isAvailable);
+             onlinePlayersList.add(player);
         }
 
     }
