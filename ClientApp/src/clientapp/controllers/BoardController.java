@@ -260,6 +260,7 @@ public class BoardController implements Initializable {
             ResultLabel.setText(status.getWinnerName());
             drawWinnerLine(status.getWinCase());
             ResultPane.setVisible(true);
+            ///////////////////////
             return;
         }
         else if(status.isDraw())

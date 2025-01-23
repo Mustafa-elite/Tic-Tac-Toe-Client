@@ -37,8 +37,6 @@ import javafx.util.Duration;
 public class OnlineClientsListController implements Initializable {
 
     @FXML
-    private ImageView homePage;
-    @FXML
     private ListView<Player> onlineViewList;
     @FXML
     private Label alertLabel;
@@ -55,6 +53,10 @@ public class OnlineClientsListController implements Initializable {
     private String invitingPlayer;
     @FXML
     private Button refresh;
+    @FXML
+    private ImageView logoutBtn;
+    @FXML
+    private ImageView userInfo;
 
 
     
@@ -80,15 +82,10 @@ public class OnlineClientsListController implements Initializable {
        
     }    
 
-    @FXML
     private void HomeBtn(MouseEvent event) {
-        onlineList.add(new Player("Mustafa"));
-        alertLabel.setVisible(false);
-        try {
-            SceneController.navigateToHome(event);
-        } catch (IOException ex) {
-            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
-        }
+        //onlineList.add(new Player("Mustafa"));
+        
+        
     }
     
     
@@ -177,6 +174,20 @@ public class OnlineClientsListController implements Initializable {
                 }
             }
         });
+    }
+
+    @FXML
+    private void logoutAction(MouseEvent event) {
+        ServerLayer.sendLogoutRequest();
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
+        }
+    }
+
+    @FXML
+    private void userInfoAction(MouseEvent event) {
     }
     
 
