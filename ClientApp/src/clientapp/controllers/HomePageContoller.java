@@ -72,10 +72,11 @@ public class HomePageContoller implements Initializable {
 
     @FXML
     private void playOnline(MouseEvent event) {
-       
+
+            GamePlay.mode="Online"; 
            serverInputPane.setVisible(true);
            disableButtons(true);
- 
+
     }
 
     @FXML
