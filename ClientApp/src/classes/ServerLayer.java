@@ -5,6 +5,7 @@
  */
 package classes;
 
+import clientapp.controllers.LoginController;
 import clientapp.controllers.OnlineClientsListController;
 
 import clientapp.controllers.SceneController;
@@ -33,17 +34,20 @@ import javax.json.*;
  * @author user
  */
 public class ServerLayer {
-
+    
     static Socket socketConnection;
     static PrintWriter outputStream;
     static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
     static BufferedReader inputStream;
     static String receivedmsg;
     static OnlineClientsListController onlineController;
+    static LoginController loginController;
+
+    static private Player myPlayer=null;
+
 
     //login string response 
     private static String response = "";
-    public static boolean flagCheckResponse = false;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -89,6 +93,19 @@ public class ServerLayer {
         return onlinePlayersList;
     }
 
+    
+    public static void setLoginController(LoginController loginController) {
+        ServerLayer.loginController = loginController;
+    }
+    
+    public static Player getMyPlayer() {
+        return myPlayer;
+    }
+
+    public static void setMyPlayer(Player myPlayer) {
+        ServerLayer.myPlayer = myPlayer;
+    }
+    
     static {
 
         try {
@@ -156,25 +173,7 @@ public class ServerLayer {
                 receiveGameAcceptance(jsonObject);
                 break;
             case "registerResponse":
-                boolean success = jsonObject.getBoolean("success");
-                String message = jsonObject.getString("message");
-                System.out.println("message:" + message);
-
-                Platform.runLater(() -> {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(ServerLayer.class.getResource("/clientapp/views/Registeration.fxml"));
-                        Pane root = loader.load();
-                        RegisterationController controller = loader.getController();
-                        if (controller != null) {
-                            System.out.println("controller not null");
-                            controller.updateRegistrationStatusLabel(message);
-
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-
+                registerResponse(jsonObject);
                 break;
 
             case "loginResponse":
@@ -238,6 +237,7 @@ public class ServerLayer {
                 .build();
         String loginObject = obj.toString();
         if (outputStream != null) {
+            myPlayer=new Player(userName);
             outputStream.println(loginObject);
             System.out.println("login request : " + loginObject);
         } else {
@@ -253,11 +253,20 @@ public class ServerLayer {
         checkResponse = jsonObject.getBoolean("success");
         if (checkResponse) {
             System.out.println("user found (client)");
-            flagCheckResponse = true;
+            try {
+                myPlayer.setEmail(jsonObject.getString("email"));
+                myPlayer.setScore(jsonObject.getInt("score"));
+               SceneController.navigateToOnlinePlayers(null);
+            } catch (IOException ex) {
+                System.out.println("error navigating to online players after log in");
+            }
             return true;
         }
+        else
+        {
+            loginController.userNotAvailableAction();
+        }
         System.out.println("user not found (client)");
-        flagCheckResponse = true;
         return false;
     }
     
@@ -296,6 +305,7 @@ public class ServerLayer {
                 .add("email", email)
                 .build();
         System.out.println("u "+userName+"p "+password);
+        myPlayer=new Player(userName, email, socketConnection, 100);
         outputStream.println(registrationMessage.toString());
         try {
             SceneController.navigateToOnlinePlayers(null);
@@ -328,6 +338,53 @@ public class ServerLayer {
             player.setAvailable(isAvailable);
              onlinePlayersList.add(player);
         }
+
+    }
+
+    public static void sendLogoutRequest() {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "Logout")
+                .add("username",myPlayer.getName())
+                .build();
+        outputStream.println(jsonmsg.toString());
+        
+    }
+
+    public static void registerRequest(String username, String password, String email) {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "register")
+                .add("username", username)
+                .add("password", password)
+                .add("email", email)
+                .build();
+
+        myPlayer=new Player(username, email, socketConnection, 100);
+        ServerLayer.getOutputStream().println(jsonmsg.toString());
+        System.out.println("Registration message sent: " + jsonmsg);
+    }
+
+    private static void registerResponse(JsonObject jsonObject) {
+
+        boolean success = jsonObject.getBoolean("success");
+        String message = jsonObject.getString("message");
+        System.out.println("message:" + message);
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(ServerLayer.class.getResource("/clientapp/views/Registeration.fxml"));
+                Pane root = loader.load();
+                RegisterationController controller = loader.getController();
+                if (controller != null) {
+                    System.out.println("controller not null");
+                    controller.updateRegistrationStatusLabel(message);
+
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
     }
 
