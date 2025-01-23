@@ -21,6 +21,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import java.io.File;
+
 
 /**
  *
@@ -29,6 +34,10 @@ import javafx.util.Duration;
 public class BoardController implements Initializable {
 
     GamePlay XO;
+    @FXML
+    private MediaView mediaView; 
+    @FXML   
+    private MediaPlayer mediaPlayer; 
     @FXML
     private Button Button5;
     @FXML
@@ -146,6 +155,51 @@ public class BoardController implements Initializable {
         
 
     }
+    private void showResult(String result) {
+    ResultLabel.setText(result);
+    ResultPane.setVisible(true);
+
+    // Determine the video path based on the result
+    String videoPath;
+    if (result.contains("won")) {
+        videoPath = "/clientapp/assets/Won.mp4";
+    } else if (result.contains("lost")) {
+        videoPath = "/clientapp/assets/Lost.mp4";
+    } else if (result.equals("Draw")) {
+        videoPath = "/clientapp/assets/Draw.mp4";
+    } else {
+        videoPath = ""; // No video for other cases
+    }
+
+    // Debug: Print the video path
+    System.out.println("Video Path: " + videoPath);
+
+    // Load and play the video
+    if (!videoPath.isEmpty()) {
+        try {
+            // Use getClass().getResource() to load the video as a resource
+            Media media = new Media(getClass().getResource(videoPath).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaView.setMediaPlayer(mediaPlayer);
+
+            // Debug: Print media properties
+            mediaPlayer.setOnReady(() -> {
+                System.out.println("Media is ready to play.");
+            });
+
+            mediaPlayer.setOnError(() -> {
+                System.out.println("Media error: " + mediaPlayer.getError().getMessage());
+            });
+
+            // Play the video
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Error loading video: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    }
     @FXML
     private void handleButtonClick(ActionEvent event) {
         if (GamePlay.mode == "AI") {
@@ -185,17 +239,13 @@ public class BoardController implements Initializable {
             }
             
             if (status.getWinnerName() != null) {
-                ResultLabel.setText(status.getWinnerName());
+                String result = status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!";
                 drawWinnerLine(status.getWinCase());
-                ResultPane.setVisible(true);
-                //////////their sould be navigation here
-                return;
+                showResult(result); 
+            } else if (status.isDraw()) {
+                showResult("Draw"); 
             }
-            else if(status.isDraw())
-            {
-                ResultLabel.setText("Draw");
-                ResultPane.setVisible(true);
-            }
+            
             if(XO.isTurn())
             {
                 XO.setTurn(false);
@@ -212,8 +262,7 @@ public class BoardController implements Initializable {
                 player1Pane.setStyle(playerPaneColor);
                 player2Pane.setStyle("");
                 XO.setTurn(true);
-            }
-            
+            }        
     }
     
     private void localGameEvent(ActionEvent event)
@@ -257,17 +306,11 @@ public class BoardController implements Initializable {
         }
 
         if (status.getWinnerName() != null) {
-            ResultLabel.setText(status.getWinnerName());
+            String result = status.getWinnerName().equals(player1Name) ? "player1 won !" : "Player2 won !";
             drawWinnerLine(status.getWinCase());
-            ResultPane.setVisible(true);
-            ///////////////////////
-            return;
-        }
-        else if(status.isDraw())
-        {
-            ResultLabel.setText("Draw");
-            ResultPane.setVisible(true);
-            return;
+            showResult(result); 
+        } else if (status.isDraw()) {
+            showResult("Draw"); 
         }
         if(XO.isTurn())
         {
@@ -288,6 +331,7 @@ public class BoardController implements Initializable {
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
         }
+       
     }
     
     
