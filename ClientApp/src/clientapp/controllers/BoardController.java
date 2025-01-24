@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import classes.GamePlay;
 import classes.GameStatus;
 import classes.LocalGamePlay;
+import classes.ServerLayer;
 import java.util.ArrayList;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
@@ -22,6 +23,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
+import classes.OnlineGamePlay;
+import static classes.ServerLayer.invitingFlag;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import java.io.File;
+
+
+
 /**
  *
  * @author khali
@@ -29,6 +40,10 @@ import javafx.util.Duration;
 public class BoardController implements Initializable {
 
     GamePlay XO;
+    @FXML
+    private MediaView mediaView; 
+    @FXML   
+    private MediaPlayer mediaPlayer; 
     @FXML
     private Button Button5;
     @FXML
@@ -67,13 +82,8 @@ public class BoardController implements Initializable {
     private Label ResultLabel;
     @FXML
     private Pane ResultPane;
-    private Button[] btnArr; 
-    
-    public static ArrayList<String> gameReplay;
-    public static String player1Name;
-    public static String player2Name;
-    //public  static boolean isreplay;
-    @FXML
+    private Button[] btnArr;
+  @FXML
     private Label player1Label;
     @FXML
     private Label player1Score;
@@ -86,17 +96,26 @@ public class BoardController implements Initializable {
     private String playerPaneColor="-fx-background-color: #7eff7e;";
     @FXML
     private Pane player1Pane;
+  
+    public static String player1Name;
+    public static String player2Name;
+    public  static boolean isreplay;
+    public static ArrayList<String> gameReplay;
+
+   
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-
+        ServerLayer.setBoredConrtoller(this);
         btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
         if (GamePlay.mode == "AI") {
             XO = new AIGamePlay(player1Name,player2Name);
             if(!XO.isTurn())
             {
                 
+
                 handleButtonClick(null);
             }
             else
@@ -104,6 +123,7 @@ public class BoardController implements Initializable {
                 player2Pane.setStyle("-fx-background-color: #7eff7e;");
             }
         } else if (GamePlay.mode == "Local") {
+
             if(gameReplay!=null)
             {
                 //it is not a real match,it is a replay
@@ -129,9 +149,14 @@ public class BoardController implements Initializable {
         else if(GamePlay.mode == "Online")
         {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
-            //XO= new OnlineGamePlay();
+            XO = new OnlineGamePlay("moaz", ServerLayer.player2);
+            XO.setTurn(true);
+            if (!ServerLayer.invitingFlag) {
+                disableAllBtns();
+            }
+
         }
-        /*
+        
         if(XO.isTurn())
         {
             player1Pane.setStyle(playerPaneColor);
@@ -141,38 +166,110 @@ public class BoardController implements Initializable {
             player2Pane.setStyle(playerPaneColor);
         }
         player1Label.setText(player1Name);
-        player2Label.setText(player2Name);
-*/
-        
+        player2Label.setText(player2Name);        
 
     }
+    private void showResult(String result) {
+    ResultLabel.setText(result);
+    ResultPane.setVisible(true);
+
+    // Determine the video path based on the result
+    String videoPath;
+    if (result.contains("won")) {
+        videoPath = "/clientapp/assets/Won.mp4";
+    } else if (result.contains("lost")) {
+        videoPath = "/clientapp/assets/Lost.mp4";
+    } else if (result.equals("Draw")) {
+        videoPath = "/clientapp/assets/Draw.mp4";
+    } else {
+        videoPath = ""; // No video for other cases
+    }
+
+    // Debug: Print the video path
+    System.out.println("Video Path: " + videoPath);
+
+    // Load and play the video
+    if (!videoPath.isEmpty()) {
+        try {
+            // Use getClass().getResource() to load the video as a resource
+            Media media = new Media(getClass().getResource(videoPath).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaView.setMediaPlayer(mediaPlayer);
+
+            // Debug: Print media properties
+            mediaPlayer.setOnReady(() -> {
+                System.out.println("Media is ready to play.");
+            });
+
+            mediaPlayer.setOnError(() -> {
+                System.out.println("Media error: " + mediaPlayer.getError().getMessage());
+            });
+
+            // Play the video
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Error loading video: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    }
+
     @FXML
     private void handleButtonClick(ActionEvent event) {
         if (GamePlay.mode == "AI") {
             AiGameEvent(event);
-            
+
         } else if (GamePlay.mode == "Local") {
             localGameEvent(event);
+        } else if (GamePlay.mode == "Online") {
+            onlineGamePlay(event);
         }
     }
 
-    private void AiGameEvent(ActionEvent event)
-    {
+    private void AiGameEvent(ActionEvent event) {
         int buttonNo = -1;
-            Button clickedButton=null;
-            if(XO.isTurn())
-            {
-                clickedButton = (Button) event.getSource();
-                for(int i=0;i<9;i++)
-                {
-                    if(clickedButton==btnArr[i])
-                    {
-                        buttonNo = i;
-                        break;
-                    }
+        Button clickedButton = null;
+        if (XO.isTurn()) {
+            clickedButton = (Button) event.getSource();
+            for (int i = 0; i < 9; i++) {
+                if (clickedButton == btnArr[i]) {
+                    buttonNo = i;
+                    break;
                 }
             }
-            GameStatus status = XO.playXO(buttonNo);
+        }
+        GameStatus status = XO.playXO(buttonNo);
+
+        if (XO.isTurn()) {
+            clickedButton.setText(status.getPlayedChar());
+            clickedButton.setDisable(true);
+        } else {
+            btnArr[status.getPosition()].setText("X");
+            btnArr[status.getPosition()].setDisable(true);
+        }
+
+        if (status.getWinnerName() != null) {
+            ResultLabel.setText(status.getWinnerName());
+            drawWinnerLine(status.getWinCase());
+            ResultPane.setVisible(true);
+            //////////their sould be navigation here
+            return;
+        } else if (status.isDraw()) {
+            ResultLabel.setText("Draw");
+            ResultPane.setVisible(true);
+        }
+        if (XO.isTurn()) {
+            XO.setTurn(false);
+            ////there should be delay here
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(e -> handleButtonClick(null));
+            pause.play();
+
+        } else {
+            XO.setTurn(true);
+        }
+
 
             if (XO.isTurn()) {
                 clickedButton.setText(status.getPlayedChar());
@@ -185,17 +282,13 @@ public class BoardController implements Initializable {
             }
             
             if (status.getWinnerName() != null) {
-                ResultLabel.setText(status.getWinnerName());
+                String result = status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!";
                 drawWinnerLine(status.getWinCase());
-                ResultPane.setVisible(true);
-                //////////their sould be navigation here
-                return;
+                showResult(result); 
+            } else if (status.isDraw()) {
+                showResult("Draw"); 
             }
-            else if(status.isDraw())
-            {
-                ResultLabel.setText("Draw");
-                ResultPane.setVisible(true);
-            }
+            
             if(XO.isTurn())
             {
                 XO.setTurn(false);
@@ -212,62 +305,47 @@ public class BoardController implements Initializable {
                 player1Pane.setStyle(playerPaneColor);
                 player2Pane.setStyle("");
                 XO.setTurn(true);
-            }
-            
-    }
-    
-    private void localGameEvent(ActionEvent event)
-    {
-        int buttonNo = -1;
-        Button clickedButton=null;
+            }        
 
-        if(event!=null)
-        {
+    }
+
+    private void localGameEvent(ActionEvent event) {
+        int buttonNo = -1;
+        Button clickedButton = null;
+
+        if (event != null) {
             clickedButton = (Button) event.getSource();
 
-            for(int i=0;i<9;i++)
-            {
-                if(clickedButton==btnArr[i])
-                {
+            for (int i = 0; i < 9; i++) {
+                if (clickedButton == btnArr[i]) {
                     buttonNo = i;
                     break;
                 }
             }
-        }
-        else
-        {
-            buttonNo=Integer.parseInt(gameReplay.remove(0));
-            if(gameReplay.isEmpty())
-            {
-                gameReplay=null;
+        } else {
+            buttonNo = Integer.parseInt(gameReplay.remove(0));
+            if (gameReplay.isEmpty()) {
+                gameReplay = null;
             }
         }
 
         GameStatus status = XO.playXO(buttonNo);
 
-        if(event!=null)
-        {
+        if (event != null) {
             clickedButton.setText(status.getPlayedChar());
             clickedButton.setDisable(true);
-        }
-        else
-        {
+        } else {
             btnArr[status.getPosition()].setText(status.getPlayedChar());
             btnArr[status.getPosition()].setDisable(true);
         }
 
         if (status.getWinnerName() != null) {
-            ResultLabel.setText(status.getWinnerName());
+            String result = status.getWinnerName().equals(player1Name) ? "player1 won !" : "Player2 won !";
             drawWinnerLine(status.getWinCase());
-            ResultPane.setVisible(true);
-            ///////////////////////
-            return;
-        }
-        else if(status.isDraw())
-        {
-            ResultLabel.setText("Draw");
-            ResultPane.setVisible(true);
-            return;
+
+            showResult(result); 
+        } else if (status.isDraw()) {
+            showResult("Draw"); 
         }
         if(XO.isTurn())
         {
@@ -280,20 +358,19 @@ public class BoardController implements Initializable {
         {
             player1Pane.setStyle(playerPaneColor);
             player2Pane.setStyle("");
+
             XO.setTurn(true);
         }
-        if(event==null)
-        {
+        if (event == null) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
         }
+       
     }
-    
-    
-    
+
     private void drawWinnerLine(int winCase) {
-        
+
         switch (winCase) {
             case GamePlay.WIN_ROW_1: {
                 Row1.setVisible(true);
@@ -337,11 +414,83 @@ public class BoardController implements Initializable {
 
         }
     }
-    private void disableAllBtns()
-    {        
-        for(int i=0;i<9;i++)
-        {
+
+    private void onlineGamePlay(ActionEvent event) {
+
+        int buttonNumber = -1;
+        String won = null ; 
+        Button buttonClicked = new Button();
+        if (event != null) {
+            buttonClicked = (Button) event.getSource();
+            System.out.println("event not null  " + XO.isTurn());
+            for (int i = 0; i < 9; i++) {
+                if (buttonClicked == btnArr[i]) {
+                    buttonNumber = i;
+                    break;
+                }
+            }
+            GameStatus status = XO.playXO(buttonNumber);
+            buttonClicked.setText(status.getPlayedChar());
+            buttonClicked.setDisable(true);
+            if (status.getWinnerName() != null) {
+                ResultLabel.setText("YOU WON YAAAY");
+                System.out.println("getWinnerName() " + status.getWinnerName());
+                drawWinnerLine(status.getWinCase());
+                ResultPane.setVisible(true);
+                //won = myName ; 
+            } else if (status.isDraw()) {
+                ResultLabel.setText("Draw");
+                ResultPane.setVisible(true);
+            }
+
+            if (XO.isTurn()) {
+                ServerLayer.sendCurrentPlay(XO.getPlayer2().getName(), buttonNumber);
+                System.out.println("getWinnerName() " + status.getWinnerName());
+
+            } else {
+                ServerLayer.sendCurrentPlay(XO.getPlayer1().getName(), buttonNumber);
+                System.out.println("getWinnerName() " + status.getWinnerName());
+            }
+            disableAllBtns();
+
+        } else {
+            buttonNumber = ServerLayer.secondPlayerPosition;
+            GameStatus status = XO.playXO(buttonNumber);
+            btnArr[buttonNumber].setText(status.getPlayedChar());
+            btnArr[buttonNumber].setDisable(true);
+            if (status.getWinnerName() != null) {
+                ResultLabel.setText("YOU LOSE :(");
+                System.out.println("getWinnerName() " + status.getWinnerName());
+                drawWinnerLine(status.getWinCase());
+                ResultPane.setVisible(true);
+            } else if (status.isDraw()) {
+                ResultLabel.setText("Draw");
+                ResultPane.setVisible(true);
+            }
+            enableAllBtns();
+        }
+        if (XO.isTurn()) {
+            XO.setTurn(false);
+        } else {
+            XO.setTurn(true);
+        }
+    }
+
+    private void disableAllBtns() {
+        for (int i = 0; i < 9; i++) {
             btnArr[i].setDisable(true);
         }
+    }
+
+    private void enableAllBtns() {
+        for (int i = 0; i < 9; i++) {
+            if (btnArr[i].getText().isEmpty()) {
+                btnArr[i].setDisable(false);
+            }
+        }
+    }
+
+    public void callButtonHandller() {
+        handleButtonClick(null);
     }
 }
