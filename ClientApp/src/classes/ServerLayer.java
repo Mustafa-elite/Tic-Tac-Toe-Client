@@ -269,6 +269,7 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "acceptGameRequest")
                 .add("opponentUsername", invitingPlayer)
+                .add("myScore", myPlayer.getScore())
                 .build();
         outputStream.println(jsonmsg.toString());
         invitingFlag = false;
@@ -321,6 +322,7 @@ public class ServerLayer {
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
+            opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
             SceneController.navigateToXOBoard(null);
         } catch (IOException ex) {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);

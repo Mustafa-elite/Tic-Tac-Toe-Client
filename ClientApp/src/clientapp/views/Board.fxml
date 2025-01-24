@@ -23,7 +23,7 @@
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="65.0" fitWidth="99.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="65.0" fitWidth="99.0" layoutX="14.0" layoutY="17.0" onMouseClicked="#returnHomeAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/HomeLogo.png" />
                </image>
@@ -167,4 +167,3 @@
       </Pane>
    </center>
 </BorderPane>
-
