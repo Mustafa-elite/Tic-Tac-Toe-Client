@@ -6,14 +6,15 @@
      
 
         <group>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/classes/ServerLayer.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/ClientApp.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/HomePageContoller.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/SceneController.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/views/Board.fxml</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/BoardController.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/views/HomePage.fxml</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
+
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/GameRequestManager.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/AIGamePlay.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/views/HomePage.fxml</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/GameRequestController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/classes/ServerLayer.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
+            <file>file:/C:/Users/user/Desktop/ITI/Java/Project/ClientApp/src/clientapp/views/GameRequestPane.fxml</file>
+
         </group>
 
     </open-files>
