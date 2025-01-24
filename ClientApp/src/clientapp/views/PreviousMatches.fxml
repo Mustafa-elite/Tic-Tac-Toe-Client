@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.PreviousMatchesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.PreviousMatchesController">
    <center>
-      <AnchorPane prefHeight="659.0" prefWidth="950.0" style="-fx-background-color: #8CCDF7;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="479.0" prefWidth="889.0" style="-fx-background-color: #629CBA;" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="fileViewList" layoutX="20.0" layoutY="67.0" prefHeight="543.0" prefWidth="910.0" style="-fx-background-color: #7797F7;" />
-            <Label contentDisplay="RIGHT" layoutX="350.0" layoutY="14.0" prefHeight="55.0" prefWidth="251.0" text="Previous Matches" textAlignment="CENTER" textFill="WHITE">
+            <ListView fx:id="fileViewList" layoutX="21.0" layoutY="59.0" prefHeight="435.0" prefWidth="865.0" style="-fx-background-color: #ffffff;" />
+            <Label contentDisplay="RIGHT" layoutX="340.0" layoutY="-5.0" prefHeight="55.0" prefWidth="251.0" text="Previous Matches" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
@@ -23,14 +23,14 @@
       </AnchorPane>
    </center>
    <top>
-      <Pane prefHeight="131.0" prefWidth="950.0" style="-fx-background-color: #8CCDF7;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="138.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#629CBA);" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="105.0" fitWidth="379.0" layoutX="271.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="103.0" fitWidth="293.0" layoutX="297.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="homePage" fitHeight="51.0" fitWidth="54.0" layoutX="6.0" layoutY="7.0" onMouseClicked="#HomeBtn" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="homePage" fitHeight="51.0" fitWidth="54.0" layoutX="24.0" layoutY="43.0" onMouseClicked="#HomeBtn" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/HomeLogo.png" />
                </image>

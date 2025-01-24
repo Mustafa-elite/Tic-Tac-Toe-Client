@@ -16,9 +16,13 @@ import classes.GameStatus;
 import classes.LocalGamePlay;
 import classes.ServerLayer;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
@@ -94,14 +98,12 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor = "-fx-background-color: #7eff7e;";
+    private String playerPaneColor="-fx-background-color: #6AA8C6;";
     @FXML
     private Pane player1Pane;
-
-    public static String player1Name;
-    public static String player2Name;
-    public static boolean isreplay;
-    public static ArrayList<String> gameReplay;
+    @FXML
+    private ImageView homeButton;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -455,6 +457,12 @@ public class BoardController implements Initializable {
         }
     }
 
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
     private void enableAllBtns() {
         for (int i = 0; i < 9; i++) {
             if (btnArr[i].getText().isEmpty()) {
@@ -479,6 +487,7 @@ public class BoardController implements Initializable {
             }
         } catch (IOException ex) {
             System.out.println("error navigating to home after gameplay");
+
         }
     }
 }
