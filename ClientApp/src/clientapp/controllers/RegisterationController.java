@@ -129,7 +129,7 @@ public class RegisterationController implements Initializable {
         
     }
 
-    public void updateRegistrationStatusLabel(String statusMessage) {
+    public void updateRegistrationStatusLabel(String statusMessage,boolean successState) {
         if (user_name_label_registration != null) {
             user_name_label_registration.setText(statusMessage);
             user_name_label_registration.setVisible(true);
@@ -141,7 +141,11 @@ public class RegisterationController implements Initializable {
             alert.showAndWait();
             System.out.println("Updated label: " + statusMessage);
             try {
-                SceneController.navigateToOnlinePlayers(null);
+                if(successState)
+                {
+                    SceneController.navigateToOnlinePlayers(null);
+                }
+                
             } catch (IOException ex) {
                 System.out.println("error navigating to online players in register controller");
             }
