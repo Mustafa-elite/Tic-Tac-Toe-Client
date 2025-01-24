@@ -29,6 +29,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import javafx.geometry.Pos;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class
@@ -142,41 +145,54 @@ public class OnlineClientsListController implements Initializable {
         ServerLayer.sendPlayRequest("ahmed");
     }
 
-    @FXML
-    private void refreshList(ActionEvent event) {
-        ServerLayer.requestOnlinePlayers();
-        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
-       onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
-           @Override
-           protected void updateItem(Player player, boolean empty) {
-               super.updateItem(player, empty);
-               if (empty || player == null) {
-                   setText(null);
-               } else {
-                   
-                    Button challengeButton = new Button();
-                    if (player.isAvailable()) {
-                        challengeButton.setText("Challenge");
-                        challengeButton.setDisable(false);
-                    } else {
-                        challengeButton.setText("Not Available");
-                        challengeButton.setDisable(true);
-                    }
+@FXML
+private void refreshList(ActionEvent event) {
+    ServerLayer.requestOnlinePlayers();
+    
+    onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
+    onlineViewList.setStyle("-fx-padding: 10 0 0 0;");
+    onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
+        @Override
+        protected void updateItem(Player player, boolean empty) {
+            super.updateItem(player, empty);
+            if (empty || player == null) {
+                setText(null);
+                setGraphic(null);
+            } else {
+                Label playerNameLabel = new Label(player.getName());
+                playerNameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #ffffff;");
+                
+                Button challengeButton = new Button();
+                challengeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 20;-fx-font-size: 14px");
 
-                  
-                    challengeButton.setOnAction(e -> {
-                        System.out.println("Challenging " + player.getName());
-                        ServerLayer.sendPlayRequest(player.getName());
-                    });
-
-                    
-                    HBox hbox = new HBox(10); 
-                    hbox.getChildren().addAll(new Label(player.getName()), challengeButton);
-                    setGraphic(hbox);
+                if (player.isAvailable()) {
+                    challengeButton.setText("Challenge");
+                    challengeButton.setDisable(false);
+                } else {
+                    challengeButton.setText("Not Available");
+                    challengeButton.setDisable(true);
                 }
+
+                challengeButton.setOnAction(e -> {
+                    System.out.println("Challenging " + player.getName());
+                    ServerLayer.sendPlayRequest(player.getName());
+                });
+
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                HBox hbox = new HBox(9); 
+                hbox.setAlignment(Pos.CENTER); 
+                hbox.setStyle("-fx-padding: 10; -fx-background-color: #20608B; -fx-background-radius: 10;");
+
+                hbox.getChildren().addAll(playerNameLabel, spacer, challengeButton);
+                setGraphic(hbox);
             }
-        });
-    }
+        }
+    });
+}
+
+
 
     @FXML
     private void logoutAction(MouseEvent event) {

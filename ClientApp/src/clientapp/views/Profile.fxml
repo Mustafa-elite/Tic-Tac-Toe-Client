@@ -5,56 +5,42 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.ProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.ProfileController">
    <children>
-      <VBox layoutX="-6.0" layoutY="-8.0" prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="-8.0">
-         <children>
-            <AnchorPane prefHeight="118.0" prefWidth="750.0">
-               <children>
-                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backButtonAction" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/back.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="44.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/user.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="219.0" layoutY="31.0" prefHeight="21.0" prefWidth="156.0" text="UserName" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="219.0" layoutY="138.0" prefHeight="21.0" prefWidth="156.0" text="Score" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="219.0" layoutY="83.0" prefHeight="21.0" prefWidth="156.0" text="Email" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="nameField" alignment="CENTER" editable="false" layoutX="368.0" layoutY="33.0" />
-                  <TextField fx:id="emailField" alignment="CENTER" editable="false" layoutX="368.0" layoutY="85.0" />
-                  <TextField fx:id="scoreField" alignment="CENTER" editable="false" layoutX="368.0" layoutY="140.0" />
-               </children>
-            </Pane>
-         </children>
-      </VBox>
+      <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="312.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="38.0" fitWidth="72.0" layoutX="36.0" layoutY="51.0" onMouseClicked="#backButtonAction" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/left-arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="143.0" fitWidth="135.0" layoutX="390.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/user.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="298.0" layoutY="330.0" prefHeight="21.0" prefWidth="156.0" text="Username" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="298.0" layoutY="437.0" prefHeight="21.0" prefWidth="156.0" text="Score" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="298.0" layoutY="382.0" prefHeight="21.0" prefWidth="156.0" text="Email" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameField" alignment="CENTER" editable="false" focusTraversable="false" layoutX="448.0" layoutY="334.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <TextField fx:id="emailField" alignment="CENTER" editable="false" focusTraversable="false" layoutX="448.0" layoutY="386.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <TextField fx:id="scoreField" alignment="CENTER" editable="false" focusTraversable="false" layoutX="447.0" layoutY="441.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
    </children>
 </AnchorPane>

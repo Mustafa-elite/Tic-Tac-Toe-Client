@@ -176,4 +176,12 @@ public class RegisterationController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    private void onHoverExitLogin(MouseEvent event) {
+    }
+
+    @FXML
+    private void onHoverLogin(MouseEvent event) {
+    }
 }

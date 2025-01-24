@@ -14,10 +14,15 @@ import javafx.scene.control.Button;
 import classes.GamePlay;
 import classes.GameStatus;
 import classes.LocalGamePlay;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
@@ -83,9 +88,11 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor="-fx-background-color: #7eff7e;";
+    private String playerPaneColor="-fx-background-color: #6AA8C6;";
     @FXML
     private Pane player1Pane;
+    @FXML
+    private ImageView homeButton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -342,6 +349,15 @@ public class BoardController implements Initializable {
         for(int i=0;i<9;i++)
         {
             btnArr[i].setDisable(true);
+        }
+    }
+
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -10,79 +10,59 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.GameInitializerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.GameInitializerController">
    <children>
-      <VBox layoutX="-6.0" layoutY="-8.0" prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="-8.0">
+      <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="311.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="128.0" layoutY="169.0">
          <children>
-            <AnchorPane prefHeight="165.0" prefWidth="750.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="155.0" text="Player1:" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="player1TextField" alignment="CENTER" prefHeight="31.0" prefWidth="151.0" style="-fx-background-radius: 20;">
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Pane fx:id="play2Pane">
                <children>
-                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <VBox prefHeight="57.0" prefWidth="750.0">
-               <children>
-                  <HBox>
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="200.0" text="Player1 Name:">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="player1TextField" alignment="CENTER" prefHeight="31.0" prefWidth="151.0">
-                           <HBox.margin>
-                              <Insets top="15.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Pane fx:id="play2Pane">
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="200.0" text="Player2 Name:">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="player2TextField" alignment="CENTER" layoutX="200.0" layoutY="15.0" prefHeight="31.0" prefWidth="151.0" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <Pane prefHeight="75.0" prefWidth="750.0">
-               <children>
-                  <CheckBox fx:id="recordBtn" contentDisplay="CENTER" layoutX="535.0" layoutY="19.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="135.0" text="Record">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="162.0" text="Player2" textFill="WHITE">
                      <font>
-                        <Font size="20.0" />
-                     </font>
-                  </CheckBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="10.0" prefHeight="53.0" prefWidth="366.0" text="You can record game to watch it later:">
-                     <font>
-                        <Font size="20.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
-               </children>
-            </Pane>
-            <Pane prefHeight="75.0" prefWidth="750.0">
-               <children>
-                  <Button fx:id="startBtn" layoutX="289.0" layoutY="39.0" mnemonicParsing="false" onAction="#startBtnAction" prefHeight="44.0" prefWidth="172.0" text="Start Game">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="warningLabel" contentDisplay="CENTER" layoutX="196.0" layoutY="1.0" prefHeight="27.0" prefWidth="366.0" text="Game can not start without names of players" textFill="RED">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <TextField fx:id="player2TextField" alignment="CENTER" layoutX="164.0" layoutY="11.0" prefHeight="31.0" prefWidth="151.0" style="-fx-background-radius: 20;" />
                </children>
             </Pane>
          </children>
-      </VBox>
+      </HBox>
+      <Pane layoutX="128.0" layoutY="222.0" prefHeight="75.0" prefWidth="750.0" />
+      <Button fx:id="startBtn" layoutX="386.0" layoutY="403.0" mnemonicParsing="false" onAction="#startBtnAction" prefHeight="44.0" prefWidth="172.0" style="-fx-background-color: #355070; -fx-border-radius: 20; -fx-background-radius: 10;" text="Start Game" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="warningLabel" contentDisplay="CENTER" layoutX="326.0" layoutY="357.0" prefHeight="27.0" prefWidth="366.0" text="Game can not start without names of players" textFill="RED">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="recordBtn" contentDisplay="CENTER" layoutX="574.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="135.0" text="Record" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </CheckBox>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="159.0" layoutY="271.0" prefHeight="53.0" prefWidth="366.0" text="You can record game to watch it later:" textFill="WHITE">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
