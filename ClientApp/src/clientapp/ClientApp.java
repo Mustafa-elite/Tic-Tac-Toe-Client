@@ -18,14 +18,22 @@ import javafx.stage.Stage;
  * @author user
  */
 public class ClientApp extends Application {
-    
+     private static Stage primaryStage;
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static void setPrimaryStage(Stage primaryStage) {
+        ClientApp.primaryStage = primaryStage;
+    }
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("Board2.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("views/HomePage.fxml"));
         
         Scene scene = new Scene(root);
-        
+        primaryStage=stage;
         stage.setScene(scene);
         stage.show();
 
