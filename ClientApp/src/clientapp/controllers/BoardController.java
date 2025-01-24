@@ -30,8 +30,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import java.io.File;
-
-
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -41,9 +43,8 @@ public class BoardController implements Initializable {
 
     GamePlay XO;
     @FXML
-    private MediaView mediaView; 
-    @FXML   
-    private MediaPlayer mediaPlayer; 
+    private MediaView mediaView;
+    private MediaPlayer mediaPlayer;
     @FXML
     private Button Button5;
     @FXML
@@ -83,7 +84,7 @@ public class BoardController implements Initializable {
     @FXML
     private Pane ResultPane;
     private Button[] btnArr;
-  @FXML
+    @FXML
     private Label player1Label;
     @FXML
     private Label player1Score;
@@ -93,140 +94,129 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor="-fx-background-color: #7eff7e;";
+    private String playerPaneColor = "-fx-background-color: #7eff7e;";
     @FXML
     private Pane player1Pane;
-  
+
     public static String player1Name;
     public static String player2Name;
-    public  static boolean isreplay;
+    public static boolean isreplay;
     public static ArrayList<String> gameReplay;
 
-   
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         ServerLayer.setBoredConrtoller(this);
         btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
         if (GamePlay.mode == "AI") {
-            XO = new AIGamePlay(player1Name,player2Name);
-            if(!XO.isTurn())
-            {
-                
+            XO = new AIGamePlay(player1Name, player2Name);
+            if (!XO.isTurn()) {
 
                 handleButtonClick(null);
-            }
-            else
-            {
+            } else {
                 player2Pane.setStyle("-fx-background-color: #7eff7e;");
             }
         } else if (GamePlay.mode == "Local") {
 
-            if(gameReplay!=null)
-            {
+            if (gameReplay != null) {
                 //it is not a real match,it is a replay
-                player1Name=gameReplay.remove(0);
-                player2Name=gameReplay.remove(0);
+                player1Name = gameReplay.remove(0);
+                player2Name = gameReplay.remove(0);
                 //XO.setTurn(gameReplay.remove(0)=="1" ? true:false);
-                
+
                 XO = new LocalGamePlay(player1Name, player2Name);
                 XO.setTurn("1".equals(gameReplay.remove(0)));
                 handleButtonClick(null);
                 disableAllBtns();
-                
-            }
-            else
-            {
-                XO = new LocalGamePlay(player1Name, player2Name);
-                
-            }
-            
 
-            
-        }
-        else if(GamePlay.mode == "Online")
-        {
+            } else {
+                XO = new LocalGamePlay(player1Name, player2Name);
+
+            }
+
+        } else if (GamePlay.mode == "Online") {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
-            
+
             if (!ServerLayer.invitingFlag) {
                 disableAllBtns();
-                player1Name=ServerLayer.getOpponentPlayer().getName();
+                player1Name = ServerLayer.getOpponentPlayer().getName();
                 player1Score.setText(String.valueOf(ServerLayer.getOpponentPlayer().getScore()));
-                player2Name=ServerLayer.getMyPlayer().getName();
+                player2Name = ServerLayer.getMyPlayer().getName();
                 player2Score.setText(String.valueOf(ServerLayer.getMyPlayer().getScore()));
-                
-                
-            }
-            else{
-                player1Name=ServerLayer.getMyPlayer().getName();
+
+            } else {
+                player1Name = ServerLayer.getMyPlayer().getName();
                 player1Score.setText(String.valueOf(ServerLayer.getMyPlayer().getScore()));
-                player2Name=ServerLayer.getOpponentPlayer().getName();
+                player2Name = ServerLayer.getOpponentPlayer().getName();
                 player2Score.setText(String.valueOf(ServerLayer.getOpponentPlayer().getScore()));
             }
             XO = new OnlineGamePlay(player1Name, player2Name);
             XO.setTurn(true);
-            
 
         }
-        
-        if(XO.isTurn())
-        {
+
+        if (XO.isTurn()) {
             player1Pane.setStyle(playerPaneColor);
-        }
-        else
-        {
+        } else {
             player2Pane.setStyle(playerPaneColor);
         }
         player1Label.setText(player1Name);
-        player2Label.setText(player2Name);        
+        player2Label.setText(player2Name);
 
     }
+
     private void showResult(String result) {
-    ResultLabel.setText(result);
-    ResultPane.setVisible(true);
+        ResultLabel.setText(result);
+        ResultPane.setVisible(true);
 
-    // Determine the video path based on the result
-    String videoPath;
-    if (result.contains("won")) {
-        videoPath = "/clientapp/assets/Won.mp4";
-    } else if (result.contains("lost")) {
-        videoPath = "/clientapp/assets/Lost.mp4";
-    } else if (result.equals("Draw")) {
-        videoPath = "/clientapp/assets/Draw.mp4";
-    } else {
-        videoPath = ""; // No video for other cases
-    }
-
-    // Debug: Print the video path
-    System.out.println("Video Path: " + videoPath);
-
-    // Load and play the video
-    if (!videoPath.isEmpty()) {
-        try {
-            // Use getClass().getResource() to load the video as a resource
-            Media media = new Media(getClass().getResource(videoPath).toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            mediaView.setMediaPlayer(mediaPlayer);
-
-            // Debug: Print media properties
-            mediaPlayer.setOnReady(() -> {
-                System.out.println("Media is ready to play.");
-            });
-
-            mediaPlayer.setOnError(() -> {
-                System.out.println("Media error: " + mediaPlayer.getError().getMessage());
-            });
-
-            // Play the video
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.out.println("Error loading video: " + e.getMessage());
-            e.printStackTrace();
+        // Determine the video path based on the result
+        String videoPath;
+        if (result.contains("won")) {
+            videoPath = "/clientapp/assets/Won.mp4";
+        } else if (result.contains("lost")) {
+            videoPath = "/clientapp/assets/Lost.mp4";
+        } else if (result.equals("Draw")) {
+            videoPath = "/clientapp/assets/Draw.mp4";
+        } else {
+            videoPath = ""; // No video for other cases
         }
-    }
 
+        // Debug: Print the video path
+        System.out.println("Video Path: " + videoPath);
+
+        // Load and play the video
+        if (!videoPath.isEmpty()) {
+            try {
+                // Use getClass().getResource() to load the video as a resource
+                Media media = new Media(getClass().getResource(videoPath).toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaView.setMediaPlayer(mediaPlayer);
+
+                // Debug: Print media properties
+                mediaPlayer.setOnReady(() -> {
+                    System.out.println("Media is ready to play.");
+                });
+
+                mediaPlayer.setOnError(() -> {
+                    System.out.println("Media error: " + mediaPlayer.getError().getMessage());
+                });
+
+                // Play the video
+                mediaPlayer.play();
+                mediaPlayer.setOnEndOfMedia(() -> {
+                    mediaView.setVisible(false);
+                    if (mediaPlayer != null) {
+                        mediaPlayer.stop();
+                        mediaPlayer.dispose();
+                        mediaPlayer = null;
+                    }
+                });
+                //ResultPane.setVisible(false);
+            } catch (Exception e) {
+                System.out.println("Error loading video: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -264,62 +254,26 @@ public class BoardController implements Initializable {
         }
 
         if (status.getWinnerName() != null) {
-            ResultLabel.setText(status.getWinnerName());
+            String result = status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!";
             drawWinnerLine(status.getWinCase());
-            ResultPane.setVisible(true);
-            //////////their sould be navigation here
-            return;
+            showResult(result);
         } else if (status.isDraw()) {
-            ResultLabel.setText("Draw");
-            ResultPane.setVisible(true);
+            showResult("Draw");
         }
         if (XO.isTurn()) {
             XO.setTurn(false);
+            player2Pane.setStyle(playerPaneColor);
+            player1Pane.setStyle("");
             ////there should be delay here
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
 
         } else {
+            player1Pane.setStyle(playerPaneColor);
+            player2Pane.setStyle("");
             XO.setTurn(true);
         }
-
-
-            if (XO.isTurn()) {
-                clickedButton.setText(status.getPlayedChar());
-                clickedButton.setDisable(true);
-            }
-            else
-            {
-                btnArr[status.getPosition()].setText("X");
-                btnArr[status.getPosition()].setDisable(true);
-            }
-            
-            if (status.getWinnerName() != null) {
-                String result = status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!";
-                drawWinnerLine(status.getWinCase());
-                showResult(result); 
-            } else if (status.isDraw()) {
-                showResult("Draw"); 
-            }
-            
-            if(XO.isTurn())
-            {
-                XO.setTurn(false);
-                player2Pane.setStyle(playerPaneColor);
-                player1Pane.setStyle("");
-                ////there should be delay here
-                PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-                pause.setOnFinished(e -> handleButtonClick(null));
-                pause.play();
-                
-            }
-            else
-            {
-                player1Pane.setStyle(playerPaneColor);
-                player2Pane.setStyle("");
-                XO.setTurn(true);
-            }        
 
     }
 
@@ -354,22 +308,20 @@ public class BoardController implements Initializable {
         }
 
         if (status.getWinnerName() != null) {
-            String result = status.getWinnerName().equals(player1Name) ? "player1 won !" : "Player2 won !";
+            String result = status.getWinnerName().equals(player1Name) ? player1Name + " won !" : player2Name + " won !";
             drawWinnerLine(status.getWinCase());
-
-            showResult(result); 
+/////////////delay
+            showResult(result);
         } else if (status.isDraw()) {
-            showResult("Draw"); 
+            /////////delay
+            showResult("Draw");
         }
-        if(XO.isTurn())
-        {
+        if (XO.isTurn()) {
             player2Pane.setStyle(playerPaneColor);
             player1Pane.setStyle("");
             XO.setTurn(false);
 
-        }
-        else
-        {
+        } else {
             player1Pane.setStyle(playerPaneColor);
             player2Pane.setStyle("");
 
@@ -380,7 +332,7 @@ public class BoardController implements Initializable {
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
         }
-       
+
     }
 
     private void drawWinnerLine(int winCase) {
@@ -432,7 +384,7 @@ public class BoardController implements Initializable {
     private void onlineGamePlay(ActionEvent event) {
 
         int buttonNumber = -1;
-        String winnerName = null ; 
+        String winnerName = null;
         Button buttonClicked = new Button();
         if (event != null) {
             buttonClicked = (Button) event.getSource();
@@ -446,23 +398,24 @@ public class BoardController implements Initializable {
             GameStatus status = XO.playXO(buttonNumber);
             buttonClicked.setText(status.getPlayedChar());
             buttonClicked.setDisable(true);
+
             if (status.getWinnerName() != null) {
-                ResultLabel.setText("YOU WON YAAAY");
-                System.out.println("getWinnerName() " + status.getWinnerName());
+                String result = "You won!";
+                ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() + 10);
                 drawWinnerLine(status.getWinCase());
-                ResultPane.setVisible(true);
-                winnerName = ServerLayer.getMyPlayer().getName() ; 
+                showResult(result);
+                winnerName = ServerLayer.getMyPlayer().getName();
             } else if (status.isDraw()) {
-                ResultLabel.setText("Draw");
-                ResultPane.setVisible(true);
+                winnerName="noWinner";
+                showResult("Draw");
             }
 
             if (XO.isTurn()) {
-                ServerLayer.sendCurrentPlay(XO.getPlayer2().getName(), buttonNumber,winnerName);
+                ServerLayer.sendCurrentPlay(XO.getPlayer2().getName(), buttonNumber, winnerName);
                 System.out.println("getWinnerName() " + status.getWinnerName());
 
             } else {
-                ServerLayer.sendCurrentPlay(XO.getPlayer1().getName(), buttonNumber,winnerName);
+                ServerLayer.sendCurrentPlay(XO.getPlayer1().getName(), buttonNumber, winnerName);
                 System.out.println("getWinnerName() " + status.getWinnerName());
             }
             disableAllBtns();
@@ -472,14 +425,15 @@ public class BoardController implements Initializable {
             GameStatus status = XO.playXO(buttonNumber);
             btnArr[buttonNumber].setText(status.getPlayedChar());
             btnArr[buttonNumber].setDisable(true);
+            //////////////////////////////////////////////
             if (status.getWinnerName() != null) {
-                ResultLabel.setText("YOU LOSE :(");
-                System.out.println("getWinnerName() " + status.getWinnerName());
+                String result = "You lost!";
+                ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() - 10);
                 drawWinnerLine(status.getWinCase());
-                ResultPane.setVisible(true);
+                showResult(result);
+
             } else if (status.isDraw()) {
-                ResultLabel.setText("Draw");
-                ResultPane.setVisible(true);
+                showResult("Draw");
             }
             enableAllBtns();
         }
@@ -487,7 +441,7 @@ public class BoardController implements Initializable {
             XO.setTurn(false);
             player2Pane.setStyle(playerPaneColor);
             player1Pane.setStyle("");
-            
+
         } else {
             XO.setTurn(true);
             player1Pane.setStyle(playerPaneColor);
@@ -511,5 +465,20 @@ public class BoardController implements Initializable {
 
     public void callButtonHandller() {
         handleButtonClick(null);
+    }
+
+    @FXML
+    private void returnHomeAction(MouseEvent event) {
+        try {
+            if (GamePlay.mode == "Online") {
+
+                SceneController.navigateToOnlinePlayers(event);
+
+            } else {
+                SceneController.navigateToHome(event);
+            }
+        } catch (IOException ex) {
+            System.out.println("error navigating to home after gameplay");
+        }
     }
 }
