@@ -5,6 +5,7 @@
  */
 package classes;
 
+import clientapp.ClientApp;
 import clientapp.controllers.LoginController;
 import clientapp.controllers.OnlineClientsListController;
 
@@ -23,9 +24,17 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
 import clientapp.controllers.BoardController;
+import java.math.BigDecimal;
+
 
 import javax.json.*;
 //import com.google.gson.JsonObject;
@@ -41,7 +50,6 @@ public class ServerLayer {
     static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
     static BufferedReader inputStream;
     static String receivedmsg;
-    static OnlineClientsListController onlineController;
 
     static BoardController boredConrtoller;
 
@@ -49,6 +57,8 @@ public class ServerLayer {
     private static String serverIP = "127.0.0.1"; 
     private static int serverPort = 5005; 
     static private Player myPlayer=null;
+    static private Player opponentPlayer=null;
+
 
 
 
@@ -56,7 +66,7 @@ public class ServerLayer {
     private static String response = "";
 
     // string to contain the request sender 
-    public static String player2 = " ";
+    //public static String player2 = " ";
 
     //flag to check the turn response 
     public static int secondPlayerPosition = -1;
@@ -78,9 +88,7 @@ public class ServerLayer {
         return receivedmsg;
     }
 
-    public static OnlineClientsListController getOnlineController() {
-        return onlineController;
-    }
+
 
     public static void setSocketConnection(Socket socketConnection) {
         ServerLayer.socketConnection = socketConnection;
@@ -98,9 +106,7 @@ public class ServerLayer {
         ServerLayer.receivedmsg = receivedmsg;
     }
 
-    public static void setOnlineController(OnlineClientsListController onlineController) {
-        ServerLayer.onlineController = onlineController;
-    }
+
 
     public static ObservableList<Player> getOnlinePlayersList() {
         return onlinePlayersList;
@@ -123,6 +129,13 @@ public class ServerLayer {
 
     public static void setMyPlayer(Player myPlayer) {
         ServerLayer.myPlayer = myPlayer;
+    }
+    public static Player getOpponentPlayer() {
+        return opponentPlayer;
+    }
+
+    public static void setOpponentPlayer(Player opponentPlayer) {
+        ServerLayer.opponentPlayer = opponentPlayer;
     }
    
     public static void setServerIP(String ip) {
@@ -226,9 +239,7 @@ public class ServerLayer {
         outputStream.println(jsonmsg.toString());
     }
 
-    public static void setonlineController(OnlineClientsListController controller) {
-        onlineController = controller;
-    }
+
 
     public static void sendPlayRequest(String playername) {
 
@@ -236,18 +247,21 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "gameRequest")
                 .add("username", playername)
+                .add("myScore", myPlayer.getScore())
                 .build();
         outputStream.println(jsonmsg.toString());
         // take the requestSender contain the player name 
         invitingFlag = true;
-        player2 = playername;
+        opponentPlayer = new Player(playername);
 
     }
 
     public static void receiveGameRequest(JsonObject jsonMsg) {
         System.out.println(jsonMsg.getString("username"));
-
-        onlineController.displayGameRequest(jsonMsg.getString("username"));
+        opponentPlayer=new Player(jsonMsg.getString("username"));
+        opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
+        GameRequestManager.getInstance().displayRequest(jsonMsg.getString("username"), ClientApp.getPrimaryStage().getScene());
+        //onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
 
     public static void sendGameAcceptance(String invitingPlayer) {
@@ -291,7 +305,8 @@ public class ServerLayer {
                 myPlayer.setScore(jsonObject.getInt("score"));
                SceneController.navigateToOnlinePlayers(null);
             } catch (IOException ex) {
-                System.out.println("error navigating to online players after log in");
+                System.out.println("error navigating to online players after log in" );
+                ex.printStackTrace();
             }
             return true;
         }
@@ -373,13 +388,16 @@ public class ServerLayer {
     }
 
 
-    public static void sendCurrentPlay(String player , int position) {
-        JsonObject object = Json.createObjectBuilder()
+    public static void sendCurrentPlay(String player , int position,String winnerName) {
+        JsonObjectBuilder jsonmsg = Json.createObjectBuilder()
                 .add("Header", "sendXOPlay")
                 .add("player", player)
-                .add("position", position)
-                .build();
-        String XOmessage = object.toString();
+                .add("position", position);
+                if(winnerName!=null)
+                {
+                    jsonmsg.add("winnerName", winnerName);
+                }
+        String XOmessage = jsonmsg.build().toString();
         outputStream.println(XOmessage);
         if (outputStream != null) {
             System.out.println("in the cuttent play method ");

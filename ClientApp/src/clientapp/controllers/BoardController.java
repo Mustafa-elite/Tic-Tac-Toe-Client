@@ -149,11 +149,25 @@ public class BoardController implements Initializable {
         else if(GamePlay.mode == "Online")
         {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
-            XO = new OnlineGamePlay("moaz", ServerLayer.player2);
-            XO.setTurn(true);
+            
             if (!ServerLayer.invitingFlag) {
                 disableAllBtns();
+                player1Name=ServerLayer.getOpponentPlayer().getName();
+                player1Score.setText(String.valueOf(ServerLayer.getOpponentPlayer().getScore()));
+                player2Name=ServerLayer.getMyPlayer().getName();
+                player2Score.setText(String.valueOf(ServerLayer.getMyPlayer().getScore()));
+                
+                
             }
+            else{
+                player1Name=ServerLayer.getMyPlayer().getName();
+                player1Score.setText(String.valueOf(ServerLayer.getMyPlayer().getScore()));
+                player2Name=ServerLayer.getOpponentPlayer().getName();
+                player2Score.setText(String.valueOf(ServerLayer.getOpponentPlayer().getScore()));
+            }
+            XO = new OnlineGamePlay(player1Name, player2Name);
+            XO.setTurn(true);
+            
 
         }
         
@@ -418,7 +432,7 @@ public class BoardController implements Initializable {
     private void onlineGamePlay(ActionEvent event) {
 
         int buttonNumber = -1;
-        String won = null ; 
+        String winnerName = null ; 
         Button buttonClicked = new Button();
         if (event != null) {
             buttonClicked = (Button) event.getSource();
@@ -437,18 +451,18 @@ public class BoardController implements Initializable {
                 System.out.println("getWinnerName() " + status.getWinnerName());
                 drawWinnerLine(status.getWinCase());
                 ResultPane.setVisible(true);
-                //won = myName ; 
+                winnerName = ServerLayer.getMyPlayer().getName() ; 
             } else if (status.isDraw()) {
                 ResultLabel.setText("Draw");
                 ResultPane.setVisible(true);
             }
 
             if (XO.isTurn()) {
-                ServerLayer.sendCurrentPlay(XO.getPlayer2().getName(), buttonNumber);
+                ServerLayer.sendCurrentPlay(XO.getPlayer2().getName(), buttonNumber,winnerName);
                 System.out.println("getWinnerName() " + status.getWinnerName());
 
             } else {
-                ServerLayer.sendCurrentPlay(XO.getPlayer1().getName(), buttonNumber);
+                ServerLayer.sendCurrentPlay(XO.getPlayer1().getName(), buttonNumber,winnerName);
                 System.out.println("getWinnerName() " + status.getWinnerName());
             }
             disableAllBtns();
@@ -471,8 +485,13 @@ public class BoardController implements Initializable {
         }
         if (XO.isTurn()) {
             XO.setTurn(false);
+            player2Pane.setStyle(playerPaneColor);
+            player1Pane.setStyle("");
+            
         } else {
             XO.setTurn(true);
+            player1Pane.setStyle(playerPaneColor);
+            player2Pane.setStyle("");
         }
     }
 
