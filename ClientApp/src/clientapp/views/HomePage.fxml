@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.HomePageContoller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.HomePageContoller">
    <children>
       <VBox prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane prefHeight="165.0" prefWidth="750.0">
                <children>
-                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="304.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                      </image>
@@ -26,7 +26,7 @@
             </AnchorPane>
             <VBox alignment="TOP_CENTER" prefHeight="505.0" prefWidth="750.0">
                <children>
-                  <Button fx:id="play_VS_ai" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playWithAi" prefHeight="50.0" prefWidth="179.0" style="-fx-background-color: #ffffff;" text="Play VS AI" textFill="#8ccdf7">
+                  <Button fx:id="play_VS_ai" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playWithAi" prefHeight="50.0" prefWidth="179.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="Play VS AI" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -34,7 +34,7 @@
                         <Insets bottom="40.0" top="30.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="playOnline" mnemonicParsing="false" onMouseClicked="#playOnline" prefHeight="55.0" prefWidth="176.0" style="-fx-background-color: #ffffff;" text="2 Players Online" textFill="#8ccdf7">
+                  <Button fx:id="playOnline" mnemonicParsing="false" onMouseClicked="#playOnline" prefHeight="55.0" prefWidth="176.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="2 Players Online" textFill="#629cba">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin>
@@ -42,7 +42,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="playOffline" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playOffline" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="2 Players Offline " textFill="#8ccdf7">
+                  <Button fx:id="playOffline" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playOffline" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="2 Players Offline" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Insets bottom="40.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="previousMatches" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#getPreviousMatches" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="previous matches" textFill="#8ccdf7">
+                  <Button fx:id="previousMatches" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#getPreviousMatches" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="Previous Matches" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

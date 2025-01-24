@@ -66,6 +66,11 @@ public class PreviousMatchesController implements Initializable {
 
     @FXML
     private void HomeBtn(MouseEvent event) {
+        try {
+            SceneController.navigateToOnlinePlayers(event);
+        } catch (IOException ex) {
+            Logger.getLogger(PreviousMatchesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void getFileList(){
@@ -113,6 +118,18 @@ class MatchesCellView extends ListCell<File>{
             
             PreviousMatchesController.viewMatch(getIndex());
         });
+        replayButton.setStyle(
+                "-fx-background-color: #ffffff; " +
+                "-fx-text-fill: #629cba; " +
+                "-fx-background-radius: 20; " +
+                "-fx-padding: 5 15; " +
+                "-fx-font-size: 16;"
+        );
+        fileNameLabel.setStyle("-fx-font-size: 16; -fx-text-fill: #ffffff; -fx-padding: 5 0;");
+        hbox.setSpacing(10);
+        hbox.setStyle("-fx-padding: 10; -fx-background-color: #629CBA; -fx-background-radius: 5;");
+        hbox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        HBox.setHgrow(space, Priority.ALWAYS);
         hbox.getChildren().addAll(fileNameLabel,space,replayButton);
     }
     

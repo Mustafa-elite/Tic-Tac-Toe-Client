@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -94,7 +95,7 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor = "-fx-background-color: #7eff7e;";
+    private String playerPaneColor = "-fx-background-color: #6AA8C6;";
     @FXML
     private Pane player1Pane;
 
@@ -102,11 +103,13 @@ public class BoardController implements Initializable {
     public static String player2Name;
     public static boolean isreplay;
     public static ArrayList<String> gameReplay;
+    @FXML
+    private ImageView homeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        ServerLayer.setBoredConrtoller(this);
+        
         btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
         if (GamePlay.mode == "AI") {
             XO = new AIGamePlay(player1Name, player2Name);
@@ -114,7 +117,7 @@ public class BoardController implements Initializable {
 
                 handleButtonClick(null);
             } else {
-                player2Pane.setStyle("-fx-background-color: #7eff7e;");
+                player1Pane.setStyle(playerPaneColor);
             }
         } else if (GamePlay.mode == "Local") {
 
@@ -136,7 +139,7 @@ public class BoardController implements Initializable {
 
         } else if (GamePlay.mode == "Online") {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
-
+            ServerLayer.setBoredConrtoller(this);
             if (!ServerLayer.invitingFlag) {
                 disableAllBtns();
                 player1Name = ServerLayer.getOpponentPlayer().getName();
@@ -467,7 +470,6 @@ public class BoardController implements Initializable {
         handleButtonClick(null);
     }
 
-    @FXML
     private void returnHomeAction(MouseEvent event) {
         try {
             if (GamePlay.mode == "Online") {
@@ -479,6 +481,22 @@ public class BoardController implements Initializable {
             }
         } catch (IOException ex) {
             System.out.println("error navigating to home after gameplay");
+        }
+    }
+
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            if (GamePlay.mode == "Online") {
+
+                SceneController.navigateToOnlinePlayers(event);
+
+            } else {
+                SceneController.navigateToHome(event);
+            }
+        } catch (IOException ex) {
+            System.out.println("error navigating to home after gameplay");
+
         }
     }
 }

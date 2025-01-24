@@ -10,44 +10,47 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.OnlineClientsListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.OnlineClientsListController">
    <center>
-      <AnchorPane prefHeight="659.0" prefWidth="950.0" style="-fx-background-color: #8CCDF7;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="515.0" prefWidth="896.0" style="-fx-background-color: #629CBA;" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="onlineViewList" layoutX="20.0" layoutY="67.0" prefHeight="543.0" prefWidth="910.0" />
-            <Label contentDisplay="RIGHT" layoutX="396.0" prefHeight="55.0" prefWidth="158.0" text="Online Users" textAlignment="CENTER" textFill="WHITE">
+            <ListView fx:id="onlineViewList" layoutX="14.0" layoutY="-3.0" prefHeight="487.0" prefWidth="871.0" />
+            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="343.0" layoutY="488.0" prefHeight="24.0" prefWidth="214.0" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="26.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="361.0" layoutY="612.0" prefHeight="35.0" prefWidth="215.0" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Label>
-            <Button fx:id="sendRequest" layoutX="630.0" layoutY="28.0" mnemonicParsing="false" onAction="#sendingRequestBtn" prefHeight="31.0" prefWidth="254.0" text="sending request test" />
-            <Button fx:id="refresh" layoutX="139.0" layoutY="13.0" mnemonicParsing="false" onAction="#refreshList" text="Refresh" />
+
          </children>
       </AnchorPane>
    </center>
    <top>
-      <Pane prefHeight="131.0" prefWidth="950.0" style="-fx-background-color: #8CCDF7;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="131.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#629CBA);" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="105.0" fitWidth="379.0" layoutX="271.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="103.0" fitWidth="293.0" layoutX="281.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="logoutBtn" fitHeight="46.0" fitWidth="72.0" layoutX="896.0" layoutY="20.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="logoutBtn" fitHeight="60.0" fitWidth="59.0" layoutX="819.0" layoutY="43.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/logout.png" />
+                  <Image url="@../assets/icons8-logout-48.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="userInfo" fitHeight="46.0" fitWidth="72.0" layoutX="14.0" layoutY="20.0" onMouseClicked="#userInfoAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="userInfo" fitHeight="46.0" fitWidth="46.0" layoutX="22.0" layoutY="29.0" onMouseClicked="#userInfoAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/user.png" />
                </image>
             </ImageView>
+            <Button fx:id="refresh" layoutX="15.0" layoutY="83.0" mnemonicParsing="false" onAction="#refreshList" prefHeight="31.0" prefWidth="91.0" style="-fx-background-radius: 20; -fx-background-color: #ffffff;" text="Refresh" textFill="#629cba">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Button>
+            <Label contentDisplay="RIGHT" layoutX="387.0" layoutY="89.0" prefHeight="55.0" prefWidth="158.0" text="Online Users" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </top>
