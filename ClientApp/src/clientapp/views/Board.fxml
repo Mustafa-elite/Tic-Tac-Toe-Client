@@ -161,13 +161,13 @@
             <Line endX="859.0" endY="541.3333740234375" layoutX="1.0" layoutY="-452.0" startX="49.0" startY="541.3333740234375" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
             <Pane fx:id="ResultPane" layoutX="176.0" layoutY="36.0" prefHeight="290.0" prefWidth="618.0" style="-fx-background-color: #ffffff;" visible="false">
                <children>
-                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="38.0" prefHeight="216.0" prefWidth="534.0" textAlignment="CENTER">
+                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="-2.0" prefHeight="294.0" prefWidth="618.0" textAlignment="CENTER">
 
                      <font>
                         <Font size="70.0" />
                      </font>
                   </Label>
-                  <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="600.0" layoutX="150.0" layoutY="100.0" />
+                  <MediaView fx:id="mediaView" fitHeight="295.0" fitWidth="620.0" />
                </children>
             </Pane>
          </children>

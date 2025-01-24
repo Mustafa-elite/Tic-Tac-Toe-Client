@@ -21,14 +21,6 @@
                </font>
             </Label>
 
-            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="361.0" layoutY="612.0" prefHeight="35.0" prefWidth="215.0" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Label>
-            <Button fx:id="sendRequest" layoutX="630.0" layoutY="28.0" mnemonicParsing="false" onAction="#sendingRequestBtn" prefHeight="31.0" prefWidth="254.0" text="sending request test" />
-            <Button fx:id="refresh" layoutX="139.0" layoutY="13.0" mnemonicParsing="false" onAction="#refreshList" text="Refresh" />
-
          </children>
       </AnchorPane>
    </center>
