@@ -2,9 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -56,5 +59,30 @@
             </VBox>
          </children>
       </VBox>
+
+      <!-- New Pane for Server IP and Port Input -->
+      <Pane fx:id="serverInputPane" layoutX="200.0" layoutY="150.0" prefHeight="200.0" prefWidth="350.0" style="-fx-background-color: #ffffff; -fx-border-color: #8ccdf7; -fx-border-width: 2px;" visible="false">
+         <children>
+            <Label layoutX="20.0" layoutY="20.0" text="Enter Server Details:" textFill="#8ccdf7">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="60.0" text="IP Address:" textFill="#8ccdf7" />
+            <TextField fx:id="ipAddressField" layoutX="120.0" layoutY="55.0" prefWidth="200.0" />
+            <Label layoutX="20.0" layoutY="100.0" text="Port:" textFill="#8ccdf7" />
+            <TextField fx:id="portField" layoutX="120.0" layoutY="95.0" prefWidth="200.0" />
+            <Button fx:id="connectButton" layoutX="120.0" layoutY="140.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #8ccdf7;" text="Connect" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancelButton" layoutX="230.0" layoutY="140.0" mnemonicParsing="false" onAction="#cancelConnect" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ff6347;" text="Cancel" textFill="#ffffff">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
  */
 package classes;
 
+import clientapp.ClientApp;
 import clientapp.controllers.LoginController;
 import clientapp.controllers.OnlineClientsListController;
 
@@ -23,8 +24,17 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import clientapp.controllers.BoardController;
+import java.math.BigDecimal;
+
 
 import javax.json.*;
 //import com.google.gson.JsonObject;
@@ -40,14 +50,27 @@ public class ServerLayer {
     static ObservableList<Player> onlinePlayersList = FXCollections.observableArrayList();
     static BufferedReader inputStream;
     static String receivedmsg;
-    static OnlineClientsListController onlineController;
-    static LoginController loginController;
 
+    static BoardController boredConrtoller;
+
+    static LoginController loginController;
+    private static String serverIP = "127.0.0.1"; 
+    private static int serverPort = 5005; 
     static private Player myPlayer=null;
+    static private Player opponentPlayer=null;
+
+
 
 
     //login string response 
     private static String response = "";
+
+    // string to contain the request sender 
+    //public static String player2 = " ";
+
+    //flag to check the turn response 
+    public static int secondPlayerPosition = -1;
+    public static boolean invitingFlag;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -65,9 +88,7 @@ public class ServerLayer {
         return receivedmsg;
     }
 
-    public static OnlineClientsListController getOnlineController() {
-        return onlineController;
-    }
+
 
     public static void setSocketConnection(Socket socketConnection) {
         ServerLayer.socketConnection = socketConnection;
@@ -85,13 +106,17 @@ public class ServerLayer {
         ServerLayer.receivedmsg = receivedmsg;
     }
 
-    public static void setOnlineController(OnlineClientsListController onlineController) {
-        ServerLayer.onlineController = onlineController;
-    }
+
 
     public static ObservableList<Player> getOnlinePlayersList() {
         return onlinePlayersList;
     }
+
+
+    public static void setBoredConrtoller(BoardController boredConrtoller) {
+        ServerLayer.boredConrtoller = boredConrtoller;
+    }
+
 
     
     public static void setLoginController(LoginController loginController) {
@@ -105,11 +130,26 @@ public class ServerLayer {
     public static void setMyPlayer(Player myPlayer) {
         ServerLayer.myPlayer = myPlayer;
     }
+    public static Player getOpponentPlayer() {
+        return opponentPlayer;
+    }
+
+    public static void setOpponentPlayer(Player opponentPlayer) {
+        ServerLayer.opponentPlayer = opponentPlayer;
+    }
+   
+    public static void setServerIP(String ip) {
+        serverIP = ip;
+    }
+    public static void setServerPort(int port) {
+        serverPort = port;
+    }
     
+
     static {
 
         try {
-            socketConnection = new Socket("127.0.0.1", 5005);
+            socketConnection = new Socket(serverIP,serverPort);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
 
@@ -181,7 +221,9 @@ public class ServerLayer {
                 response = msg;
                 loginResponse();
                 break;
-
+            case "XOPlay":
+                reveicedPlay(jsonObject);
+                break;
         }
     }
 
@@ -197,24 +239,29 @@ public class ServerLayer {
         outputStream.println(jsonmsg.toString());
     }
 
-    public static void setonlineController(OnlineClientsListController controller) {
-        onlineController = controller;
-    }
+
 
     public static void sendPlayRequest(String playername) {
+
         JsonObjectBuilder value = Json.createObjectBuilder();
         JsonObject jsonmsg = value
                 .add("Header", "gameRequest")
                 .add("username", playername)
+                .add("myScore", myPlayer.getScore())
                 .build();
         outputStream.println(jsonmsg.toString());
+        // take the requestSender contain the player name 
+        invitingFlag = true;
+        opponentPlayer = new Player(playername);
 
     }
 
     public static void receiveGameRequest(JsonObject jsonMsg) {
         System.out.println(jsonMsg.getString("username"));
-
-        onlineController.displayGameRequest(jsonMsg.getString("username"));
+        opponentPlayer=new Player(jsonMsg.getString("username"));
+        opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
+        GameRequestManager.getInstance().displayRequest(jsonMsg.getString("username"), ClientApp.getPrimaryStage().getScene());
+        //onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
 
     public static void sendGameAcceptance(String invitingPlayer) {
@@ -222,9 +269,10 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "acceptGameRequest")
                 .add("opponentUsername", invitingPlayer)
+                .add("myScore", myPlayer.getScore())
                 .build();
         outputStream.println(jsonmsg.toString());
-
+        invitingFlag = false;
     }
 
 
@@ -258,7 +306,8 @@ public class ServerLayer {
                 myPlayer.setScore(jsonObject.getInt("score"));
                SceneController.navigateToOnlinePlayers(null);
             } catch (IOException ex) {
-                System.out.println("error navigating to online players after log in");
+                System.out.println("error navigating to online players after log in" );
+                ex.printStackTrace();
             }
             return true;
         }
@@ -269,12 +318,11 @@ public class ServerLayer {
         System.out.println("user not found (client)");
         return false;
     }
-    
 
-    
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
+            opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
             SceneController.navigateToXOBoard(null);
         } catch (IOException ex) {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
@@ -321,9 +369,9 @@ public class ServerLayer {
         JsonObject jsonmsg = value
                 .add("Header", "getOnlinePlayers")
                 .build();
-        System.out.println("test1");
+        //System.out.println("test1");
         outputStream.println(jsonmsg.toString());
-        System.out.println("test2");
+        //System.out.println("test2");
     }
 
     public static void updateOnlinePlayersList(JsonObject jsonMsg) {
@@ -339,6 +387,32 @@ public class ServerLayer {
              onlinePlayersList.add(player);
         }
 
+    }
+
+
+    public static void sendCurrentPlay(String player , int position,String winnerName) {
+        JsonObjectBuilder jsonmsg = Json.createObjectBuilder()
+                .add("Header", "sendXOPlay")
+                .add("player", player)
+                .add("position", position);
+                if(winnerName!=null)
+                {
+                    jsonmsg.add("winnerName", winnerName);
+                }
+        String XOmessage = jsonmsg.build().toString();
+        outputStream.println(XOmessage);
+        if (outputStream != null) {
+            System.out.println("in the cuttent play method ");
+        } else {
+            System.out.println("outputStream is null");
+        }
+
+    }
+
+    public static void reveicedPlay(JsonObject receivedJsonObject) {
+        
+        secondPlayerPosition =  receivedJsonObject.getInt("position");
+        boredConrtoller.callButtonHandller();
     }
 
     public static void sendLogoutRequest() {
@@ -387,5 +461,6 @@ public class ServerLayer {
         });
 
     }
+
 
 }
