@@ -257,13 +257,13 @@ public class BoardController implements Initializable {
             btnArr[status.getPosition()].setDisable(true);
         }
 
-        if (status.getWinnerName() != null) {
-            String result = status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!";
-            drawWinnerLine(status.getWinCase());
-            showResult(result);
-        } else if (status.isDraw()) {
-            showResult("Draw");
-        }
+if (status.getWinnerName() != null || status.isDraw()) {
+    String result = status.isDraw() ? "Draw" : 
+        (status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!");
+    drawWinnerLine(status.getWinCase());
+    showResult(result);
+    return; // Stop further actions
+}
         if (XO.isTurn()) {
             XO.setTurn(false);
             player2Pane.setStyle(playerPaneColor);

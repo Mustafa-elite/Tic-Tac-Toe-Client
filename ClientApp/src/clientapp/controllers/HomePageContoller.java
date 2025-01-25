@@ -60,19 +60,21 @@ public class HomePageContoller implements Initializable {
     private Button connectButton;
     @FXML
     private Button cancelButton;
+    public static String ipAddress;
+    public  static  int port;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          serverInputPane.setVisible(false);
+        serverInputPane.setVisible(false);
     }
 
     @FXML
     private void playWithAi(MouseEvent event) {
         try {
-            GamePlay.mode="AI";
+            GamePlay.mode = "AI";
             SceneController.navigateGameInitializer(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,9 +84,9 @@ public class HomePageContoller implements Initializable {
     @FXML
     private void playOnline(MouseEvent event) {
 
-            GamePlay.mode="Online"; 
-           serverInputPane.setVisible(true);
-           disableButtons(true);
+        GamePlay.mode = "Online";
+        serverInputPane.setVisible(true);
+        disableButtons(true);
 
     }
 
@@ -92,7 +94,7 @@ public class HomePageContoller implements Initializable {
     private void playOffline(MouseEvent event) {
         try {
 
-            GamePlay.mode="Local";
+            GamePlay.mode = "Local";
             SceneController.navigateGameInitializer(event);
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,17 +108,21 @@ public class HomePageContoller implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(HomePageContoller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-     @FXML
+
+    @FXML
     private void connectToServer(ActionEvent event) {
-        String ipAddress = ipAddressField.getText();
+        ipAddress = ipAddressField.getText();
         String portText = portField.getText().trim();
+        Socket testSocket = null;
+        BufferedReader in = null;
+        PrintWriter out = null;
         if (!isValidIP(ipAddress)) {
             showAlert("Invalid IP Address", "Please enter a valid IP address (e.g., 127.0.0.1).");
             return;
         }
-        int port;
+        
         try {
             port = Integer.parseInt(portText);
         } catch (NumberFormatException e) {
@@ -127,24 +133,41 @@ public class HomePageContoller implements Initializable {
             showAlert("Invalid Port", "Please enter a valid port number (0-65535).");
             return;
         }
-        try (Socket testSocket = new Socket(ipAddress, port);
-            BufferedReader in = new BufferedReader(new InputStreamReader(testSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(testSocket.getOutputStream(), true)) {
+        try {
+            testSocket = new Socket(ipAddress, port);
+            in = new BufferedReader(new InputStreamReader(testSocket.getInputStream()));
+            out = new PrintWriter(testSocket.getOutputStream(), true);
+
             String serverResponse = in.readLine();
             JsonReader jsonReader = Json.createReader(new StringReader(serverResponse));
             JsonObject jsonObject = jsonReader.readObject();
 
-
-            if (!"authToken".equals(jsonObject.getString("Header")) ||
-                !"TicTacToeServer".equals(jsonObject.getString("token"))) {
+            if (!"authToken".equals(jsonObject.getString("Header"))
+                    || !"TicTacToeServer".equals(jsonObject.getString("token"))) {
                 showAlert("Invalid Server", "The server is not recognized. Please connect to the correct server.");
                 return;
             }
-            ServerLayer.setServerIP(ipAddress);
-            ServerLayer.setServerPort(port);
+            //ServerLayer.setServerIP(ipAddress);
+            //ServerLayer.setServerPort(port);
             SceneController.navigateToLogin(event);
-        }catch (IOException e) {
+        } catch (IOException e) {
             showAlert("Connection Failed", "Unable to connect to the server. Please check the IP address and port.");
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+
+                    in.close();
+
+                }
+                if (testSocket != null) {
+                    testSocket.close();
+                }
+            } catch (IOException ex) {
+                System.out.println("error closing test sockets and in and outs");
+            }
         }
     }
 
@@ -154,13 +177,15 @@ public class HomePageContoller implements Initializable {
         serverInputPane.setVisible(false);
         disableButtons(false);
     }
-     private void disableButtons(boolean disable) {
+
+    private void disableButtons(boolean disable) {
         play_VS_ai.setDisable(disable);
         playOnline.setDisable(disable);
         playOffline.setDisable(disable);
         previousMatches.setDisable(disable);
     }
-     private boolean isValidIP(String ip) {
+
+    private boolean isValidIP(String ip) {
         if (ip == null || ip.isEmpty()) {
             return false;
         }

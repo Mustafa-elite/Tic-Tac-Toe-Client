@@ -87,7 +87,7 @@
             <Line fx:id="Row1" endX="859.3333129882812" endY="21.0" startX="50.0" startY="13.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Row2" endX="864.3333129882812" endY="163.16665649414062" startX="55.0" startY="156.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Col1" endX="-53.0" endY="333.0" layoutX="238.0" layoutY="35.0" startX="-53.0" startY="-83.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Col3" endX="749.3333129882812" endY="367.0" layoutX="-13.0" startX="749.3333129882812" startY="-48.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Col3" endX="742.0" endY="367.0" layoutX="-13.0" startX="742.0" startY="-43.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Diagonal2" endX="863.0" endY="374.33331298828125" startX="50.0" startY="-48.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Diagonal1" endX="686.0" endY="-76.0" layoutX="174.0" layoutY="28.0" startX="-121.66667175292969" startY="345.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Row3" endX="744.3333129882812" endY="-129.0" layoutX="115.0" layoutY="429.0" startX="-63.0" startY="-129.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
