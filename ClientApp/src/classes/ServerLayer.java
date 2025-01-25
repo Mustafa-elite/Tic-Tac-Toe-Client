@@ -51,7 +51,7 @@ public class ServerLayer {
     static String receivedmsg;
 
     static BoardController boredConrtoller;
-
+   
     static LoginController loginController;
     private static String serverIP = "127.0.0.1";
     private static int serverPort = 5005;
@@ -66,6 +66,7 @@ public class ServerLayer {
     //flag to check the turn response 
     public static int secondPlayerPosition = -1;
     public static boolean invitingFlag;
+    private static int opponentScore;
 
     public static Socket getSocketConnection() {
         return socketConnection;
@@ -168,7 +169,7 @@ public class ServerLayer {
                 ex.printStackTrace();
             }
         }).start();
-
+        
     }
 
     //authenticate
@@ -212,6 +213,9 @@ public class ServerLayer {
             case "XOPlay":
                 reveicedPlay(jsonObject);
                 break;
+            case "opponentRetreat":
+                opponentRetreat(jsonObject);
+                break;
         }
     }
 
@@ -236,16 +240,16 @@ public class ServerLayer {
                 .add("myScore", myPlayer.getScore())
                 .build();
         outputStream.println(jsonmsg.toString());
-        // take the requestSender contain the player name 
-        invitingFlag = true;
-        opponentPlayer = new Player(playername);
+        // take the requestSender contain the player name
+        //opponentPlayer = new Player(playername);
 
     }
 
     public static void receiveGameRequest(JsonObject jsonMsg) {
         System.out.println(jsonMsg.getString("username"));
-        opponentPlayer = new Player(jsonMsg.getString("username"));
-        opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
+        //opponentPlayer = new Player(jsonMsg.getString("username"));
+        opponentScore=jsonMsg.getInt("opponentScore");
+        //opponentPlayer.setScore();
         GameRequestManager.getInstance().displayRequest(jsonMsg.getString("username"), ClientApp.getPrimaryStage().getScene());
         //onlineController.displayGameRequest(jsonMsg.getString("username"));
     }
@@ -259,6 +263,8 @@ public class ServerLayer {
                 .build();
         outputStream.println(jsonmsg.toString());
         invitingFlag = false;
+        opponentPlayer = new Player(invitingPlayer);
+        opponentPlayer.setScore(opponentScore);
     }
 
     public static void loginRequest(String userName, String password) {
@@ -305,11 +311,14 @@ public class ServerLayer {
     public static void receiveGameAcceptance(JsonObject jsonMsg) {
         //set variables needed by board here
         try {
+            opponentPlayer= new Player(jsonMsg.getString("opponentUsername"));
             opponentPlayer.setScore(jsonMsg.getInt("opponentScore"));
+            invitingFlag=true;
             SceneController.navigateToXOBoard(null);
         } catch (IOException ex) {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public static boolean reconnectToServer(String userName, String email, String password) {
@@ -400,7 +409,14 @@ public class ServerLayer {
                 .add("Header", "Logout")
                 .add("username", myPlayer.getName())
                 .build();
+        
+        if(opponentPlayer!=null)
+        {
+            retreatRequest();
+        }
+        myPlayer=null;
         outputStream.println(jsonmsg.toString());
+        //terminateAppFlag=true;
 
     }
 
@@ -436,6 +452,24 @@ public class ServerLayer {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    public static void retreatRequest()
+    {
+        JsonObjectBuilder value = Json.createObjectBuilder();
+        JsonObject jsonmsg = value
+                .add("Header", "retreat")
+                .add("username", opponentPlayer.getName())
+                .build();
+        outputStream.println(jsonmsg.toString());
+        opponentPlayer=null;
+        myPlayer.setScore(myPlayer.getScore()-10);
+
+    }
+
+    private static void opponentRetreat(JsonObject jsonObject) {
+        myPlayer.setScore(myPlayer.getScore()+10);
+        opponentPlayer=null;
+        boredConrtoller.onlineOppRetreat();
     }
 
 }

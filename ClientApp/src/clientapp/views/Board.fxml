@@ -86,7 +86,7 @@
 
             <Line fx:id="Row1" endX="859.3333129882812" endY="21.0" startX="50.0" startY="13.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Row2" endX="864.3333129882812" endY="163.16665649414062" startX="55.0" startY="156.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
-            <Line fx:id="Col1" endX="-62.0" endY="336.0" layoutX="238.0" layoutY="35.0" startX="-53.0" startY="-83.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
+            <Line fx:id="Col1" endX="-53.0" endY="333.0" layoutX="238.0" layoutY="35.0" startX="-53.0" startY="-83.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Col3" endX="749.3333129882812" endY="367.0" layoutX="-13.0" startX="749.3333129882812" startY="-48.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Diagonal2" endX="863.0" endY="374.33331298828125" startX="50.0" startY="-48.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
             <Line fx:id="Diagonal1" endX="686.0" endY="-76.0" layoutX="174.0" layoutY="28.0" startX="-121.66667175292969" startY="345.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" visible="false" />
@@ -159,9 +159,9 @@
             <Line endX="50.0" endY="372.0" startX="50.0" startY="-47.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
             <Line endX="863.3333129882812" endY="377.33331298828125" layoutX="1.0" layoutY="-3.0" startX="49.0" startY="375.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
             <Line endX="859.0" endY="541.3333740234375" layoutX="1.0" layoutY="-452.0" startX="49.0" startY="541.3333740234375" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="10.0" />
-            <Pane fx:id="ResultPane" layoutX="176.0" layoutY="36.0" prefHeight="290.0" prefWidth="618.0" style="-fx-background-color: #ffffff;" visible="false">
+            <Pane fx:id="ResultPane" layoutX="176.0" layoutY="36.0" prefHeight="290.0" prefWidth="521.0" style="-fx-background-color: #ffffff;" visible="false">
                <children>
-                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="-2.0" prefHeight="294.0" prefWidth="618.0" textAlignment="CENTER">
+                  <Label fx:id="ResultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-82.0" layoutY="-121.0" prefHeight="117.0" prefWidth="700.0" textAlignment="CENTER">
 
                      <font>
                         <Font size="70.0" />

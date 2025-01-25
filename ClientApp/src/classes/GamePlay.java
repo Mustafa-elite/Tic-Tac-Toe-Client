@@ -53,6 +53,14 @@ public abstract class GamePlay {
     public static final int WIN_DIAGONAL_2 = 8;
     protected MatchRecorder recorder;
 
+    public MatchRecorder getRecorder() {
+        return recorder;
+    }
+
+    public void setRecorder(MatchRecorder recorder) {
+        this.recorder = recorder;
+    }
+
     class Board {
 
         int[][] boardxy = {{-1, -1, -1},

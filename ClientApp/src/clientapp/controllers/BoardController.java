@@ -95,7 +95,7 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor = "-fx-background-color: #6AA8C6;";
+    private final String playerPaneColor = "-fx-background-color: #6AA8C6;";
     @FXML
     private Pane player1Pane;
 
@@ -213,6 +213,7 @@ public class BoardController implements Initializable {
                         mediaPlayer.dispose();
                         mediaPlayer = null;
                     }
+                    ResultPane.setVisible(false);
                 });
                 //ResultPane.setVisible(false);
             } catch (Exception e) {
@@ -330,7 +331,7 @@ public class BoardController implements Initializable {
 
             XO.setTurn(true);
         }
-        if (event == null) {
+        if (event == null &&gameReplay!=null) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
@@ -408,9 +409,11 @@ public class BoardController implements Initializable {
                 drawWinnerLine(status.getWinCase());
                 showResult(result);
                 winnerName = ServerLayer.getMyPlayer().getName();
+                ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
                 winnerName="noWinner";
                 showResult("Draw");
+                ServerLayer.setOpponentPlayer(null);
             }
 
             if (XO.isTurn()) {
@@ -434,9 +437,10 @@ public class BoardController implements Initializable {
                 ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() - 10);
                 drawWinnerLine(status.getWinCase());
                 showResult(result);
-
+                ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
                 showResult("Draw");
+                ServerLayer.setOpponentPlayer(null);
             }
             enableAllBtns();
         }
@@ -470,33 +474,33 @@ public class BoardController implements Initializable {
         handleButtonClick(null);
     }
 
-    private void returnHomeAction(MouseEvent event) {
-        try {
-            if (GamePlay.mode == "Online") {
-
-                SceneController.navigateToOnlinePlayers(event);
-
-            } else {
-                SceneController.navigateToHome(event);
-            }
-        } catch (IOException ex) {
-            System.out.println("error navigating to home after gameplay");
-        }
-    }
-
     @FXML
     private void homeButton(MouseEvent event) {
         try {
             if (GamePlay.mode == "Online") {
-
+                if(ServerLayer.getOpponentPlayer()!=null)
+                {
+                    ServerLayer.retreatRequest();
+                }
+                
                 SceneController.navigateToOnlinePlayers(event);
 
             } else {
+                if(GamePlay.record)
+                {
+                    XO.getRecorder().closeRecordFile();
+                }
                 SceneController.navigateToHome(event);
             }
         } catch (IOException ex) {
             System.out.println("error navigating to home after gameplay");
 
         }
+    }
+
+    public void onlineOppRetreat() {
+        
+        showResult("Opponent Disconnected, You won");
+        
     }
 }
