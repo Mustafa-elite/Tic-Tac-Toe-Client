@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javax.json.Json;
@@ -55,6 +56,8 @@ public class RegisterationController implements Initializable {
     private Label password_label_registration;
     @FXML
     private Label confirm_password_label_registration;
+    @FXML
+    private ImageView homeButton;
 
     /**
      * Initializes the controller class.
@@ -187,5 +190,14 @@ public class RegisterationController implements Initializable {
 
     @FXML
     private void onHoverLogin(MouseEvent event) {
+    }
+
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -19,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -42,6 +43,8 @@ public class GameInitializerController implements Initializable {
     private TextField player2TextField;
     @FXML
     private Label warningLabel;
+    @FXML
+    private ImageView homeButton;
 
     /**
      * Initializes the controller class.
@@ -84,6 +87,15 @@ public class GameInitializerController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(GameInitializerController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            Logger.getLogger(GameInitializerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
