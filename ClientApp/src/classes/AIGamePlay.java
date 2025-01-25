@@ -4,7 +4,7 @@ public class AIGamePlay extends GamePlay {
 
     String print;
     public static int winCase;
-    
+
     public AIGamePlay(String playerName, String ai) {
         super(new Player(playerName), new Player(ai));
         //mode ="AI";
@@ -18,8 +18,7 @@ public class AIGamePlay extends GamePlay {
             gs.setPlayedChar("O");
             updateBoard(position, 1);
             printBoard();
-            if(GamePlay.record==true)
-            {
+            if (GamePlay.record == true) {
                 recorder.recordPlay(position);
             }
         } else {
@@ -27,11 +26,10 @@ public class AIGamePlay extends GamePlay {
             gs.setPlayedChar("X");
             Move bestMove = findBestMove();
             gs.setPosition(bestMove.row * 3 + bestMove.col);
-            System.out.println("my"+gs.getPosition());
+            System.out.println("my" + gs.getPosition());
             updateBoard(bestMove.row * 3 + bestMove.col, 0);
             printBoard();
-            if(GamePlay.record==true)
-            {
+            if (GamePlay.record == true) {
                 recorder.recordPlay(gs.getPosition());
             }
         }
@@ -40,12 +38,11 @@ public class AIGamePlay extends GamePlay {
             gs.setWinnerName(turn ? player1.name : player2.name);
             System.out.println(gs.getWinnerName());
             gs.setWinCase(winCase);
-        }
-        else if(winCase==-1)
-        {
-            //draw case
+            return gs; // Stop further actions
+        } else if (winCase == -1) {
+            // Draw case
             gs.setDraw(true);
-            
+            return gs; // Stop further actions
         }
         return gs;
     }
@@ -78,7 +75,7 @@ public class AIGamePlay extends GamePlay {
                         bestMove.col = j;
                         bestVal = moveVal;
                     }
-                    System.out.println("row"+bestMove.row +" col"+bestMove.col);
+                    System.out.println("row" + bestMove.row + " col" + bestMove.col);
                 }
             }
         }
@@ -113,9 +110,9 @@ public class AIGamePlay extends GamePlay {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (board[i][j] == -1) {
-                        board[i][j] = 1; 
+                        board[i][j] = 1;
                         best = Math.min(best, minimax(board, depth + 1, true));
-                        board[i][j] = -1; 
+                        board[i][j] = -1;
                     }
                 }
             }
@@ -196,6 +193,7 @@ public class AIGamePlay extends GamePlay {
         }
         System.out.println();
     }
+
     private static class Move {
 
         int row, col;
