@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.HomePageContoller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.HomePageContoller">
    <children>
       <VBox prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane prefHeight="165.0" prefWidth="750.0">
                <children>
-                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="220.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="logo" fitHeight="103.0" fitWidth="293.0" layoutX="304.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
                      </image>
@@ -26,7 +26,7 @@
             </AnchorPane>
             <VBox alignment="TOP_CENTER" prefHeight="505.0" prefWidth="750.0">
                <children>
-                  <Button fx:id="play_VS_ai" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playWithAi" prefHeight="50.0" prefWidth="179.0" style="-fx-background-color: #ffffff;" text="Play VS AI" textFill="#8ccdf7">
+                  <Button fx:id="play_VS_ai" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playWithAi" prefHeight="50.0" prefWidth="179.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="Play VS AI" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -34,7 +34,7 @@
                         <Insets bottom="40.0" top="30.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="playOnline" mnemonicParsing="false" onMouseClicked="#playOnline" prefHeight="55.0" prefWidth="176.0" style="-fx-background-color: #ffffff;" text="2 Players Online" textFill="#8ccdf7">
+                  <Button fx:id="playOnline" mnemonicParsing="false" onMouseClicked="#playOnline" prefHeight="55.0" prefWidth="176.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="2 Players Online" textFill="#629cba">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin>
@@ -42,7 +42,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="playOffline" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playOffline" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="2 Players Offline " textFill="#8ccdf7">
+                  <Button fx:id="playOffline" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playOffline" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="2 Players Offline" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Insets bottom="40.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="previousMatches" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#getPreviousMatches" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff;" text="previous matches" textFill="#8ccdf7">
+                  <Button fx:id="previousMatches" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#getPreviousMatches" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); -fx-border-radius: 20; -fx-background-radius: 20;" text="Previous Matches" textFill="#629cba">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -60,24 +60,32 @@
          </children>
       </VBox>
 
-      <!-- New Pane for Server IP and Port Input -->
-      <Pane fx:id="serverInputPane" layoutX="200.0" layoutY="150.0" prefHeight="200.0" prefWidth="350.0" style="-fx-background-color: #ffffff; -fx-border-color: #8ccdf7; -fx-border-width: 2px;" visible="false">
+                              <!-- New Pane for Server IP and Port Input -->
+      <Pane fx:id="serverInputPane" layoutX="279.0" layoutY="244.0" prefHeight="206.0" prefWidth="347.0" style="-fx-background-color: #ffffff; -fx-border-width: 2px; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="20.0" layoutY="20.0" text="Enter Server Details:" textFill="#8ccdf7">
+            <Label layoutX="94.0" layoutY="14.0" text="Enter Server Details:" textFill="#629cba">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="20.0" layoutY="60.0" text="IP Address:" textFill="#8ccdf7" />
-            <TextField fx:id="ipAddressField" layoutX="120.0" layoutY="55.0" prefWidth="200.0" />
-            <Label layoutX="20.0" layoutY="100.0" text="Port:" textFill="#8ccdf7" />
-            <TextField fx:id="portField" layoutX="120.0" layoutY="95.0" prefWidth="200.0" />
-            <Button fx:id="connectButton" layoutX="120.0" layoutY="140.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #8ccdf7;" text="Connect" textFill="#ffffff">
+            <Label layoutX="20.0" layoutY="60.0" text="IP Address:" textFill="#629cba">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ipAddressField" layoutX="120.0" layoutY="58.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <Label layoutX="20.0" layoutY="100.0" text="Port:" textFill="#629cba">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="portField" layoutX="120.0" layoutY="95.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <Button fx:id="connectButton" layoutX="120.0" layoutY="140.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #355070; -fx-background-radius: 20;" text="Connect" textFill="#ffffff">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelButton" layoutX="230.0" layoutY="140.0" mnemonicParsing="false" onAction="#cancelConnect" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ff6347;" text="Cancel" textFill="#ffffff">
+            <Button fx:id="cancelButton" layoutX="230.0" layoutY="140.0" mnemonicParsing="false" onAction="#cancelConnect" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #629cba; -fx-background-radius: 20;" text="Cancel" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 23, 2025, 9:01:50 PM
+    Author     : a
+*/
+.button{
+     -fx-background-color: #355070; 
+     -fx-text-fill: white; 
+}
+.button:hover {
+    -fx-background-color: #2B405B; 
+}
+#startButton:hover, #closeButton:hover {
+    -fx-background-color: #629cba;
+    -fx-text-fill: #A0D6E7;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
+}
+#startButton:pressed, #closeButton:pressed {
+    -fx-background-color: #5A99BA;
+    -fx-text-fill: #629cba;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 15, 0, 0, 7);
+}

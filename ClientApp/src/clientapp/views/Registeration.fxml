@@ -10,60 +10,65 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="950.0" style="-fx-background-color: #8CCDF7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.RegisterationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #A9E2F3,#206390);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controllers.RegisterationController">
    <children>
-      <ImageView fitHeight="77.0" fitWidth="302.0" layoutX="350.0" layoutY="41.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="103.0" fitWidth="293.0" layoutX="294.0" layoutY="39.0" preserveRatio="true">
          <image>
             <Image url="@../assets/Tic%20Tac%20Toe%20Logo.png" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="384.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration" textAlignment="CENTER" wrappingWidth="207.43066035211086">
+      <Text fill="WHITE" layoutX="345.0" layoutY="176.0" text="Registration" textAlignment="CENTER" wrappingWidth="207.0">
          <font>
             <Font size="33.0" />
          </font>
       </Text>
-      <TextField fx:id="user_name_tf_registration" alignment="TOP_LEFT" layoutX="384.0" layoutY="233.0" prefHeight="25.0" prefWidth="207.0" promptText="User name" />
-      <TextField fx:id="email_tf_registration" layoutX="384.0" layoutY="295.0" prefHeight="25.0" prefWidth="207.0" promptText="Email@gmail.com" />
-      <PasswordField fx:id="password_tf_registration" layoutX="384.0" layoutY="352.0" prefHeight="25.0" prefWidth="207.0" promptText="Password" />
-      <PasswordField fx:id="confirm_password_tf_registration" layoutX="384.0" layoutY="409.0" prefHeight="25.0" prefWidth="207.0" promptText="Confirm password" />
-      <Button fx:id="button_registration" alignment="CENTER" layoutX="384.0" layoutY="464.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="30.0" prefWidth="207.0" style="-fx-background-color: #ffffff;" text="Register" textFill="#8ccdf7">
+      <TextField fx:id="user_name_tf_registration" layoutX="345.0" layoutY="233.0" prefHeight="35.0" prefWidth="207.0" promptText="User name" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <TextField fx:id="email_tf_registration" layoutX="346.0" layoutY="302.0" prefHeight="35.0" prefWidth="207.0" promptText="Email@gmail.com" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <PasswordField fx:id="password_tf_registration" layoutX="343.0" layoutY="371.0" prefHeight="35.0" prefWidth="207.0" promptText="Password" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <PasswordField fx:id="confirm_password_tf_registration" layoutX="343.0" layoutY="445.0" prefHeight="35.0" prefWidth="207.0" promptText="Confirm password" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 5 10;" />
+      <Button fx:id="button_registration" layoutX="360.0" layoutY="502.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #355070; -fx-background-radius: 10; -fx-text-fill: #ffffff; -fx-border-radius: 20; -fx-border-width: 2;" text="Signup">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Text fill="#f5f0f0" layoutX="371.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account ?">
+      <Text fill="#f5f0f0" layoutX="330.0" layoutY="563.0" text="Already have an account ?">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="login_text" fill="WHITE" layoutX="599.0" layoutY="528.0" onMouseClicked="#loginAction" strokeType="OUTSIDE" strokeWidth="0.0" text="login" underline="true">
+      <Text fx:id="login_text" fill="WHITE" layoutX="558.0" layoutY="564.0" onMouseClicked="#loginAction" onMouseEntered="#onHoverLogin" onMouseExited="#onHoverExitLogin" style="-fx-cursor: hand;" text="login" underline="true">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="user_name_label_registration" layoutX="384.0" layoutY="258.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
-      <Label fx:id="email_label_registration" layoutX="384.0" layoutY="323.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
-      <Label fx:id="password_label_registration" layoutX="384.0" layoutY="377.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
-      <Label fx:id="confirm_password_label_registration" layoutX="384.0" layoutY="434.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
-      <Label alignment="CENTER" layoutX="384.0" layoutY="213.0" text="Name" textFill="WHITE">
+      <Label fx:id="user_name_label_registration" layoutX="345.0" layoutY="273.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
+      <Label fx:id="email_label_registration" layoutX="346.0" layoutY="342.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
+      <Label fx:id="password_label_registration" layoutX="343.0" layoutY="413.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
+      <Label fx:id="confirm_password_label_registration" layoutX="343.0" layoutY="485.0" prefHeight="17.0" prefWidth="207.0" textFill="#ff2626" />
+      <Label alignment="CENTER" layoutX="345.0" layoutY="213.0" text="Name" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="384.0" layoutY="331.0" text="Password" textFill="WHITE">
+      <Label layoutX="347.0" layoutY="351.0" text="Password" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="384.0" layoutY="275.0" text="Email" textFill="WHITE">
+      <Label layoutX="346.0" layoutY="282.0" text="Email" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="384.0" layoutY="386.0" text="ConfirmPassword" textFill="WHITE">
+      <Label layoutX="345.0" layoutY="420.0" text="Confirm Password" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <ImageView fx:id="homeButton" fitHeight="53.0" fitWidth="69.0" layoutX="48.0" layoutY="53.0" onMouseClicked="#homeButton" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/HomeLogo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

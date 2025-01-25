@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,23 +30,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import javafx.geometry.Pos;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class
  *
  * @author user
  */
-
 public class OnlineClientsListController implements Initializable {
 
     @FXML
     private ListView<Player> onlineViewList;
-    @FXML
-    private Label alertLabel;
-    
     ObservableList<Player> onlineList;
-    @FXML
-    private Button sendRequest;
     private String invitingPlayer;
     @FXML
     private Button refresh;
@@ -54,65 +52,75 @@ public class OnlineClientsListController implements Initializable {
     @FXML
     private ImageView userInfo;
 
+    private Timeline updateTimeline;
 
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        //displayGameRequest("Mustafa");
-        
-        
-        onlineList=FXCollections.observableArrayList();
-        onlineViewList.setItems(onlineList);
-        ServerLayer.requestOnlinePlayers();
-        if(onlineList.isEmpty())
-        {
-            alertLabel.setVisible(true);
-            
-           
-        }
-            
-       
-    }    
 
-    private void HomeBtn(MouseEvent event) {
-        //onlineList.add(new Player("Mustafa"));
-        
-        
-    }
-    
-    
+
+        ServerLayer.requestOnlinePlayers();
    
-    
-    private void refreshOnlinePlayers(ActionEvent event) {
-        ServerLayer.requestOnlinePlayers(); 
-    }
-    
-    
-    
-    //////////////////////////implemented for testing sending request to ahmed////////////////////////////////////////
-    @FXML
-    private void sendingRequestBtn(ActionEvent event) {
-        ServerLayer.sendPlayRequest("ahmed");
+        /*//start my 7mosany code
+        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
+
+        updateTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+
+            refreshList(event);
+        }));
+        updateTimeline.setCycleCount(Timeline.INDEFINITE);
+        //updateTimeline.play();
+        
+         final Timeline[] waitForScene = new Timeline[1];
+
+        waitForScene[0] = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+            if (onlineViewList.getScene() != null && onlineViewList.getScene().getWindow() != null) {
+                // Scene and window are now available
+                System.out.println("Scene and window are now set");
+
+                // Add listener for window focus changes
+                onlineViewList.getScene().getWindow().focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+                    if (isFocused) {
+                        System.out.println("Scene is focused");
+                        updateTimeline.play(); // Start updates
+                    } else {
+                        System.out.println("Scene is not focused");
+                        updateTimeline.stop(); // Stop updates
+                    }
+                });
+
+                // Stop the waitForScene Timeline
+                waitForScene[0].stop();
+            }
+        }));
+        waitForScene[0].setCycleCount(Timeline.INDEFINITE); // Keep checking until the scene is ready
+        waitForScene[0].play(); // Start checking
+        //end of my 7mosany code
+*/
     }
 
     @FXML
     private void refreshList(ActionEvent event) {
         ServerLayer.requestOnlinePlayers();
-        String currentUsername = ServerLayer.getMyPlayer().getName();
         onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
-       onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
-           @Override
-           protected void updateItem(Player player, boolean empty) {
-               super.updateItem(player, empty);
-               if (empty || player == null) {
-                   setText(null);
-               } else {
-                   
+        onlineViewList.setStyle("-fx-padding: 10 0 0 0;");
+        onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
+            @Override
+            protected void updateItem(Player player, boolean empty) {
+                super.updateItem(player, empty);
+                if (empty || player == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    Label playerNameLabel = new Label(player.getName());
+                    playerNameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #ffffff;");
+
                     Button challengeButton = new Button();
+                    challengeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 20;-fx-font-size: 14px");
+
                     if (player.isAvailable()) {
                         challengeButton.setText("Challenge");
                         challengeButton.setDisable(false);
@@ -121,15 +129,19 @@ public class OnlineClientsListController implements Initializable {
                         challengeButton.setDisable(true);
                     }
 
-                  
                     challengeButton.setOnAction(e -> {
                         System.out.println("Challenging " + player.getName());
                         ServerLayer.sendPlayRequest(player.getName());
                     });
 
-                    
-                    HBox hbox = new HBox(10); 
-                    hbox.getChildren().addAll(new Label(player.getName()), challengeButton);
+                    Region spacer = new Region();
+                    HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                    HBox hbox = new HBox(9);
+                    hbox.setAlignment(Pos.CENTER);
+                    hbox.setStyle("-fx-padding: 10; -fx-background-color: #20608B; -fx-background-radius: 10;");
+
+                    hbox.getChildren().addAll(playerNameLabel, spacer, challengeButton);
                     setGraphic(hbox);
                 }
             }
@@ -154,12 +166,9 @@ public class OnlineClientsListController implements Initializable {
             Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
-    
+    public void stopUpdatingOnlineList()
+    {
+        updateTimeline.stop();
+    }
 }
-
-
-
-
-
