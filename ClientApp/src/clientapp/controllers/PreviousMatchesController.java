@@ -67,7 +67,8 @@ public class PreviousMatchesController implements Initializable {
     @FXML
     private void HomeBtn(MouseEvent event) {
         try {
-            SceneController.navigateToOnlinePlayers(event);
+            
+            SceneController.navigateToHome(event);
         } catch (IOException ex) {
             Logger.getLogger(PreviousMatchesController.class.getName()).log(Level.SEVERE, null, ex);
         }

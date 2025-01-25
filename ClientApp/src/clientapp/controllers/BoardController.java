@@ -213,6 +213,7 @@ public class BoardController implements Initializable {
                         mediaPlayer.dispose();
                         mediaPlayer = null;
                     }
+                    ResultPane.setVisible(false);
                 });
                 //ResultPane.setVisible(false);
             } catch (Exception e) {
