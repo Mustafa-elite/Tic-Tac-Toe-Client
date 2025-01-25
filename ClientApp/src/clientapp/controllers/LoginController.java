@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -41,6 +42,8 @@ public class LoginController implements Initializable {
     private Button button_login;
     @FXML
     private Text creat_account_t_login;
+    @FXML
+    private ImageView homeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -118,5 +121,14 @@ public class LoginController implements Initializable {
     {
         user_name_label.setText("user not found");
         user_name_label.setVisible(true);
+    }
+
+    @FXML
+    private void homeButton(MouseEvent event) {
+        try {
+            SceneController.navigateToHome(event);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
