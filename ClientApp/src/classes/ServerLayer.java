@@ -51,7 +51,7 @@ public class ServerLayer {
     static String receivedmsg;
 
     static BoardController boredConrtoller;
-
+   
     static LoginController loginController;
     private static String serverIP = "127.0.0.1";
     private static int serverPort = 5005;
@@ -318,6 +318,7 @@ public class ServerLayer {
         } catch (IOException ex) {
             Logger.getLogger(ServerLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public static boolean reconnectToServer(String userName, String email, String password) {
@@ -408,13 +409,13 @@ public class ServerLayer {
                 .add("Header", "Logout")
                 .add("username", myPlayer.getName())
                 .build();
-        outputStream.println(jsonmsg.toString());
         
         if(opponentPlayer!=null)
         {
             retreatRequest();
         }
         myPlayer=null;
+        outputStream.println(jsonmsg.toString());
         //terminateAppFlag=true;
 
     }
@@ -452,7 +453,7 @@ public class ServerLayer {
         }
 
     }
-    private static void retreatRequest()
+    public static void retreatRequest()
     {
         JsonObjectBuilder value = Json.createObjectBuilder();
         JsonObject jsonmsg = value

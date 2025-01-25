@@ -1,6 +1,7 @@
 
 package clientapp;
 
+import classes.GamePlay;
 import classes.ServerLayer;
 import java.io.IOException;
 import java.net.Socket;
@@ -60,11 +61,14 @@ public class ClientApp extends Application {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                if(ServerLayer.getMyPlayer()!=null)
+                if(GamePlay.mode.equals("Online"))
                 {
-                    ServerLayer.sendLogoutRequest();
-                    Platform.exit();
-                    System.exit(0);
+                    if(ServerLayer.getMyPlayer()!=null)
+                    {
+                        ServerLayer.sendLogoutRequest();
+                        Platform.exit();
+                        System.exit(0);
+                    }
                 }
                 
             } else {

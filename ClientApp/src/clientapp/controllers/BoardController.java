@@ -330,7 +330,7 @@ public class BoardController implements Initializable {
 
             XO.setTurn(true);
         }
-        if (event == null) {
+        if (event == null &&gameReplay!=null) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
@@ -473,28 +473,22 @@ public class BoardController implements Initializable {
         handleButtonClick(null);
     }
 
-    private void returnHomeAction(MouseEvent event) {
-        try {
-            if (GamePlay.mode == "Online") {
-
-                SceneController.navigateToOnlinePlayers(event);
-
-            } else {
-                SceneController.navigateToHome(event);
-            }
-        } catch (IOException ex) {
-            System.out.println("error navigating to home after gameplay");
-        }
-    }
-
     @FXML
     private void homeButton(MouseEvent event) {
         try {
             if (GamePlay.mode == "Online") {
-
+                if(ServerLayer.getOpponentPlayer()!=null)
+                {
+                    ServerLayer.retreatRequest();
+                }
+                
                 SceneController.navigateToOnlinePlayers(event);
 
             } else {
+                if(GamePlay.record)
+                {
+                    XO.getRecorder().closeRecordFile();
+                }
                 SceneController.navigateToHome(event);
             }
         } catch (IOException ex) {

@@ -15,11 +15,6 @@
       <AnchorPane prefHeight="515.0" prefWidth="896.0" style="-fx-background-color: #629CBA;" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="onlineViewList" layoutX="14.0" layoutY="-3.0" prefHeight="487.0" prefWidth="871.0" />
-            <Label fx:id="alertLabel" contentDisplay="RIGHT" layoutX="343.0" layoutY="488.0" prefHeight="24.0" prefWidth="214.0" text="No Online Users" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
 
          </children>
       </AnchorPane>
