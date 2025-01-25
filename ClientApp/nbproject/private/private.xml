@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/ClientApp.java</file>
             <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/HomePageContoller.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/classes/OnlineGamePlay.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/GameRequestController.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/classes/MatchRecorder.java</file>
+            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/SceneController.java</file>
+            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/BoardController.java</file>
             <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/OnlineClientsListController.java</file>
-            <file>file:/C:/Users/khali/OneDrive/Desktop/ITI/JAVA/Project/Tic%20Tac%20Toe/GitProjectClient/Tic-Tac-Toe-Client/ClientApp/src/clientapp/controllers/LoginController.java</file>
         </group>
     </open-files>
 </project-private>
