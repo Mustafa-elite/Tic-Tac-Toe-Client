@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import clientapp.controllers.BoardController;
+import clientapp.controllers.HomePageContoller;
 import java.math.BigDecimal;
 
 import javax.json.*;
@@ -53,8 +54,8 @@ public class ServerLayer {
     static BoardController boredConrtoller;
    
     static LoginController loginController;
-    private static String serverIP = "127.0.0.1";
-    private static int serverPort = 5005;
+    private static String serverIP ;
+    private static int serverPort ;
     static private Player myPlayer = null;
     static private Player opponentPlayer = null;
 
@@ -139,6 +140,8 @@ public class ServerLayer {
     static {
 
         try {
+            serverIP=HomePageContoller.ipAddress;
+            serverPort=HomePageContoller.port;
             socketConnection = new Socket(serverIP, serverPort);
             outputStream = new PrintWriter(socketConnection.getOutputStream(), true);
             inputStream = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));

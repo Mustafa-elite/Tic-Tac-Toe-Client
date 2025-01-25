@@ -39,7 +39,7 @@ public abstract class GamePlay {
         this.player2 = player2;
     }
     Player player2;
-    public static String mode;
+    public static String mode="";
     public static boolean record;
     protected boolean turn;
 
