@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clientapp.controllers;
 
 import classes.Player;
@@ -29,16 +24,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 
-/**
- * FXML Controller class
- *
- * @author user
- */
 public class OnlineClientsListController implements Initializable {
 
     @FXML
@@ -46,67 +36,44 @@ public class OnlineClientsListController implements Initializable {
     ObservableList<Player> onlineList;
     private String invitingPlayer;
     @FXML
-    private Button refresh;
-    @FXML
     private ImageView logoutBtn;
     @FXML
     private ImageView userInfo;
 
     private Timeline updateTimeline;
+    private boolean isPageVisible = false;
 
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-
-        ServerLayer.requestOnlinePlayers();
-   
-        /*//start my 7mosany code
-        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
+        onlineList = FXCollections.observableArrayList();
+        onlineViewList.setItems(onlineList);
 
         updateTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-
-            refreshList(event);
-        }));
-        updateTimeline.setCycleCount(Timeline.INDEFINITE);
-        //updateTimeline.play();
-        
-         final Timeline[] waitForScene = new Timeline[1];
-
-        waitForScene[0] = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            if (onlineViewList.getScene() != null && onlineViewList.getScene().getWindow() != null) {
-                // Scene and window are now available
-                System.out.println("Scene and window are now set");
-
-                // Add listener for window focus changes
-                onlineViewList.getScene().getWindow().focusedProperty().addListener((obs, wasFocused, isFocused) -> {
-                    if (isFocused) {
-                        System.out.println("Scene is focused");
-                        updateTimeline.play(); // Start updates
-                    } else {
-                        System.out.println("Scene is not focused");
-                        updateTimeline.stop(); // Stop updates
-                    }
-                });
-
-                // Stop the waitForScene Timeline
-                waitForScene[0].stop();
+            if (isPageVisible) {
+                ServerLayer.requestOnlinePlayers();
+                updateOnlinePlayersList();
             }
         }));
-        waitForScene[0].setCycleCount(Timeline.INDEFINITE); // Keep checking until the scene is ready
-        waitForScene[0].play(); // Start checking
-        //end of my 7mosany code
-*/
+        updateTimeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    @FXML
-    private void refreshList(ActionEvent event) {
-        ServerLayer.requestOnlinePlayers();
-        onlineViewList.setItems(ServerLayer.getOnlinePlayersList());
-        onlineViewList.setStyle("-fx-padding: 10 0 0 0;");
+    public void startRefreshing() {
+        isPageVisible = true;
+        updateTimeline.play();
+    }
+
+    public void stopRefreshing() {
+        isPageVisible = false;
+        updateTimeline.stop();
+    }
+
+    private void updateOnlinePlayersList() {
+        onlineList.clear();
+
+        for (Player player : ServerLayer.getOnlinePlayersList()) {
+            onlineList.add(player);
+        }
+
         onlineViewList.setCellFactory(listView -> new ListCell<Player>() {
             @Override
             protected void updateItem(Player player, boolean empty) {
@@ -150,25 +117,22 @@ public class OnlineClientsListController implements Initializable {
 
     @FXML
     private void logoutAction(MouseEvent event) {
+        stopRefreshing(); // Stop refreshing when logging out
         ServerLayer.sendLogoutRequest();
         try {
             SceneController.navigateToHome(event);
         } catch (IOException ex) {
-            System.out.println("navgate to home(HomeBTN) exception located in OnlineClientsListController");
+            System.out.println("Navigate to home exception in OnlineClientsListController");
         }
     }
 
     @FXML
     private void userInfoAction(MouseEvent event) {
+        stopRefreshing(); // Stop refreshing when navigating to profile
         try {
             SceneController.navigateToProfile(event);
         } catch (IOException ex) {
             Logger.getLogger(OnlineClientsListController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void stopUpdatingOnlineList()
-    {
-        updateTimeline.stop();
     }
 }

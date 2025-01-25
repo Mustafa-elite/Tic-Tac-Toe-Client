@@ -37,10 +37,6 @@
                   <Image url="@../assets/user.png" />
                </image>
             </ImageView>
-            <Button fx:id="refresh" layoutX="15.0" layoutY="83.0" mnemonicParsing="false" onAction="#refreshList" prefHeight="31.0" prefWidth="91.0" style="-fx-background-radius: 20; -fx-background-color: #ffffff;" text="Refresh" textFill="#629cba">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></Button>
             <Label contentDisplay="RIGHT" layoutX="387.0" layoutY="89.0" prefHeight="55.0" prefWidth="158.0" text="Online Users" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
