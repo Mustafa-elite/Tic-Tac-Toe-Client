@@ -108,7 +108,7 @@ public class HomePageContoller implements Initializable {
         }
         
     }
-    @FXML
+     @FXML
     private void connectToServer(ActionEvent event) {
         String ipAddress = ipAddressField.getText();
         String portText = portField.getText().trim();
@@ -147,8 +147,7 @@ public class HomePageContoller implements Initializable {
             showAlert("Connection Failed", "Unable to connect to the server. Please check the IP address and port.");
         }
     }
-         
-    
+
     @FXML
     private void cancelConnect(ActionEvent event) {
         // Hide the server input pane and re-enable buttons
