@@ -95,7 +95,7 @@ public class BoardController implements Initializable {
     private Label player2Score;
     @FXML
     private Pane player2Pane;
-    private String playerPaneColor = "-fx-background-color: #6AA8C6;";
+    private final String playerPaneColor = "-fx-background-color: #6AA8C6;";
     @FXML
     private Pane player1Pane;
 
@@ -408,9 +408,11 @@ public class BoardController implements Initializable {
                 drawWinnerLine(status.getWinCase());
                 showResult(result);
                 winnerName = ServerLayer.getMyPlayer().getName();
+                ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
                 winnerName="noWinner";
                 showResult("Draw");
+                ServerLayer.setOpponentPlayer(null);
             }
 
             if (XO.isTurn()) {
@@ -434,9 +436,10 @@ public class BoardController implements Initializable {
                 ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() - 10);
                 drawWinnerLine(status.getWinCase());
                 showResult(result);
-
+                ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
                 showResult("Draw");
+                ServerLayer.setOpponentPlayer(null);
             }
             enableAllBtns();
         }
@@ -498,5 +501,11 @@ public class BoardController implements Initializable {
             System.out.println("error navigating to home after gameplay");
 
         }
+    }
+
+    public void onlineOppRetreat() {
+        
+        showResult("Opponent Disconnected, You won");
+        
     }
 }
