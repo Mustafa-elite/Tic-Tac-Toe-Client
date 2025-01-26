@@ -103,13 +103,17 @@ public class BoardController implements Initializable {
     public static String player2Name;
     public static boolean isreplay;
     public static ArrayList<String> gameReplay;
+    private static OnlineClientsListController onlineController;
     @FXML
     private ImageView homeButton;
+
+    public static void setOnlineController(OnlineClientsListController onlineController) {
+        BoardController.onlineController = onlineController;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
         btnArr = new Button[]{Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9};
         if (GamePlay.mode == "AI") {
             XO = new AIGamePlay(player1Name, player2Name);
@@ -139,6 +143,10 @@ public class BoardController implements Initializable {
 
         } else if (GamePlay.mode == "Online") {
             //parameters of online gameplay should be sent from acccept button(client 2) in OnlineClientListContoller and from receivegameacceptance(client 1)
+
+            if (onlineController.getOnlineGameRecord().isSelected()) {
+                GamePlay.record = true;
+            }
             ServerLayer.setBoredConrtoller(this);
             if (!ServerLayer.invitingFlag) {
                 disableAllBtns();
@@ -168,57 +176,59 @@ public class BoardController implements Initializable {
 
     }
 
-    private void showResult(String result) {
+    private void showResult(String result, boolean presentVideo) {
         ResultLabel.setText(result);
         ResultPane.setVisible(true);
+        ResultPane.setStyle("");
+        if (presentVideo) {
+            // Determine the video path based on the result
+            String videoPath;
+            if (result.contains("won")) {
+                videoPath = "/clientapp/assets/Won.mp4";
+            } else if (result.contains("lost")) {
+                videoPath = "/clientapp/assets/Lost.mp4";
+            } else if (result.equals("Draw")) {
+                videoPath = "/clientapp/assets/Draw.mp4";
+            } else {
+                videoPath = ""; // No video for other cases
+            }
 
-        // Determine the video path based on the result
-        String videoPath;
-        if (result.contains("won")) {
-            videoPath = "/clientapp/assets/Won.mp4";
-        } else if (result.contains("lost")) {
-            videoPath = "/clientapp/assets/Lost.mp4";
-        } else if (result.equals("Draw")) {
-            videoPath = "/clientapp/assets/Draw.mp4";
-        } else {
-            videoPath = ""; // No video for other cases
-        }
+            // Debug: Print the video path
+            System.out.println("Video Path: " + videoPath);
 
-        // Debug: Print the video path
-        System.out.println("Video Path: " + videoPath);
+            // Load and play the video
+            if (!videoPath.isEmpty()) {
+                try {
+                    // Use getClass().getResource() to load the video as a resource
+                    Media media = new Media(getClass().getResource(videoPath).toURI().toString());
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaView.setMediaPlayer(mediaPlayer);
 
-        // Load and play the video
-        if (!videoPath.isEmpty()) {
-            try {
-                // Use getClass().getResource() to load the video as a resource
-                Media media = new Media(getClass().getResource(videoPath).toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-                mediaView.setMediaPlayer(mediaPlayer);
+                    // Debug: Print media properties
+                    mediaPlayer.setOnReady(() -> {
+                        System.out.println("Media is ready to play.");
+                    });
 
-                // Debug: Print media properties
-                mediaPlayer.setOnReady(() -> {
-                    System.out.println("Media is ready to play.");
-                });
+                    mediaPlayer.setOnError(() -> {
+                        System.out.println("Media error: " + mediaPlayer.getError().getMessage());
+                    });
 
-                mediaPlayer.setOnError(() -> {
-                    System.out.println("Media error: " + mediaPlayer.getError().getMessage());
-                });
-
-                // Play the video
-                mediaPlayer.play();
-                mediaPlayer.setOnEndOfMedia(() -> {
-                    mediaView.setVisible(false);
-                    if (mediaPlayer != null) {
-                        mediaPlayer.stop();
-                        mediaPlayer.dispose();
-                        mediaPlayer = null;
-                    }
-                    ResultPane.setVisible(false);
-                });
-                //ResultPane.setVisible(false);
-            } catch (Exception e) {
-                System.out.println("Error loading video: " + e.getMessage());
-                e.printStackTrace();
+                    // Play the video
+                    mediaPlayer.play();
+                    mediaPlayer.setOnEndOfMedia(() -> {
+                        mediaView.setVisible(false);
+                        if (mediaPlayer != null) {
+                            mediaPlayer.stop();
+                            mediaPlayer.dispose();
+                            mediaPlayer = null;
+                        }
+                        ResultPane.setVisible(false);
+                    });
+                    //ResultPane.setVisible(false);
+                } catch (Exception e) {
+                    System.out.println("Error loading video: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -257,13 +267,13 @@ public class BoardController implements Initializable {
             btnArr[status.getPosition()].setDisable(true);
         }
 
-if (status.getWinnerName() != null || status.isDraw()) {
-    String result = status.isDraw() ? "Draw" : 
-        (status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!");
-    drawWinnerLine(status.getWinCase());
-    showResult(result);
-    return; // Stop further actions
-}
+        if (status.getWinnerName() != null || status.isDraw()) {
+            String result = status.isDraw() ? "Draw"
+                    : (status.getWinnerName().equals(player1Name) ? "You won!" : "You lost!");
+            drawWinnerLine(status.getWinCase());
+            showResult(result, true);
+            return; // Stop further actions
+        }
         if (XO.isTurn()) {
             XO.setTurn(false);
             player2Pane.setStyle(playerPaneColor);
@@ -314,11 +324,21 @@ if (status.getWinnerName() != null || status.isDraw()) {
         if (status.getWinnerName() != null) {
             String result = status.getWinnerName().equals(player1Name) ? player1Name + " won !" : player2Name + " won !";
             drawWinnerLine(status.getWinCase());
-/////////////delay
-            showResult(result);
+            if (event != null) {
+                showResult(result, true);
+
+            } else {
+                showResult(result, false);
+            }
+
         } else if (status.isDraw()) {
             /////////delay
-            showResult("Draw");
+            if (event != null) {
+                showResult("Draw", true);
+
+            } else {
+                showResult("Draw", false);
+            }
         }
         if (XO.isTurn()) {
             player2Pane.setStyle(playerPaneColor);
@@ -331,7 +351,7 @@ if (status.getWinnerName() != null || status.isDraw()) {
 
             XO.setTurn(true);
         }
-        if (event == null &&gameReplay!=null) {
+        if (event == null && gameReplay != null) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> handleButtonClick(null));
             pause.play();
@@ -407,12 +427,12 @@ if (status.getWinnerName() != null || status.isDraw()) {
                 String result = "You won!";
                 ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() + 10);
                 drawWinnerLine(status.getWinCase());
-                showResult(result);
+                showResult(result, true);
                 winnerName = ServerLayer.getMyPlayer().getName();
                 ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
-                winnerName="noWinner";
-                showResult("Draw");
+                winnerName = "noWinner";
+                showResult("Draw", true);
                 ServerLayer.setOpponentPlayer(null);
             }
 
@@ -436,10 +456,10 @@ if (status.getWinnerName() != null || status.isDraw()) {
                 String result = "You lost!";
                 ServerLayer.getMyPlayer().setScore(ServerLayer.getMyPlayer().getScore() - 10);
                 drawWinnerLine(status.getWinCase());
-                showResult(result);
+                showResult(result, true);
                 ServerLayer.setOpponentPlayer(null);
             } else if (status.isDraw()) {
-                showResult("Draw");
+                showResult("Draw", true);
                 ServerLayer.setOpponentPlayer(null);
             }
             enableAllBtns();
@@ -478,16 +498,14 @@ if (status.getWinnerName() != null || status.isDraw()) {
     private void homeButton(MouseEvent event) {
         try {
             if (GamePlay.mode == "Online") {
-                if(ServerLayer.getOpponentPlayer()!=null)
-                {
+                if (ServerLayer.getOpponentPlayer() != null) {
                     ServerLayer.retreatRequest();
                 }
-                
+
                 SceneController.navigateToOnlinePlayers(event);
 
             } else {
-                if(GamePlay.record)
-                {
+                if (GamePlay.record) {
                     XO.getRecorder().closeRecordFile();
                 }
                 SceneController.navigateToHome(event);
@@ -499,8 +517,8 @@ if (status.getWinnerName() != null || status.isDraw()) {
     }
 
     public void onlineOppRetreat() {
-        
-        showResult("Opponent Disconnected, You won");
-        
+
+        showResult("Opponent Disconnected, You won", true);
+
     }
 }

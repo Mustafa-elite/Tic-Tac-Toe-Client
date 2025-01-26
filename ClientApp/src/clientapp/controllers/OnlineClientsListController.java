@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Priority;
 
 public class OnlineClientsListController implements Initializable {
@@ -42,13 +43,20 @@ public class OnlineClientsListController implements Initializable {
 
     private Timeline updateTimeline;
     private boolean isPageVisible = false;
+    @FXML
+    private CheckBox onlineGameRecord;
+
+    public CheckBox getOnlineGameRecord() {
+        return onlineGameRecord;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        BoardController.setOnlineController(this);
         onlineList = FXCollections.observableArrayList();
         onlineViewList.setItems(onlineList);
 
-        updateTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+        updateTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (isPageVisible) {
                 ServerLayer.requestOnlinePlayers();
                 updateOnlinePlayersList();

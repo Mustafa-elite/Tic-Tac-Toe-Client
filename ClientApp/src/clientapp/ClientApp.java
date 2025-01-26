@@ -39,14 +39,11 @@ public class ClientApp extends Application {
         Scene scene = new Scene(root);
 
         primaryStage=stage;
+        stage.setResizable(false);
         
-
-
         stage.setScene(scene);
-        
         stage.setOnCloseRequest(event -> closeApp(event));
         stage.show();
-
     }
 
     public static void main(String[] args) {
