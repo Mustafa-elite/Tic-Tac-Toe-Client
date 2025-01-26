@@ -17,6 +17,9 @@ public class OnlineGamePlay extends GamePlay {
     public GameStatus playXO(int position) {
         GameStatus gameStatus = new GameStatus(-1, null, null, 0);
         gameStatus.setPosition(position);
+        if (GamePlay.record == true) {
+                recorder.recordPlay(position);
+        }
         if (isTurn()) {
 
             gameStatus.setPlayedChar("X");
