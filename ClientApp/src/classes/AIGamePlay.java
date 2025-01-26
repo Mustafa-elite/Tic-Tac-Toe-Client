@@ -7,10 +7,10 @@ public class AIGamePlay extends GamePlay {
 
     public AIGamePlay(String playerName, String ai) {
         super(new Player(playerName), new Player(ai));
-        //mode ="AI";
+        // mode ="AI";
     }
 
-    @Override
+@Override
     public GameStatus playXO(int position) {
         GameStatus gs = new GameStatus(-1, null, null, 0);
 
@@ -47,6 +47,8 @@ public class AIGamePlay extends GamePlay {
         return gs;
     }
 
+
+
     private void updateBoard(int position, int playerMark) {
         if (position >= 0 && position < 3) {
             b1.boardxy[0][position] = playerMark;
@@ -67,7 +69,7 @@ public class AIGamePlay extends GamePlay {
             for (int j = 0; j < 3; j++) {
                 if (b1.boardxy[i][j] == -1) {
                     b1.boardxy[i][j] = 0;
-                    int moveVal = minimax(b1.boardxy, 0, true);
+                    int moveVal = minimax(b1.boardxy, 0, false); // Start minimax with depth 0 and minimizing opponent
                     b1.boardxy[i][j] = -1;
 
                     if (moveVal > bestVal) {
@@ -75,10 +77,14 @@ public class AIGamePlay extends GamePlay {
                         bestMove.col = j;
                         bestVal = moveVal;
                     }
-                    System.out.println("row" + bestMove.row + " col" + bestMove.col);
                 }
             }
         }
+
+        if (bestMove.row == -1 && bestMove.col == -1) {
+            System.out.println("No valid moves left!");
+        }
+
         return bestMove;
     }
 
@@ -87,10 +93,10 @@ public class AIGamePlay extends GamePlay {
         int score = evaluateBoard(board);
 
         if (score == 10 || score == -10) {
-            return score;
+            return score - depth; // Reward shorter wins and penalize delayed wins
         }
         if (!isMovesLeft(board)) {
-            return 0;
+            return 0; // Draw
         }
 
         if (isMax) {
@@ -122,7 +128,7 @@ public class AIGamePlay extends GamePlay {
 
     private int evaluateBoard(int[][] board) {
         for (int row = 0; row < 3; row++) {
-            if (board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
+            if (board[row][0] != -1 && board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
                 if (board[row][0] == 0) {
                     return 10;
                 }
@@ -133,7 +139,7 @@ public class AIGamePlay extends GamePlay {
         }
 
         for (int col = 0; col < 3; col++) {
-            if (board[0][col] == board[1][col] && board[1][col] == board[2][col]) {
+            if (board[0][col] != -1 && board[0][col] == board[1][col] && board[1][col] == board[2][col]) {
                 if (board[0][col] == 0) {
                     return 10;
                 }
@@ -143,7 +149,7 @@ public class AIGamePlay extends GamePlay {
             }
         }
 
-        if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+        if (board[0][0] != -1 && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
             if (board[0][0] == 0) {
                 return 10;
             }
@@ -152,7 +158,7 @@ public class AIGamePlay extends GamePlay {
             }
         }
 
-        if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+        if (board[0][2] != -1 && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
             if (board[0][2] == 0) {
                 return 10;
             }
@@ -195,7 +201,6 @@ public class AIGamePlay extends GamePlay {
     }
 
     private static class Move {
-
         int row, col;
     }
 }

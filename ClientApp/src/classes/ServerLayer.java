@@ -219,6 +219,7 @@ public class ServerLayer {
             case "opponentRetreat":
                 opponentRetreat(jsonObject);
                 break;
+
         }
     }
 
@@ -373,8 +374,7 @@ public class ServerLayer {
         for (JsonValue playerValue : playersArray) {
             JsonObject playerObject = (JsonObject) playerValue;
             String username = playerObject.getString("username");
-            boolean isAvailable = playerObject.getBoolean("available"); // Get the AVAILABLE flag
-            // Create a Player object and set the available flag
+            boolean isAvailable = playerObject.getBoolean("available"); 
             Player player = new Player(username);
             player.setAvailable(isAvailable);
             onlinePlayersList.add(player);
@@ -464,6 +464,10 @@ public class ServerLayer {
                 .add("username", opponentPlayer.getName())
                 .build();
         outputStream.println(jsonmsg.toString());
+        if(GamePlay.record)
+        {
+            boredConrtoller.boardCloseRecord();
+        }
         opponentPlayer=null;
         myPlayer.setScore(myPlayer.getScore()-10);
 
