@@ -497,6 +497,11 @@ public class BoardController implements Initializable {
     @FXML
     private void homeButton(MouseEvent event) {
         try {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.dispose();
+                mediaPlayer = null;
+            }
             if (GamePlay.mode == "Online") {
                 if (ServerLayer.getOpponentPlayer() != null) {
                     ServerLayer.retreatRequest();
