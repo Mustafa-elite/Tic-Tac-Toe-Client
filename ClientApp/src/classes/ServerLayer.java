@@ -219,10 +219,6 @@ public class ServerLayer {
             case "opponentRetreat":
                 opponentRetreat(jsonObject);
                 break;
-            case "serverDisconnected":
-                System.out.println("Server disconnected, clearing online list.");
-                onlinePlayersList.clear();
-                break;
 
         }
     }
@@ -468,6 +464,10 @@ public class ServerLayer {
                 .add("username", opponentPlayer.getName())
                 .build();
         outputStream.println(jsonmsg.toString());
+        if(GamePlay.record)
+        {
+            boredConrtoller.boardCloseRecord();
+        }
         opponentPlayer=null;
         myPlayer.setScore(myPlayer.getScore()-10);
 

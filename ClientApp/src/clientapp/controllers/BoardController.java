@@ -35,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -111,6 +112,9 @@ public class BoardController implements Initializable {
         BoardController.onlineController = onlineController;
     }
 
+    private void setResultLabelFontSize(double size) {
+        ResultLabel.setFont(new Font("System Bold", size));
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -163,6 +167,7 @@ public class BoardController implements Initializable {
             }
             XO = new OnlineGamePlay(player1Name, player2Name);
             XO.setTurn(true);
+            
 
         }
 
@@ -177,9 +182,16 @@ public class BoardController implements Initializable {
     }
 
     private void showResult(String result, boolean presentVideo) {
+        
         ResultLabel.setText(result);
         ResultPane.setVisible(true);
         ResultPane.setStyle("");
+        
+       if (result.contains("Opponent Disconnected")) {
+        setResultLabelFontSize(24);
+        } else {
+        setResultLabelFontSize(70);
+        }
         if (presentVideo) {
             // Determine the video path based on the result
             String videoPath;
@@ -525,5 +537,9 @@ public class BoardController implements Initializable {
 
         showResult("Opponent Disconnected, You won", true);
 
+    }
+    public void boardCloseRecord()
+    {
+        XO.getRecorder().closeRecordFile();
     }
 }
